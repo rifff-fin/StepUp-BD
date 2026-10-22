@@ -1,0 +1,60 @@
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router';
+import { Navbar } from './components/layout/Navbar';
+import { Footer } from './components/layout/Footer';
+import { CursorGlow, SkipLink, WhatsAppButton } from './components/layout/Chrome';
+import { CartDrawer } from './components/cart/CartDrawer';
+import { WishlistDrawer } from './components/cart/WishlistDrawer';
+import { QuickView } from './components/product/QuickView';
+import { Checkout } from './components/checkout/Checkout';
+import { Toasts } from './components/ui/Toasts';
+import { HomePage } from './pages/HomePage';
+import { TrackOrderPage } from './pages/TrackOrderPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { useRevealObserver } from './hooks/useReveal';
+import { initSmoothScroll, setScrollLocked } from './lib/lenis';
+import { runPreloader } from './lib/preloader';
+import { selectOverlayOpen, useUi } from './store/uiStore';
+
+export function App() {
+  const overlayOpen = useUi(selectOverlayOpen);
+  const { pathname } = useLocation();
+  useRevealObserver();
+
+  useEffect(() => initSmoothScroll(), []);
+  useEffect(() => runPreloader(), []);
+
+  // Lock page scroll behind drawers and dialogs
+  useEffect(() => {
+    document.body.classList.toggle('locked', overlayOpen);
+    setScrollLocked(overlayOpen);
+  }, [overlayOpen]);
+
+  // Close menus and panels when the route changes
+  useEffect(() => {
+    useUi.getState().closePanel();
+  }, [pathname]);
+
+  return (
+    <>
+      <SkipLink />
+      <Navbar />
+      <main id="main" tabIndex={-1} style={{ outline: 'none' }}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/track" element={<TrackOrderPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+      <Footer />
+
+      <CartDrawer />
+      <WishlistDrawer />
+      <QuickView />
+      <Checkout />
+      <Toasts />
+      <WhatsAppButton />
+      <CursorGlow />
+    </>
+  );
+}
