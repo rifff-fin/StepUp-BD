@@ -1,8 +1,8 @@
 # StepUp BD: Build Progress
 
 **Client work by Fin Projukti** (finprojukti.tech)
-**Updated:** 22 Oct 2026 (evening) · **Stage:** Phase 2 done: real AJ1 Bred 3D model, the
-client's product photos, UI polish. On GitHub: `rifff-fin/StepUp-BD` (`main`). Next: deploy
+**Updated:** 22 Oct 2026 (night) · **Stage:** Phase 3 done: hero scroll story, the "Sail &
+Ink" palette, trending autoplay. Phase 2: real AJ1 Bred 3D model, the client's photos. On GitHub: `rifff-fin/StepUp-BD` (`main`). Next: deploy
 (needs the client's MongoDB Atlas, Render and Netlify accounts) and client content.
 
 > Update this file at the end of every piece of work: what changed, what's next, what's
@@ -29,18 +29,23 @@ client's product photos, UI polish. On GitHub: `rifff-fin/StepUp-BD` (`main`). N
    Skipped with reduced motion.
 1. **Navbar**: logo, section links, search (jumps to the shop search), wishlist and cart
    with bouncing badges, hamburger menu on phones.
-2. **Hero**: huge "STEPUP BD" with the live 3D sneaker in front of it.
-   - The shoe is procedural: outsole, red foxing line, midsole with heel lift and toe
-     spring, upper with a real foot opening, toe cap, heel counter, mudguard, eyestays, a
-     generic S-wave stripe, padded collar, criss-cross laces with eyelets, tongue with a
-     tag, heel pull tab.
-   - Motion: auto-rotate, float, mouse tilt, drag with inertia, and scroll-linked
-     rotation and zoom.
-   - Colourways: Red/Black, White/Red and All Black, with eased colour changes.
-   - Also: tagline, Shop Now button, stats, and an SVG fallback without WebGL.
-3. **Brand marquee**: red tilted band with brand names as text.
+2. **Hero + scroll story** (`sections/HeroStory.tsx`, `three/HeroScene.tsx`): one sticky
+   3D stage under five screens of copy.
+   - Hero: huge "STEPUP BD", the AJ1 "Bred" in front of it, tagline, Shop Now / Shop the
+     Bred, colourways, stats. When the loader lifts, the title and panels rise in and the
+     shoe spins up into place.
+   - Motion: slow spin, float, mouse tilt and drag with inertia in the hero; scrolling on,
+     the shoe glides to the side (above the copy on phones) and turns to each detail:
+     01 the icon (side profile), 02 the toe box, 03 Wings logo and collar, 04 "Shop the
+     Bred" with price and CTAs. Poses are eased, so it feels scrubbed.
+   - Colourways: Bred, White/Red and All Black (texture cross-fade).
+   - Reduced motion: no spin or intro, plus a "Turn on motion" pill. The SVG fallback
+     shows without WebGL.
+3. **Brand marquee**: an ink band with model names and small red diamonds.
 4. **Why StepUp BD**: authentic, Cash on Delivery, 7-day return, fast Dhaka delivery.
-5. **Trending carousel**: 10 popular pairs, with arrows and progress.
+5. **Trending carousel**: 10 popular pairs, with arrows and progress. Autoplay: one card
+   every 3.5 s, looping, only while on screen; it holds on hover, focus or touch and has a
+   pause button (WCAG 2.2.2). Off with reduced motion.
 6. **Shop**:
    - Live search, debounced and served by the API.
    - Tabs: All, Sneakers, Running, Lifestyle, Basketball.
@@ -108,7 +113,7 @@ delivery timeline. **404** page shows trending picks.
   - Shipping fields are checked on blur, with an error summary on submit that is focused
     and links to each field.
   - The CTA repeats: "Shop this pair" in the hero, and a new "The icon" Bred spotlight
-    section.
+    section (phase 3 folded both into the scroll story's "Shop the Bred").
   - The WhatsApp button appears after the hero, so it no longer covers the stats.
   - Cards show a size range ("EU 39–45"); the category is hidden on phone cards.
   - The quick view has a gallery; its 3D viewer is shown only for the Bred.
@@ -184,3 +189,20 @@ delivery timeline. **404** page shows trending picks.
     after STEPUP10, stored on the API). No broken images; the 3D model is on the Bred only.
   - Note: `prompt.txt` was deleted from the working copy by the owner and is not part of
     these commits.
+- 22 Oct 2026: Phase 3. Owner feedback: the hero animation wasn't working, there was no
+  scroll motion, and the colours looked "cringy".
+  - The hero animation was there, but the dev PC reports reduced motion (Windows
+    "Animation effects" off), so the site switched it off. The hero now offers "Turn on
+    motion" right there, besides the footer switch.
+  - Scroll story: the hero and the old Bred spotlight became one sticky 3D stage whose
+    shoe turns to each detail as you scroll (modelled on the pinned, scrubbed scroll of
+    LANGLOK). Intro spin when the loader lifts.
+  - Palette research: LANGLOK (light mist + ink + one accent), Sneakersnstuff and Footshop
+    teardowns on ecomm.design (neutral grounds, product photos carry the colour), luxury
+    colour guidance (Hook Agency: restraint, warm neutrals, one accent) and ui-ux-pro-max
+    (ecommerce luxury: off-white + near-black + one accent). Result: "Sail & Ink", from the
+    shoe itself: sail paper, warm ink and University Red. Neon glows, the red newsletter
+    gradient, red rim lights and coloured card glows were removed or toned down.
+  - Navbar turns dark over ink sections (`data-nav-dark`). Trending autoplay with pause.
+  - QA at 1440 × 900 and 390 × 844, with motion on and reduced: 0 console errors; full
+    checkout flow passes.

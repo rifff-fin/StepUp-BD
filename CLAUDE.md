@@ -5,8 +5,11 @@ Client store built by **Fin Projukti** (finprojukti.tech). Original brief: `prom
 
 ## What it is
 
-A dark, premium 3D sneaker store for Bangladesh: black, white and one red (`#E10600`);
-Bebas Neue for display text and Inter for body text. Prices are in BDT (৳3,000–৳5,500).
+A premium 3D sneaker store for Bangladesh. Palette "Sail & Ink" (`styles/tokens.css`),
+taken from the AJ1 "Bred": sail-paper shop (`#F3F0EA`), warm-ink sections (`.theme-dark`:
+the hero story, marquee, newsletter, footer) and one accent, University Red (`#B3121C`,
+`#C8102E` on ink), used sparingly. No neon glows. Bebas Neue for display text and Inter for
+body text. Prices are in BDT (৳3,000–৳5,500).
 It is a **demo store**: payments are simulated and orders are never fulfilled.
 
 ## Stack and layout
@@ -50,14 +53,18 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    materials are made once and colours are eased, never re-created.
 7. **Motion.** `html[data-reduced]` (set before first paint) drives CSS and JS; the
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
-8. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
+8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under the hero
+   panel and four story steps; `three/HeroScene.tsx` maps scroll (screens into the story)
+   to the `DESKTOP` / `PHONE` poses. Change the copy and the poses together. Ink sections
+   carry `data-nav-dark` so the navbar turns dark over them.
+9. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
    whose `className` React never changes.
-9. **Photos.** `images[]` holds paths under `public/products/`; every `<x>.webp` has an
+10. **Photos.** `images[]` holds paths under `public/products/`; every `<x>.webp` has an
    `<x>-480.webp` thumbnail (`lib/images.ts`). Media boxes reserve their aspect ratio (no
    layout shift); photos are lazy except in an open quick view. The 3D viewer in the quick
    view appears only for `model3d: true` (the Bred), because the model depicts that shoe.
-10. **Commits** (owner's rule): several focused commits written as the owner, with no
-   co-author trailer; push after each.
+11. **Commits** (owner's rule): several focused commits written as the owner, with no
+    co-author trailer; push after each.
 
 ## QA
 

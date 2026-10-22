@@ -2,9 +2,12 @@
 
 A 3D sneaker store for Bangladesh, built by [Fin Projukti](https://finprojukti.tech).
 
-- **Hero**: a real-time 3D **Air Jordan 1 High OG "Bred"**. It floats, follows the mouse,
-  can be dragged and turns as you scroll. The colour switcher (Bred, White/Red, All Black)
-  cross-fades the leather, and a "Shop this pair" link sits under it.
+- **Hero + scroll story**: a real-time 3D **Air Jordan 1 High OG "Bred"** spins in on load,
+  floats, follows the mouse and can be dragged. Scrolling on, it stays on screen and turns
+  to each detail (side profile, toe box, Wings logo) beside the story copy, then ends on
+  "Shop the Bred". The colour switcher (Bred, White/Red, All Black) cross-fades the leather.
+- **Trending**: a carousel that advances on its own, with a pause button; it holds while
+  you hover, focus or swipe it.
 - **Shop**: 37 products with real photos. Live search, category tabs, filters (brand,
   price, size, colour), sorting, and a quick view with a photo gallery. The Bred's quick
   view adds the 3D viewer.
@@ -73,8 +76,8 @@ empty database at start-up.
 Checks: `npm run typecheck`, `npm run lint` and `npm run build` in `frontend/`.
 
 **Motion.** If Windows "Animation effects" is off, browsers report reduced motion and
-the site turns animations off. Use the **Motion** switch in the footer to turn them back on.
-The choice is remembered.
+the site turns animations off. The hero then shows a **"Turn on motion"** pill, and the
+**Motion** switch in the footer does the same. The choice is remembered.
 
 ## Deploy
 
