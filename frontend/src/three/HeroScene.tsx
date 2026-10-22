@@ -6,34 +6,70 @@ import { Shoe } from './Shoe';
 import { Studio } from './Studio';
 import { useDragSpin } from './useDragSpin';
 import { SHOE_HEIGHT } from './shoeGeometry';
+import { onRevealed } from '../lib/preloader';
 import type { Colorway } from './colorways';
 
 interface Props {
   colorway: Colorway;
-  /** False while the hero is off screen: rendering pauses. */
+  /** False while the story is off screen: rendering pauses. */
   active: boolean;
   reduced: boolean;
-  heroRef: RefObject<HTMLElement | null>;
+  /** The scroll-story wrapper: the shoe's pose follows the scroll through it. */
+  storyRef: RefObject<HTMLElement | null>;
   onReady: () => void;
   /** The GPU dropped the WebGL context (e.g. a phone under memory pressure). */
   onContextLost: () => void;
 }
 
 const FOV = 30;
-const BASE_ANGLE = -0.55; // a three-quarter view to start with
+const TAN = Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+const BASE_ANGLE = -0.55; // a three-quarter view
 
 /**
- * The hero's 3D stage (lazy chunk). Motion layers, outermost first:
- *   float  – slow bob up and down
- *   tilt   – leans towards the mouse (parallax)
- *   spin   – auto-rotation + drag with inertia + rotation tied to scrolling the hero
- * The camera also dollies in as the hero scrolls away.
+ * Where the shoe sits at each scroll stop (`s` = screens scrolled into the story).
+ * x / y are fractions of the half-viewport (+x right, +y up); rotY / rotX in radians.
+ * s = 0 is the hero (rotY is added to the idle spin there).
+ */
+interface Pose {
+  x: number;
+  y: number;
+  scale: number;
+  rotY: number;
+  rotX: number;
+}
+
+const DESKTOP: Pose[] = [
+  { x: 0, y: 0.14, scale: 0.68, rotY: BASE_ANGLE, rotX: 0.12 }, // hero
+  { x: 0.42, y: 0.04, scale: 0.78, rotY: 0.02, rotX: 0.06 }, // side profile: leather
+  { x: 0.4, y: 0.08, scale: 0.8, rotY: -1.05, rotX: 0.42 }, // toe box
+  { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
+  { x: 0.38, y: 0.04, scale: 0.8, rotY: -0.6, rotX: 0.16 }, // three-quarter, buy
+];
+
+const PHONE: Pose[] = [
+  { x: 0, y: 0.36, scale: 0.7, rotY: BASE_ANGLE, rotX: 0.12 }, // between the title and the copy
+  { x: 0, y: 0.3, scale: 1, rotY: 0.02, rotX: 0.06 },
+  { x: 0, y: 0.3, scale: 1, rotY: -1.05, rotX: 0.42 },
+  { x: 0, y: 0.3, scale: 0.95, rotY: Math.PI - 0.85, rotX: 0.12 },
+  { x: 0, y: 0.42, scale: 0.8, rotY: -0.6, rotX: 0.16 },
+];
+
+export const STORY_STOPS = DESKTOP.length - 1;
+
+const smooth = (t: number) => t * t * (3 - 2 * t);
+const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a)); // to (-π, π]
+
+/**
+ * The hero + scroll-story 3D stage (lazy chunk). The canvas is sticky behind the hero and
+ * the story steps; the shoe glides between poses as the page scrolls, eased so it feels
+ * like a scrubbed timeline. In the hero it also spins slowly, floats, leans towards the
+ * mouse and can be dragged. It plays an intro spin when the loader lifts.
  */
 export default function HeroScene({
   colorway,
   active,
   reduced,
-  heroRef,
+  storyRef,
   onReady,
   onContextLost,
 }: Props) {
@@ -41,7 +77,7 @@ export default function HeroScene({
     <Canvas
       dpr={[1, 2]} // pixel ratio capped at 2 for mid-range phones
       frameloop={active ? 'always' : 'never'}
-      camera={{ fov: FOV, position: [0, 0.8, 7], near: 0.1, far: 50 }}
+      camera={{ fov: FOV, position: [0, 0.6, 7], near: 0.1, far: 60 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       onCreated={({ gl }) => {
         gl.domElement.addEventListener('webglcontextlost', onContextLost, { once: true });
@@ -50,7 +86,7 @@ export default function HeroScene({
     >
       <Studio />
       <Suspense fallback={null}>
-        <Rig colorway={colorway} reduced={reduced} heroRef={heroRef} />
+        <Rig colorway={colorway} reduced={reduced} storyRef={storyRef} />
         <Ready onReady={onReady} />
       </Suspense>
     </Canvas>
@@ -70,18 +106,19 @@ function Ready({ onReady }: { onReady: () => void }) {
 function Rig({
   colorway,
   reduced,
-  heroRef,
+  storyRef,
 }: {
   colorway: Colorway;
   reduced: boolean;
-  heroRef: RefObject<HTMLElement | null>;
+  storyRef: RefObject<HTMLElement | null>;
 }) {
   const rig = useRef<THREE.Group>(null);
-  const float = useRef<THREE.Group>(null);
   const tilt = useRef<THREE.Group>(null);
   const spin = useRef<THREE.Group>(null);
   const shadow = useRef<THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>>(null);
   const pointer = useRef({ x: 0, y: 0 });
+  const intro = useRef<number | null>(null); // clock time the intro started
+  const current = useRef<Pose | null>(null);
   const stepSpin = useDragSpin();
 
   // Mouse parallax: track the pointer over the whole window (desktop only)
@@ -96,61 +133,96 @@ function Rig({
     return () => window.removeEventListener('pointermove', onMove);
   }, []);
 
+  // The intro spin starts when the loader lifts
+  const revealedAt = useRef(false);
+  useEffect(() => onRevealed(() => (revealedAt.current = true)), []);
+
   useFrame((state, rawDelta) => {
     const delta = Math.min(rawDelta, 0.05);
     const time = state.clock.elapsedTime;
-    const { damp } = THREE.MathUtils;
-
-    // 0 at the top of the page, 1 once the hero has scrolled away
-    const hero = heroRef.current;
-    const progress = hero
-      ? THREE.MathUtils.clamp(window.scrollY / (hero.offsetHeight * 0.9), 0, 1)
-      : 0;
-
-    if (spin.current) {
-      const angle = stepSpin(delta, reduced ? 0 : 0.32);
-      spin.current.rotation.y = BASE_ANGLE + angle + progress * Math.PI * 0.9;
-    }
-
-    if (rig.current) rig.current.position.y = -progress * 0.25;
-    if (float.current) {
-      const bob = reduced ? 0 : Math.sin(time * 1.25) * 0.09;
-      float.current.position.y = bob;
-      if (shadow.current) {
-        const s = 1 - bob * 1.2;
-        shadow.current.scale.set(4.2 * s, 1.6 * s, 1);
-        shadow.current.material.opacity = 0.55 - bob * 1.5;
-      }
-    }
-
-    if (tilt.current) {
-      const px = reduced ? 0 : pointer.current.x;
-      const py = reduced ? 0 : pointer.current.y;
-      tilt.current.rotation.x = damp(tilt.current.rotation.x, 0.12 + py * 0.16, 4, delta);
-      tilt.current.rotation.z = damp(tilt.current.rotation.z, -px * 0.08, 4, delta);
-      tilt.current.position.x = damp(tilt.current.position.x, px * 0.15, 4, delta);
-    }
-
-    // Fit the shoe to the stage width (portrait phones need the camera further back),
-    // then dolly in as the hero scrolls
+    const { damp, clamp, lerp } = THREE.MathUtils;
     const { camera, size } = state;
+
+    // Scroll: screens scrolled into the story (0 = hero)
+    const el = storyRef.current;
+    const vh = window.innerHeight || 1;
+    const s = el ? clamp(-el.getBoundingClientRect().top / vh, 0, STORY_STOPS) : 0;
+
     const aspect = size.width / Math.max(1, size.height);
-    const fitWidth = 3.7 / (2 * Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * aspect);
-    const distance = Math.max(5.6, fitWidth) * (1 - 0.22 * progress);
-    camera.position.z = damp(camera.position.z, distance, 5, delta);
-    camera.position.y = damp(camera.position.y, 0.8 - progress * 0.4, 5, delta);
+    const poses = aspect < 0.9 ? PHONE : DESKTOP;
+    const i = Math.min(Math.floor(s), STORY_STOPS - 1);
+    const t = smooth(s - i);
+    const a = poses[i];
+    const b = poses[i + 1];
+
+    // Idle spin (+ drag) only matters in the hero; it hands over to the story poses
+    const heroWeight = 1 - smooth(clamp(s, 0, 1));
+    const idle = stepSpin(delta, reduced ? 0 : 0.28 * heroWeight);
+    let rotYa = a.rotY;
+    if (i === 0) rotYa = b.rotY + wrapAngle(a.rotY + idle - b.rotY);
+
+    // Intro: rise from below with one and a half turns (skipped with reduced motion)
+    if (intro.current === null && revealedAt.current) intro.current = time;
+    const introT = reduced
+      ? 1
+      : intro.current === null
+        ? 0
+        : clamp((time - intro.current) / 1.8, 0, 1);
+    const e = 1 - Math.pow(1 - introT, 3);
+
+    const target: Pose = {
+      x: lerp(a.x, b.x, t),
+      y: lerp(a.y, b.y, t) - (1 - e) * 0.9,
+      scale: lerp(a.scale, b.scale, t) * (0.72 + 0.28 * e),
+      rotY: lerp(rotYa, b.rotY, t) + (1 - e) * Math.PI * 1.5,
+      rotX: lerp(a.rotX, b.rotX, t),
+    };
+
+    // Ease towards the target: a smooth "scrub"
+    const c = (current.current ??= { ...target });
+    const k = 6;
+    if (Math.abs(target.rotY - c.rotY) > Math.PI)
+      c.rotY += Math.sign(target.rotY - c.rotY) * Math.PI * 2;
+    c.x = damp(c.x, target.x, k, delta);
+    c.y = damp(c.y, target.y, k, delta);
+    c.scale = damp(c.scale, target.scale, k, delta);
+    c.rotY = damp(c.rotY, target.rotY, k, delta);
+    c.rotX = damp(c.rotX, target.rotX, k, delta);
+
+    // Camera: fit the shoe's length to the viewport width
+    const distance = Math.max(5.6, 3.9 / (2 * TAN * aspect));
+    camera.position.set(0, 0.6, distance);
     camera.lookAt(0, 0, 0);
+    const halfH = distance * TAN;
+    const halfW = halfH * aspect;
+
+    const bob = reduced ? 0 : Math.sin(time * 1.25) * 0.08 * heroWeight;
+    if (rig.current) {
+      rig.current.position.set(c.x * halfW, c.y * halfH + bob, 0);
+      rig.current.scale.setScalar(c.scale);
+    }
+    if (spin.current) spin.current.rotation.y = c.rotY;
+    if (tilt.current) {
+      const px = reduced ? 0 : pointer.current.x * heroWeight;
+      const py = reduced ? 0 : pointer.current.y * heroWeight;
+      tilt.current.rotation.x = damp(tilt.current.rotation.x, c.rotX + py * 0.14, 4, delta);
+      tilt.current.rotation.z = damp(tilt.current.rotation.z, -px * 0.07, 4, delta);
+    }
+    if (shadow.current) {
+      // the floor shadow belongs to the hero; it fades as the shoe takes off
+      const k2 = 1 - bob * 1.2;
+      shadow.current.scale.set(4.2 * k2, 1.6 * k2, 1);
+      shadow.current.material.opacity = (0.5 - bob * 1.5) * heroWeight * e;
+    }
   });
 
   return (
     <group ref={rig}>
-      <group ref={float}>
-        <group ref={tilt}>
-          <group ref={spin}>
-            {/* stand the shoe on the floor and centre it */}
-            <group position={[0, -SHOE_HEIGHT / 2, 0]}>
-              <Shoe colorway={colorway} />
-            </group>
+      <group ref={tilt}>
+        <group ref={spin}>
+          {/* stand the shoe on the floor and centre it */}
+          <group position={[0, -SHOE_HEIGHT / 2, 0]}>
+            <Shoe colorway={colorway} />
           </group>
         </group>
       </group>
@@ -160,7 +232,7 @@ function Rig({
         rotation={[-Math.PI / 2, 0, 0]}
         color="#000"
         colorStop={0}
-        opacity={0.55}
+        opacity={0.5}
         fog={false}
       />
     </group>

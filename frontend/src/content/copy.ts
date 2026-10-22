@@ -37,7 +37,6 @@ export const hero = {
   tagline: 'Premium, but',
   taglineAccent: 'Affordable.',
   lede: 'Air Jordan, Nike Dunk, Air Force 1, Adidas Samba and New Balance pairs from ৳3,500, delivered to your door anywhere in Bangladesh.',
-  shopPair: 'Shop this pair',
   cta: 'Shop Now',
   ctaSecondary: 'Trending',
   colorLabel: 'Pick a colourway',
@@ -60,15 +59,38 @@ export const marquee = [
   'Campus 00s',
 ];
 
-// The flagship spotlight under the marquee (the hero's 3D shoe)
-export const featured = {
-  eyebrow: 'The icon',
-  title: 'Air Jordan 1',
-  titleAccent: 'High OG "Bred"',
-  lede: 'Black leather, University Red toe, heel and collar, white midsole, red outsole. The 1985 colourway that changed sneakers, now in 3D: open it and spin it around.',
-  points: ['Premium leather upper', 'All sizes EU 39–45', 'Cash on Delivery'],
-  cta: 'Shop the Bred',
-  ctaSecondary: 'Spin it in 3D',
+// The scroll story under the hero: the 3D shoe turns to each detail as you scroll
+export const story = {
+  steps: [
+    {
+      eyebrow: '01 · The icon',
+      title: 'Air Jordan 1',
+      titleAccent: 'High OG "Bred"',
+      text: 'The 1985 colourway that changed sneakers. Black and University Red, exactly as it should be.',
+    },
+    {
+      eyebrow: '02 · The toe',
+      title: 'University Red',
+      titleAccent: 'toe box',
+      text: 'Perforated for airflow and wrapped in a black overlay. The detail everyone recognises from across the street.',
+    },
+    {
+      eyebrow: '03 · The heel',
+      title: 'Wings logo,',
+      titleAccent: 'red collar',
+      text: 'An embossed Wings logo on the red ankle collar, with a padded black collar that holds your heel.',
+    },
+  ],
+  final: {
+    eyebrow: '04 · Yours',
+    title: 'Shop the',
+    titleAccent: 'Bred',
+    points: ['Premium leather upper', 'EU 39–45 in stock', 'Cash on Delivery, all 64 districts'],
+    cta: 'Shop the Bred',
+    ctaSecondary: 'Browse all pairs',
+  },
+  motionOff: 'Animations are off on this device',
+  motionOn: 'Turn on motion',
 };
 
 export const why = {
