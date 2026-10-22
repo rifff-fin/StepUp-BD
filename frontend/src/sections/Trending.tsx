@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { FiChevronLeft, FiChevronRight, FiPause, FiPlay } from 'react-icons/fi';
+import { FiArrowRight, FiChevronLeft, FiChevronRight, FiPause, FiPlay } from 'react-icons/fi';
 import { trending } from '../content/copy';
 import { ProductCard, ProductCardSkeleton } from '../components/product/ProductCard';
 import { getTrending } from '../services/productService';
 import { isAborted } from '../lib/api';
 import { useInView } from '../hooks/useInView';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { scrollToId } from '../lib/lenis';
 import type { Product } from '../types';
 
 const AUTO_MS = 3500;
@@ -86,14 +87,21 @@ export function Trending() {
   return (
     <section id="trending" ref={section} className="section" aria-labelledby="trending-title">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <div>
-            <span className="eyebrow">{trending.eyebrow}</span>
-            <h2 id="trending-title" className="display">
-              {trending.title} <em>{trending.titleAccent}</em>
-            </h2>
-          </div>
+        <div className="section-head">
+          <h2 id="trending-title" className="section-title">
+            {trending.title}
+          </h2>
           <div className="carousel-nav">
+            <a
+              href="#shop"
+              className="section-link"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToId('shop');
+              }}
+            >
+              {trending.link} <FiArrowRight aria-hidden="true" />
+            </a>
             {!reduced && (
               <button
                 type="button"

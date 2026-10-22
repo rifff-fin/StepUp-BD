@@ -35,8 +35,9 @@
 }
 .co-title {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 40px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 32px;
   line-height: 1;
   margin-bottom: 18px;
 }
@@ -57,7 +58,7 @@
 .steps-bar i {
   display: block;
   height: 100%;
-  background: var(--red);
+  background: var(--text);
   transform-origin: left;
   transform: scaleX(var(--p, 0));
   transition: transform 0.6s var(--ease-out);
@@ -95,14 +96,14 @@
   color: var(--text);
 }
 .step.active b {
-  border-color: var(--red);
+  border-color: var(--text);
   color: var(--text);
   background: var(--bg);
-  box-shadow: 0 0 0 5px rgb(var(--red-rgb) / 0.09);
+  box-shadow: 0 0 0 5px rgb(var(--fg-rgb) / 0.08);
 }
 .step.done b {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--text);
+  border-color: var(--text);
   color: var(--on-accent);
 }
 .co-step {
@@ -126,7 +127,7 @@
   display: block;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 7px;
@@ -137,7 +138,7 @@
   width: 100%;
   height: 50px;
   padding: 0 16px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line-2);
   background: var(--surface);
   font-size: 16px;
@@ -170,8 +171,8 @@
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 0 4px rgb(var(--red-rgb) / 0.08);
+  border-color: var(--text);
+  box-shadow: 0 0 0 4px rgb(var(--fg-rgb) / 0.06);
   outline: none;
 }
 .field.invalid input,
@@ -199,9 +200,9 @@
   align-items: center;
   margin-top: 8px;
   padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--red-soft);
-  border: 1px solid rgb(var(--red-rgb) / 0.175);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -231,7 +232,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   border: 1px solid var(--line-2);
   background: var(--surface);
   height: 100%;
@@ -248,7 +249,7 @@
 .pay-logo {
   width: 44px;
   height: 30px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   display: grid;
   place-items: center;
   font-size: 12px;
@@ -261,18 +262,18 @@
   height: 18px;
 }
 .pay-opt input:checked + .pay-card {
-  border-color: var(--red);
-  background: var(--red-soft);
-  box-shadow: 0 0 0 1px var(--red);
+  border-color: var(--text);
+  background: rgb(var(--fg-rgb) / 0.03);
+  box-shadow: 0 0 0 1px var(--text);
 }
 .pay-opt input:focus-visible + .pay-card {
-  outline: 2px solid var(--red-hot);
+  outline: 2px solid var(--text);
   outline-offset: 3px;
 }
 .card-form {
   margin-top: 16px;
   padding: 18px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   border: 1px dashed rgba(251, 191, 36, 0.45);
   background: rgba(251, 191, 36, 0.04);
 }
@@ -308,7 +309,7 @@
 .co-error {
   margin-top: 14px;
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   background: rgb(var(--red-rgb) / 0.06);
   border: 1px solid rgb(var(--red-rgb) / 0.225);
   color: var(--red);
@@ -317,7 +318,7 @@
 }
 .review-block {
   padding: 16px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--line);
   margin-bottom: 12px;
@@ -327,7 +328,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 12px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 10px;
@@ -336,7 +337,7 @@
   font-size: 12px;
   letter-spacing: 0;
   text-transform: none;
-  color: var(--red-hot);
+  color: var(--text);
   text-decoration: underline;
   text-underline-offset: 3px;
   padding: 4px;
@@ -359,7 +360,7 @@
 .mini-item .li-img {
   width: 54px;
   height: 54px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
 }
 .mini-item b {
   display: block;
@@ -372,15 +373,16 @@
 }
 .mini-item strong {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 20px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 16px;
 }
 
 /* Mock wallet + processing */
 .wallet {
   max-width: 380px;
   margin: 0 auto;
-  border-radius: 22px;
+  border-radius: var(--radius);
   overflow: hidden;
   border: 1px solid var(--line-2);
   background: var(--surface);
@@ -400,9 +402,9 @@
   font-size: 12px;
   font-weight: 800;
   padding: 4px 8px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: rgba(0, 0, 0, 0.25);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
 }
 .wallet-body {
   padding: 20px;
@@ -421,8 +423,9 @@
 .wallet-amount b {
   color: var(--text);
   font-family: var(--ff-display);
-  font-size: 26px;
-  font-weight: 400;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 21px;
   line-height: 1;
 }
 .processing {
@@ -434,8 +437,9 @@
 }
 .processing h3 {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 36px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 29px;
   line-height: 1;
 }
 .processing p {
@@ -445,14 +449,14 @@
 .proc-bar {
   width: 220px;
   height: 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: var(--surface-3);
   overflow: hidden;
 }
 .proc-bar i {
   display: block;
   height: 100%;
-  background: var(--red);
+  background: var(--text);
   transform-origin: left;
   animation: procBar 2s linear forwards;
 }
@@ -508,7 +512,8 @@ html[data-reduced] .success-icon svg {
 }
 .success h3 {
   font-family: var(--ff-display);
-  font-weight: 400;
+  font-weight: 800;
+  font-stretch: 75%;
   font-size: clamp(2.6rem, 8vw, 3.6rem);
   line-height: 0.95;
 }
@@ -516,16 +521,18 @@ html[data-reduced] .success-icon svg {
   display: inline-block;
   margin: 14px 0 6px;
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   background: var(--surface-2);
   border: 1px solid var(--line-2);
   font-family: var(--ff-display);
-  font-size: 24px;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 19px;
+  letter-spacing: 0;
 }
 .order-id em {
   font-style: normal;
-  color: var(--red);
+  color: var(--text);
 }
 .success .review-block {
   text-align: left;
@@ -536,7 +543,7 @@ html[data-reduced] .success-icon svg {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   background: rgba(34, 197, 94, 0.08);
   border: 1px solid rgba(34, 197, 94, 0.3);
   text-align: left;
@@ -579,7 +586,7 @@ html[data-reduced] .success-icon svg {
 .error-summary {
   margin-bottom: 18px;
   padding: 14px 16px;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   border: 1px solid rgb(var(--red-rgb) / 0.275);
   background: rgb(var(--red-rgb) / 0.05);
 }

@@ -1,60 +1,64 @@
 /*
- * Design tokens: "Sail & Ink", taken from the AJ1 "Bred" itself.
- * Light sail paper for the shop (product photos sit naturally on it), warm ink sections for
- * the 3D hero/story and the footer, and ONE accent, University Red, used sparingly: buttons,
- * sale badges, key words. No neon glows.
+ * Design tokens. Plain retail: a white page, ink type, light-grey product boxes and square
+ * corners, the way sneaker shops (Sneakersnstuff, Footshop, END.) present product. The
+ * colour comes from the photos and the 3D shoe; the only brand colour is University Red,
+ * kept for the logo, sale prices and badges. One typeface, Archivo: condensed and heavy for
+ * headings, regular for text.
  *
  * `--fg-rgb` is the theme's foreground as RGB channels, for hairlines and tints:
  * `rgb(var(--fg-rgb) / 0.1)` works on both themes.
  */
 :root {
-  --bg: #f3f0ea; /* sail paper */
-  --bg-2: #ece7df; /* sand: alternate sections */
+  --bg: #ffffff;
+  --bg-2: #f4f4f2; /* alternate bands (newsletter, hero studio) */
   --surface: #ffffff;
-  --surface-2: #f7f5f1;
-  --surface-3: #e3ddd3;
-  --fg-rgb: 21 18 15;
-  --text: #15120f; /* warm ink */
-  --muted: #5c554d; /* 6.6:1 on paper */
-  --muted-2: #6b645b; /* 5.2:1 on paper */
-  --line: rgb(var(--fg-rgb) / 0.1);
-  --line-2: rgb(var(--fg-rgb) / 0.18);
-  --red-rgb: 179 18 28;
-  --red: #b3121c; /* University Red: 6.9:1 with white text */
-  --red-hot: #9a0f18; /* hover: deeper, not brighter */
+  --surface-2: #f2f2f0; /* product image boxes */
+  --surface-3: #e4e4e1;
+  --fg-rgb: 17 17 17;
+  --text: #111111;
+  --muted: #555555; /* 7.5:1 on white */
+  --muted-2: #6b6b6b; /* 5.3:1 on white */
+  --line: rgb(var(--fg-rgb) / 0.12);
+  --line-2: rgb(var(--fg-rgb) / 0.24);
+  --red-rgb: 200 16 46;
+  --red: #c8102e; /* University Red: 5.9:1 with white text */
+  --red-hot: #a50d26;
   --red-soft: rgb(var(--red-rgb) / 0.08);
   --on-accent: #ffffff;
   --ok: #1e7a46;
   --ok-soft: rgb(30 122 70 / 0.1);
-  --warn: #8a5300; /* amber text that passes on paper */
+  --warn: #8a5300;
   --warn-soft: rgb(176 112 0 / 0.1);
-  --shadow: 0 1px 2px rgb(21 18 15 / 0.06), 0 12px 32px -12px rgb(21 18 15 / 0.18);
-  --shadow-lift: 0 2px 4px rgb(21 18 15 / 0.06), 0 24px 48px -20px rgb(21 18 15 / 0.28);
-  --radius: 20px;
-  --radius-sm: 12px;
-  --nav-h: 68px;
+  --shadow: 0 1px 2px rgb(17 17 17 / 0.06), 0 8px 24px -12px rgb(17 17 17 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(17 17 17 / 0.06), 0 18px 40px -20px rgb(17 17 17 / 0.28);
+  --radius: 4px;
+  --radius-sm: 2px;
+  --bar-h: 32px; /* announcement bar */
+  --row-h: 60px; /* logo + links row */
+  --nav-h: calc(var(--bar-h) + var(--row-h));
   --gutter: 16px;
-  --ff-display: 'Bebas Neue', 'Noto Sans Bengali', Impact, 'Arial Narrow Bold', sans-serif;
-  --ff-body: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ff-display: 'Archivo', 'Noto Sans Bengali', 'Arial Narrow', Arial, sans-serif;
+  --ff-body:
+    'Archivo', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   color-scheme: light;
 }
 
-/* Warm ink sections: hero + 3D story, marquee, footer, loader, toasts */
+/* Ink sections: the footer, the announcement bar, toasts */
 .theme-dark {
-  --bg: #121110;
-  --bg-2: #0d0c0b;
-  --surface: #1b1a18;
-  --surface-2: #23211e;
-  --surface-3: #2f2c28;
-  --fg-rgb: 243 239 232;
-  --text: #f3efe8; /* bone */
-  --muted: #b1aaa0;
-  --muted-2: #958e85;
-  --red-rgb: 209 31 42;
-  --red: #c8102e; /* a touch brighter on ink */
-  --red-hot: #e0303b;
+  --bg: #111111;
+  --bg-2: #0b0b0b;
+  --surface: #1a1a1a;
+  --surface-2: #222222;
+  --surface-3: #2e2e2e;
+  --fg-rgb: 245 245 243;
+  --text: #f5f5f3;
+  --muted: #b4b4b0;
+  --muted-2: #9a9a96;
+  --red-rgb: 226 38 60;
+  --red: #e2263c; /* lifted for contrast on ink */
+  --red-hot: #f04257;
   --red-soft: rgb(var(--red-rgb) / 0.14);
   --ok: #4ade80;
   --warn: #f5c35b;
@@ -68,5 +72,11 @@
 @media (min-width: 600px) {
   :root {
     --gutter: 24px;
+  }
+}
+@media (max-width: 599px) {
+  :root {
+    --bar-h: 30px;
+    --row-h: 56px;
   }
 }

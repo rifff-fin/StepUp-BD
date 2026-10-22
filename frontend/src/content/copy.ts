@@ -22,118 +22,112 @@ export const site = {
 
 export const nav = {
   links: [
-    { href: '#top', label: 'Home' },
-    { href: '#shop', label: 'Shop' },
+    { href: '#shop', label: 'Shop all' },
     { href: '#trending', label: 'Trending' },
-    { href: '#why', label: 'Why Us' },
+    { href: '#brands', label: 'Brands' },
     { href: '#reviews', label: 'Reviews' },
-    { href: '#faq', label: 'FAQ' },
+    { href: '#faq', label: 'Help' },
   ],
+  // the announcement bar above the navbar (phones show the first message only)
+  announcement: [
+    'Cash on Delivery in all 64 districts',
+    '৳100 delivery inside Dhaka',
+    '7-day exchange',
+  ],
+  track: 'Track order',
 };
 
 export const hero = {
-  titleSolid: 'StepUp',
-  titleAccent: 'BD',
-  tagline: 'Premium, but',
-  taglineAccent: 'Affordable.',
-  lede: 'Air Jordan, Nike Dunk, Air Force 1, Adidas Samba and New Balance pairs from ৳3,500, delivered to your door anywhere in Bangladesh.',
-  cta: 'Shop Now',
-  ctaSecondary: 'Trending',
-  colorLabel: 'Pick a colourway',
-  dragHint: 'Drag to rotate',
+  // label tags over the 3D stage: the brand, then the model in the chosen colourway
+  brandTag: 'Jordan',
+  model: 'Air Jordan 1 High OG',
+  title: 'Premium, but Affordable.',
+  lede: 'Air Jordan, Dunk, Air Force 1, Samba and New Balance from ৳3,500. Cash on Delivery anywhere in Bangladesh.',
+  cta: 'Shop all sneakers',
+  ctaModel: 'Shop Air Jordan 1',
+  colorLabel: 'Colourway',
+  dragHint: 'Drag to turn',
   fallbackNote: '3D preview unavailable on this device',
-  // TODO(client): confirm these numbers
-  stats: [
-    { value: '10K', accent: '+', label: 'Pairs sold' },
-    { value: '4.9', accent: '★', label: 'Avg rating' },
-    { value: '64', accent: '', label: 'Districts' },
-  ],
 };
-
-export const marquee = [
-  'Air Jordan 1',
-  'Nike Dunk',
-  'Air Force 1',
-  'Adidas Samba',
-  'New Balance 550',
-  'Campus 00s',
-];
 
 // The scroll story under the hero: the 3D shoe turns to each detail as you scroll
 export const story = {
   steps: [
     {
-      eyebrow: '01 · The icon',
-      title: 'Air Jordan 1',
-      titleAccent: 'High OG "Bred"',
-      text: 'The 1985 colourway that changed sneakers. Black and University Red, exactly as it should be.',
+      eyebrow: '01 / 04',
+      title: 'Air Jordan 1 High OG',
+      text: 'The 1985 original: leather upper, Air unit in the heel. Pick White / Red, Bred or All Black above.',
     },
     {
-      eyebrow: '02 · The toe',
-      title: 'University Red',
-      titleAccent: 'toe box',
-      text: 'Perforated for airflow and wrapped in a black overlay. The detail everyone recognises from across the street.',
+      eyebrow: '02 / 04',
+      title: 'Perforated toe box',
+      text: 'Perforations across the toe for airflow, framed by the toe overlay.',
     },
     {
-      eyebrow: '03 · The heel',
-      title: 'Wings logo,',
-      titleAccent: 'red collar',
-      text: 'An embossed Wings logo on the red ankle collar, with a padded black collar that holds your heel.',
+      eyebrow: '03 / 04',
+      title: 'Wings on the collar',
+      text: 'The Wings logo pressed into the ankle collar, with a padded lining.',
     },
   ],
   final: {
-    eyebrow: '04 · Yours',
-    title: 'Shop the',
-    titleAccent: 'Bred',
-    points: ['Premium leather upper', 'EU 39–45 in stock', 'Cash on Delivery, all 64 districts'],
-    cta: 'Shop the Bred',
+    eyebrow: '04 / 04',
+    title: 'Shop the Bred',
+    points: ['Leather upper', 'EU 39–45 in stock', 'Cash on Delivery, all 64 districts'],
+    cta: 'Choose your size',
     ctaSecondary: 'Browse all pairs',
   },
   motionOff: 'Animations are off on this device',
   motionOn: 'Turn on motion',
 };
 
+// The service strip under the hero
 export const why = {
-  eyebrow: 'Why StepUp BD',
-  title: 'Built on',
-  titleAccent: 'trust',
-  lede: 'Thousands of sneakerheads across Bangladesh buy from us because we keep it simple: real pairs, fair prices, zero hassle.',
+  title: 'Why shop with StepUp BD',
   items: [
     {
       icon: 'shield',
-      title: '100% Authentic',
+      title: 'Checked by hand',
       // TODO(client): confirm the authenticity guarantee terms
-      text: 'Every pair is checked by hand before it ships. If a pair is not genuine, you get a full refund.',
+      text: 'Every pair is inspected before it ships. Not genuine? Full refund.',
     },
     {
       icon: 'cash',
-      title: 'Cash on Delivery',
-      text: 'Pay when the box is in your hands. Available in all 64 districts. bKash and Nagad too.',
+      title: 'Pay on delivery',
+      text: 'Cash on Delivery in all 64 districts, or bKash, Nagad and card.',
     },
     {
       icon: 'return',
-      title: '7-Day Easy Return',
-      text: 'Wrong size or changed your mind? Return or exchange within 7 days, no questions asked.',
+      title: '7-day exchange',
+      text: 'Wrong size? Exchange or return unworn pairs within 7 days.',
     },
     {
       icon: 'truck',
-      title: 'Fast Dhaka Delivery',
-      text: 'Order before 5 PM for delivery in 24 to 48 hours inside Dhaka. 3 to 5 days elsewhere.',
+      title: 'Dhaka in 24–48 hours',
+      text: 'Order by 5 PM. 3 to 5 days to the rest of Bangladesh.',
     },
   ],
 };
 
 export const trending = {
-  eyebrow: 'Hot right now',
-  title: 'Trending',
-  titleAccent: 'drops',
+  title: 'Trending now',
+  link: 'Shop all',
+};
+
+// "Shop by brand" tiles: each filters the catalog to that brand
+export const brands = {
+  title: 'Shop by brand',
+  items: [
+    { brand: 'Jordan', models: 'AJ1 High, Mid and Low', image: 'air-jordan-1-high-og-chicago' },
+    { brand: 'Nike', models: 'Dunk Low', image: 'nike-dunk-low-grey-fog' },
+    { brand: 'Air Force', models: 'Air Force 1 Low', image: 'air-force-1-low-panda' },
+    { brand: 'Adidas', models: 'Samba, Campus 00s', image: 'adidas-samba-og-white-black' },
+    { brand: 'New Balance', models: '550, 530', image: 'nb-550-white-green' },
+  ],
 };
 
 export const shop = {
-  eyebrow: 'The collection',
-  title: 'Shop the',
-  titleAccent: 'drop',
-  lede: 'Filter by brand, size, colour and budget. Every pair ships with Cash on Delivery.',
+  title: 'All sneakers',
+  lede: 'Every pair ships with Cash on Delivery.',
   searchPlaceholder: 'Search Jordan, Dunk, Samba…',
   tabs: ['All', 'Sneakers', 'Running', 'Lifestyle', 'Basketball'],
   sorts: [
@@ -150,8 +144,7 @@ export const shop = {
 
 // Sample content: shown with a clear "sample reviews" label until real reviews exist.
 export const reviews = {
-  eyebrow: 'Customer love',
-  title: 'Real talk',
+  title: 'Reviews',
   sampleLabel: 'Sample reviews: illustrative content, not real customers',
   items: [
     {
@@ -232,10 +225,8 @@ export const productReviews = {
 };
 
 export const faq = {
-  eyebrow: 'Questions',
-  title: 'Got',
-  titleAccent: 'questions?',
-  lede: "Can't find your answer? Message us on WhatsApp, we usually reply within minutes.",
+  title: 'Help & FAQ',
+  lede: "Can't find your answer? Message us on WhatsApp.",
   items: [
     {
       q: 'Are your sneakers 100% authentic?',
@@ -266,8 +257,8 @@ export const faq = {
 };
 
 export const newsletter = {
-  title: 'Never miss a drop',
-  lede: 'New arrivals, restocks and member-only deals. One email a week, no spam.',
+  title: 'New arrivals by email',
+  lede: 'Restocks and new pairs, once a week. No spam.',
   placeholder: 'Your email address',
   button: 'Subscribe',
 };

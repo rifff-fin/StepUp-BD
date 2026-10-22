@@ -29,13 +29,10 @@ export function Reviews() {
   return (
     <section id="reviews" className="section" aria-labelledby="reviews-title">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <div>
-            <span className="eyebrow">{reviews.eyebrow}</span>
-            <h2 id="reviews-title" className="display">
-              {reviews.title}
-            </h2>
-          </div>
+        <div className="section-head">
+          <h2 id="reviews-title" className="section-title">
+            {reviews.title}
+          </h2>
           <span className="sample-label">
             <FiAlertTriangle aria-hidden="true" /> {reviews.sampleLabel}
           </span>
@@ -70,21 +67,13 @@ export function Reviews() {
                     aria-hidden={!visible}
                   >
                     <figure className="review-card" style={{ margin: 0 }}>
-                      <span className="quote" aria-hidden="true">
-                        “
-                      </span>
                       <Stars rating={review.rating} />
                       <blockquote style={{ margin: 0, flex: 1 }}>
                         <p>{review.text}</p>
                       </blockquote>
                       <figcaption className="reviewer">
-                        <span className="avatar" aria-hidden="true">
-                          {review.name[0]}
-                        </span>
-                        <span>
-                          <b>{review.name}</b>
-                          <span>{review.place} · Sample</span>
-                        </span>
+                        <b>{review.name}</b>
+                        <span>{review.place} · Sample</span>
                       </figcaption>
                     </figure>
                   </div>

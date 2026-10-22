@@ -1,13 +1,10 @@
-import { isReducedMotion } from './motion';
-
 /**
- * The intro loader is static HTML in index.html, so it shows with the first frame. Once the
- * app has rendered and the display font is ready (at least MIN_MS, at most MAX_MS after
- * navigation start) it lifts; with reduced motion it simply goes. The hero's intro (title
- * rise, 3D spin-in) waits for the lift via `onRevealed`.
+ * There is no loader screen: the page shows at once. `html.revealed` is added once the app
+ * has rendered and the heading font is ready (at most MAX_MS), so the hero's intro (copy
+ * rising in, the 3D shoe spinning up) plays in the right font. The 3D scene waits for it via
+ * `onRevealed`.
  */
-const MIN_MS = 1200;
-const MAX_MS = 2600;
+const MAX_MS = 700;
 
 let revealed = false;
 const waiting = new Set<() => void>();
@@ -32,38 +29,10 @@ export function onRevealed(cb: () => void) {
   };
 }
 
-export function runPreloader() {
-  const el = document.getElementById('preloader');
-  const html = document.documentElement;
-  if (!el) {
-    html.classList.remove('preloading');
-    markRevealed();
-    return;
-  }
-
-  let done = false;
-  const lift = () => {
-    if (done) return;
-    done = true;
-    el.classList.add('done');
-    html.classList.remove('preloading');
-    markRevealed();
-    window.setTimeout(() => el.remove(), 1100);
-  };
-
-  if (isReducedMotion()) {
-    lift();
-    return;
-  }
-
-  const elapsed = performance.now();
+export function startReveal() {
   const fontReady = document.fonts
-    ? document.fonts.load('1em "Bebas Neue"').then(() => undefined)
+    ? document.fonts.load('800 1em "Archivo"').then(() => undefined)
     : Promise.resolve();
-  const minWait = new Promise((resolve) =>
-    window.setTimeout(resolve, Math.max(0, MIN_MS - elapsed)),
-  );
-
-  void Promise.all([fontReady, minWait]).then(lift, lift);
-  window.setTimeout(lift, Math.max(0, MAX_MS - elapsed));
+  void fontReady.then(markRevealed, markRevealed);
+  window.setTimeout(markRevealed, MAX_MS);
 }

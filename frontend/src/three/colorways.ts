@@ -63,3 +63,7 @@ export const HERO_COLORWAYS: Colorway[] = [
     },
   },
 ];
+
+/** The hero opens on White / Red (the client's pick); the quick-view viewer stays on the Bred. */
+export const DEFAULT_HERO_COLORWAY =
+  HERO_COLORWAYS.find((c) => c.id === 'white-red') ?? HERO_COLORWAYS[0];

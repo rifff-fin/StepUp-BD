@@ -50,12 +50,13 @@
 }
 .drawer-head h2 {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 34px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 27px;
   line-height: 1;
 }
 .drawer-head h2 span {
-  color: var(--red);
+  color: var(--muted);
 }
 .drawer-body {
   flex: 1;
@@ -89,7 +90,7 @@
 .li-img {
   width: 84px;
   height: 84px;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -115,7 +116,7 @@
   text-align: left;
 }
 button.li-name:hover {
-  color: var(--red-hot);
+  color: var(--muted);
 }
 .li-meta {
   font-size: 12px;
@@ -131,7 +132,9 @@ button.li-name:hover {
 }
 .li-price {
   font-family: var(--ff-display);
-  font-size: 22px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 18px;
   line-height: 1;
 }
 .remove {
@@ -150,7 +153,7 @@ button.li-name:hover {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--line-2);
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   height: 38px;
 }
 .qty button {
@@ -190,8 +193,9 @@ button.li-name:hover {
 }
 .empty-state h3 {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 34px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 27px;
   line-height: 1;
   margin-bottom: 6px;
 }
@@ -219,7 +223,7 @@ button.li-name:hover {
 .zone span {
   display: block;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line-2);
   font-size: 13px;
   font-weight: 600;
@@ -232,11 +236,11 @@ button.li-name:hover {
   font-weight: 500;
 }
 .zone input:checked + span {
-  border-color: var(--red);
-  background: var(--red-soft);
+  border-color: var(--text);
+  background: rgb(var(--fg-rgb) / 0.04);
 }
 .zone input:focus-visible + span {
-  outline: 2px solid var(--red-hot);
+  outline: 2px solid var(--text);
   outline-offset: 2px;
 }
 .coupon {
@@ -248,7 +252,7 @@ button.li-name:hover {
   flex: 1;
   min-width: 0;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line-2);
   background: var(--surface);
   padding: 0 14px;
@@ -262,7 +266,7 @@ button.li-name:hover {
   color: var(--muted-2);
 }
 .coupon input:focus {
-  border-color: var(--red);
+  border-color: var(--text);
   outline: none;
 }
 .coupon-applied {
@@ -270,7 +274,7 @@ button.li-name:hover {
   justify-content: space-between;
   align-items: center;
   padding: 10px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px dashed rgba(34, 197, 94, 0.5);
   background: rgba(34, 197, 94, 0.08);
   font-size: 13px;
@@ -317,9 +321,10 @@ button.li-name:hover {
 }
 .totals .grand b {
   font-family: var(--ff-display);
-  font-size: 30px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 24px;
   line-height: 1;
-  font-weight: 400;
 }
 .wish-item-actions {
   display: flex;
@@ -358,7 +363,7 @@ button.li-name:hover {
   overscroll-behavior: contain;
   background: var(--bg-2);
   border: 1px solid var(--line-2);
-  border-radius: 26px 26px 0 0;
+  border-radius: var(--radius) var(--radius) 0 0;
   transform: translateY(40px);
   opacity: 0;
   transition:
@@ -387,7 +392,7 @@ button.li-name:hover {
     padding: 20px;
   }
   .modal-panel {
-    border-radius: 28px;
+    border-radius: var(--radius);
     max-height: calc(100dvh - 40px);
   }
 }
@@ -408,7 +413,7 @@ button.li-name:hover {
   position: relative;
   min-height: 300px;
   aspect-ratio: 1 / 0.85;
-  border-radius: 26px 26px 0 0;
+  border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
   background:
     radial-gradient(70% 70% at 50% 45%, var(--tint-a, rgb(var(--red-rgb) / 0.15)), transparent 72%),
@@ -443,7 +448,7 @@ button.li-name:hover {
 .qv-thumb {
   width: 56px;
   height: 56px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   border: 2px solid rgb(var(--fg-rgb) / 0.35);
   background: var(--surface-2);
@@ -460,7 +465,7 @@ button.li-name:hover {
   transform: translateY(-2px);
 }
 .qv-thumb[aria-pressed='true'] {
-  border-color: var(--red-hot);
+  border-color: var(--text);
 }
 .qv-3d {
   position: absolute;
@@ -468,10 +473,10 @@ button.li-name:hover {
   bottom: 12px;
   width: 132px;
   height: 132px;
-  border-radius: 18px;
+  border-radius: var(--radius);
   border: 1px solid var(--line-2);
   background:
-    radial-gradient(circle at 50% 60%, rgb(var(--red-rgb) / 0.08), transparent 70%),
+    radial-gradient(circle at 50% 60%, rgb(var(--fg-rgb) / 0.04), transparent 70%),
     var(--surface-2);
   overflow: hidden;
   transition: all 0.55s var(--ease-out);
@@ -500,11 +505,11 @@ button.li-name:hover {
   z-index: 1;
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   background: rgb(21 18 15 / 0.78);
   padding: 3px 7px;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   pointer-events: none;
 }
 .qv-3d-expand {
@@ -539,13 +544,14 @@ button.li-name:hover {
 .qv-brand {
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--red-hot);
+  color: var(--muted);
 }
 .qv-title {
   font-family: var(--ff-display);
-  font-weight: 400;
+  font-weight: 800;
+  font-stretch: 75%;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
   line-height: 0.95;
   padding-right: 40px;
@@ -558,8 +564,9 @@ button.li-name:hover {
 }
 .qv-price strong {
   font-family: var(--ff-display);
-  font-weight: 400;
-  font-size: 44px;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 35px;
   line-height: 1;
 }
 .qv-desc {
@@ -575,7 +582,7 @@ button.li-name:hover {
 .label-row span {
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -590,7 +597,7 @@ button.li-name:hover {
 }
 .size-btn {
   height: 46px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--line-2);
   font-weight: 700;
   font-size: 14px;
@@ -671,8 +678,8 @@ button.li-name:hover {
   height: 22px;
 }
 .wish-btn[aria-pressed='true'] {
-  border-color: var(--red);
-  background: var(--red-soft);
+  border-color: var(--text);
+  background: transparent;
   color: var(--red);
 }
 .perks {
@@ -683,7 +690,7 @@ button.li-name:hover {
 }
 .perks div {
   padding: 10px 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   background: var(--surface);
   border: 1px solid var(--line);
   font-size: 12px;
@@ -696,11 +703,11 @@ button.li-name:hover {
   width: 18px;
   height: 18px;
   margin: 0 auto 5px;
-  color: var(--red-hot);
+  color: var(--text);
 }
 @media (min-width: 600px) {
   .qv-media {
-    border-radius: 28px 28px 0 0;
+    border-radius: var(--radius) var(--radius) 0 0;
   }
   .size-grid {
     grid-template-columns: repeat(7, 1fr);
@@ -720,7 +727,7 @@ button.li-name:hover {
     aspect-ratio: auto;
     height: 100%;
     min-height: 0;
-    border-radius: 28px 0 0 28px;
+    border-radius: 0;
   }
   .qv-info {
     padding: 44px 34px 34px;
@@ -739,7 +746,7 @@ button.li-name:hover {
 }
 .qv-reviews li {
   padding: 12px 14px;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   background: var(--surface);
   border: 1px solid var(--line);
   display: grid;
@@ -772,7 +779,7 @@ button.li-name:hover {
 }
 .suggestions h3 {
   font-size: 12px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
 }

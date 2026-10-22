@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { HeroStory } from '../sections/HeroStory';
-import { BrandMarquee } from '../sections/BrandMarquee';
 import { WhyUs } from '../sections/WhyUs';
 import { Trending } from '../sections/Trending';
+import { Brands } from '../sections/Brands';
 import { Shop } from '../sections/Shop';
 import { Reviews } from '../sections/Reviews';
 import { Faq } from '../sections/Faq';
@@ -23,9 +23,9 @@ export function HomePage() {
   return (
     <>
       <HeroStory />
-      <BrandMarquee />
       <WhyUs />
       <Trending />
+      <Brands />
       <Shop />
       <Reviews />
       <Faq />

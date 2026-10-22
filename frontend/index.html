@@ -8,7 +8,7 @@
       name="description"
       content="StepUp BD: Nike, Jordan, Air Force, Adidas, Puma and New Balance sneakers at affordable prices in Bangladesh. Cash on Delivery, 7-day easy return, fast Dhaka delivery."
     />
-    <meta name="theme-color" content="#070707" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:title" content="StepUp BD | Premium, but Affordable." />
     <meta
       property="og:description"
@@ -17,12 +17,12 @@
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts: Bebas Neue (display) + Inter (body); a tiny subset that only carries ৳ -->
+    <!-- Font: Archivo (one variable grotesk, width 75-100); a tiny subset that only carries ৳ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&display=swap"
     />
     <link
       rel="stylesheet"
@@ -40,28 +40,14 @@
           pref === 'off' ||
           (pref === 'auto' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
         if (reduce) document.documentElement.setAttribute('data-reduced', '');
-        document.documentElement.classList.add('js', 'preloading');
+        document.documentElement.classList.add('js');
       })();
     </script>
   </head>
   <body>
-    <!-- Intro loader: static markup so it shows with the first frame (src/lib/preloader.ts) -->
-    <div id="preloader" class="intro" aria-hidden="true">
-      <div class="intro-inner">
-        <div class="intro-word">
-          <span style="--i: 0">S</span><span style="--i: 1">T</span><span style="--i: 2">E</span
-          ><span style="--i: 3">P</span><span style="--i: 4">U</span><span style="--i: 5">P</span
-          ><span style="--i: 6">&nbsp;</span><span class="r" style="--i: 7">B</span
-          ><span class="r" style="--i: 8">D</span>
-        </div>
-        <div class="intro-bar"><i></i></div>
-        <p class="intro-tag">Premium, but Affordable.</p>
-      </div>
-    </div>
-
     <div id="root"></div>
     <noscript>
-      <p style="padding: 24px; font-family: sans-serif; color: #fff; background: #070707">
+      <p style="padding: 24px; font-family: sans-serif; color: #111; background: #fff">
         StepUp BD needs JavaScript to run the store. Please enable it and reload.
       </p>
     </noscript>

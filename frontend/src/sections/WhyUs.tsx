@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import { FiDollarSign, FiRotateCcw, FiShield, FiTruck } from 'react-icons/fi';
 import { why } from '../content/copy';
 
@@ -9,38 +8,28 @@ const ICONS = {
   truck: FiTruck,
 } as const;
 
+/** The service strip under the hero: authenticity, payment, exchange, delivery. */
 export function WhyUs() {
   return (
-    <section id="why" className="section" aria-labelledby="why-title">
+    <section id="why" className="usp" aria-labelledby="why-title">
       <div className="container">
-        <div className="section-head" data-reveal>
-          <div>
-            <span className="eyebrow">{why.eyebrow}</span>
-            <h2 id="why-title" className="display">
-              {why.title} <em>{why.titleAccent}</em>
-            </h2>
-          </div>
-          <p>{why.lede}</p>
-        </div>
-        <div className="why-grid">
-          {why.items.map((item, i) => {
+        <h2 id="why-title" className="sr-only">
+          {why.title}
+        </h2>
+        <ul className="usp-list">
+          {why.items.map((item) => {
             const Icon = ICONS[item.icon as keyof typeof ICONS];
             return (
-              <div key={item.title} data-reveal style={{ '--d': i } as CSSProperties}>
-                <article className="why-card">
-                  <span className="why-num" aria-hidden="true">
-                    0{i + 1}
-                  </span>
-                  <div className="why-icon" aria-hidden="true">
-                    <Icon />
-                  </div>
+              <li key={item.title}>
+                <Icon aria-hidden="true" />
+                <div>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
-                </article>
-              </div>
+                </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { FiRefreshCw, FiSearch, FiSliders, FiX } from 'react-icons/fi';
 import { shop } from '../content/copy';
 import { FilterPanel } from '../components/shop/FilterPanel';
@@ -35,6 +35,24 @@ export function Shop() {
     [],
   );
 
+  // "Shop by brand" tiles: show just that brand
+  useEffect(
+    () =>
+      useUi.subscribe((state, prev) => {
+        const request = state.brandRequest;
+        if (!request || request === prev.brandRequest) return;
+        setFilters((current) => ({
+          ...current,
+          q: '',
+          category: 'All',
+          brands: [request.brand],
+          sizes: [],
+          colors: [],
+        }));
+      }),
+    [],
+  );
+
   const reset = () =>
     setFilters({
       ...DEFAULT_FILTERS,
@@ -62,14 +80,13 @@ export function Shop() {
   return (
     <section id="shop" className="section" aria-labelledby="shop-title">
       <div className="container">
-        <div className="section-head" data-reveal>
+        <div className="section-head">
           <div>
-            <span className="eyebrow">{shop.eyebrow}</span>
-            <h2 id="shop-title" className="display">
-              {shop.title} <em>{shop.titleAccent}</em>
+            <h2 id="shop-title" className="section-title">
+              {shop.title}
             </h2>
+            <p className="section-sub">{shop.lede}</p>
           </div>
-          <p>{shop.lede}</p>
         </div>
 
         <div className="shop-toolbar">

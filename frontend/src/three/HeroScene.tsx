@@ -6,7 +6,7 @@ import { Shoe } from './Shoe';
 import { Studio } from './Studio';
 import { useDragSpin } from './useDragSpin';
 import { SHOE_HEIGHT } from './shoeGeometry';
-import { onRevealed } from '../lib/preloader';
+import { onRevealed } from '../lib/reveal';
 import type { Colorway } from './colorways';
 
 interface Props {
@@ -39,7 +39,7 @@ interface Pose {
 }
 
 const DESKTOP: Pose[] = [
-  { x: 0, y: 0.14, scale: 0.68, rotY: BASE_ANGLE, rotX: 0.12 }, // hero
+  { x: 0.14, y: 0.12, scale: 0.74, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
   { x: 0.42, y: 0.04, scale: 0.78, rotY: 0.02, rotX: 0.06 }, // side profile: leather
   { x: 0.4, y: 0.08, scale: 0.8, rotY: -1.05, rotX: 0.42 }, // toe box
   { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
@@ -47,7 +47,7 @@ const DESKTOP: Pose[] = [
 ];
 
 const PHONE: Pose[] = [
-  { x: 0, y: 0.36, scale: 0.7, rotY: BASE_ANGLE, rotX: 0.12 }, // between the title and the copy
+  { x: 0, y: 0.24, scale: 0.8, rotY: BASE_ANGLE, rotX: 0.12 }, // between the tags and the copy
   { x: 0, y: 0.3, scale: 1, rotY: 0.02, rotX: 0.06 },
   { x: 0, y: 0.3, scale: 1, rotY: -1.05, rotX: 0.42 },
   { x: 0, y: 0.3, scale: 0.95, rotY: Math.PI - 0.85, rotX: 0.12 },

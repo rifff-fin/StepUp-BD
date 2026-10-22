@@ -1,23 +1,21 @@
-import { useRef, useState, type CSSProperties, type PointerEvent } from 'react';
-import { FiEye, FiHeart } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiHeart } from 'react-icons/fi';
 import { ProductPhoto } from './ProductPhoto';
-import { Stars } from '../ui/Stars';
-import { formatTaka, sizeLabel, tintOf } from '../../lib/format';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { formatTaka, sizeLabel } from '../../lib/format';
+import { thumbOf } from '../../lib/images';
 import { useUi } from '../../store/uiStore';
 import { useIsWished, useWishlist } from '../../store/wishlistStore';
 import type { Product } from '../../types';
 
-/** Catalog / trending card: lifts and glows on hover, tilts towards the pointer. */
+const SIZES = '(min-width: 1360px) 330px, (min-width: 900px) 30vw, 50vw';
+
+/** Catalog / trending card: the photo (the second one on hover), brand, name, price, sizes. */
 export function ProductCard({ product }: { product: Product }) {
-  const ref = useRef<HTMLElement>(null);
   const openQuickView = useUi((s) => s.openQuickView);
   const wished = useIsWished(product._id);
   const [pop, setPop] = useState(false);
-  const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)');
-  const reduced = useReducedMotion();
-  const canTilt = finePointer && !reduced;
+  const second = product.images?.[1];
+  const onSale = product.originalPrice > product.price;
 
   const onToggleWish = () => {
     const added = useWishlist.getState().toggle(product);
@@ -27,33 +25,8 @@ export function ProductCard({ product }: { product: Product }) {
     setPop(true);
   };
 
-  const onPointerMove = (event: PointerEvent<HTMLElement>) => {
-    const el = ref.current;
-    if (!canTilt || !el) return;
-    const rect = el.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - 0.5;
-    const y = (event.clientY - rect.top) / rect.height - 0.5;
-    el.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`);
-    el.style.setProperty('--rx', `${(-y * 8).toFixed(2)}deg`);
-    el.classList.add('tilting');
-  };
-
-  const onPointerLeave = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.removeProperty('--rx');
-    el.style.removeProperty('--ry');
-    el.classList.remove('tilting');
-  };
-
   return (
-    <article
-      ref={ref}
-      className="card"
-      style={{ '--tint-a': tintOf(product.palette) } as CSSProperties}
-      onPointerMove={onPointerMove}
-      onPointerLeave={onPointerLeave}
-    >
+    <article className="card">
       <div className="card-media">
         <div className="badges">
           {product.discountPercent > 0 && (
@@ -82,10 +55,25 @@ export function ProductCard({ product }: { product: Product }) {
         >
           <ProductPhoto
             src={product.images?.[0]}
-            alt={`${product.name}`}
+            alt={product.name}
+            sizes={SIZES}
             palette={product.palette}
             silhouette={product.silhouette}
           />
+          {second?.startsWith('/') && (
+            <img
+              className="photo photo-alt"
+              src={thumbOf(second)}
+              srcSet={`${thumbOf(second)} 480w, ${second} 900w`}
+              sizes={SIZES}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              onError={(event) => {
+                event.currentTarget.hidden = true;
+              }}
+            />
+          )}
         </button>
         <button
           type="button"
@@ -93,29 +81,25 @@ export function ProductCard({ product }: { product: Product }) {
           aria-label={`Quick view ${product.name}`}
           onClick={() => openQuickView(product)}
         >
-          <FiEye aria-hidden="true" /> Quick View
+          Quick view
         </button>
       </div>
       <div className="card-body">
-        <p className="card-brand">
-          {product.brand}
-          <span className="card-cat"> · {product.category}</span>
-        </p>
+        <p className="card-brand">{product.brand}</p>
         <h3 className="card-title">{product.name}</h3>
-        <Stars rating={product.rating} count={product.reviewCount} />
-        <p className="sizes-mini">
-          <span className="sr-only">Sizes in stock: </span>
-          {sizeLabel(product.sizes)}
-        </p>
-        <div className="price-row">
-          <strong>{formatTaka(product.price)}</strong>
-          {product.originalPrice > product.price && (
+        <p className="price-row">
+          <strong className={onSale ? 'sale' : undefined}>{formatTaka(product.price)}</strong>
+          {onSale && (
             <s>
               <span className="sr-only">Was </span>
               {formatTaka(product.originalPrice)}
             </s>
           )}
-        </div>
+        </p>
+        <p className="sizes-mini">
+          <span className="sr-only">Sizes in stock: </span>
+          {sizeLabel(product.sizes)}
+        </p>
       </div>
     </article>
   );
@@ -127,10 +111,9 @@ export function ProductCardSkeleton() {
     <div className="card skeleton" aria-hidden="true">
       <div className="card-media" />
       <div className="card-body">
-        <div className="skel-line" style={{ width: '40%' }} />
+        <div className="skel-line" style={{ width: '30%' }} />
         <div className="skel-line" style={{ width: '85%' }} />
-        <div className="skel-line" style={{ width: '55%' }} />
-        <div className="skel-line" style={{ width: '35%', height: 22, marginTop: 8 }} />
+        <div className="skel-line" style={{ width: '40%' }} />
       </div>
     </div>
   );

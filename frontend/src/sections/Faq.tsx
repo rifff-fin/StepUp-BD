@@ -10,10 +10,9 @@ export function Faq() {
   return (
     <section id="faq" className="section" aria-labelledby="faq-title">
       <div className="container faq-wrap">
-        <div className="faq-intro" data-reveal>
-          <span className="eyebrow">{faq.eyebrow}</span>
-          <h2 id="faq-title" className="display">
-            {faq.title} <em>{faq.titleAccent}</em>
+        <div className="faq-intro">
+          <h2 id="faq-title" className="section-title">
+            {faq.title}
           </h2>
           <p>{faq.lede}</p>
           <a className="btn btn-ghost" href={whatsapp} target="_blank" rel="noopener noreferrer">

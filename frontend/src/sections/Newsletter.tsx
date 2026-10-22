@@ -29,16 +29,15 @@ export function Newsletter() {
   };
 
   return (
-    <section className="section" aria-labelledby="nl-title" style={{ paddingTop: 0 }}>
-      <div className="container" data-reveal>
-        <div className="newsletter theme-dark">
-          <span className="big-bg" aria-hidden="true">
-            STEP UP
-          </span>
-          <h2 id="nl-title" className="display">
+    <section className="newsletter" aria-labelledby="nl-title">
+      <div className="container newsletter-inner">
+        <div>
+          <h2 id="nl-title" className="section-title">
             {newsletter.title}
           </h2>
           <p>{newsletter.lede}</p>
+        </div>
+        <div>
           <form className="nl-form" onSubmit={onSubmit} noValidate>
             <label htmlFor="nl-email" className="sr-only">
               Email address
@@ -54,7 +53,7 @@ export function Newsletter() {
               aria-describedby="nl-msg"
               required
             />
-            <button type="submit" className="btn btn-white" disabled={sending}>
+            <button type="submit" className="btn btn-primary" disabled={sending}>
               {sending ? 'Subscribing…' : newsletter.button}
             </button>
           </form>

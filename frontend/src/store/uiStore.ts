@@ -18,6 +18,8 @@ interface UiState {
   /** Bumped to replay the navbar badge animations. */
   cartPulse: number;
   wishPulse: number;
+  /** "Shop by brand": the catalog filters to this brand when it changes. */
+  brandRequest: { brand: string; at: number } | null;
 
   openPanel: (panel: Exclude<Panel, null>) => void;
   closePanel: () => void;
@@ -30,6 +32,7 @@ interface UiState {
   dismissToast: (id: number) => void;
   pulseCart: () => void;
   pulseWish: () => void;
+  requestBrand: (brand: string) => void;
 }
 
 let toastId = 0;
@@ -41,6 +44,7 @@ export const useUi = create<UiState>()((set, get) => ({
   toasts: [],
   cartPulse: 0,
   wishPulse: 0,
+  brandRequest: null,
 
   openPanel: (panel) => set({ panel }),
   closePanel: () => set({ panel: null }),
@@ -59,6 +63,7 @@ export const useUi = create<UiState>()((set, get) => ({
 
   pulseCart: () => set((state) => ({ cartPulse: state.cartPulse + 1 })),
   pulseWish: () => set((state) => ({ wishPulse: state.wishPulse + 1 })),
+  requestBrand: (brand) => set({ brandRequest: { brand, at: Date.now() } }),
 }));
 
 /** True while anything covers the page (scroll is locked then). */

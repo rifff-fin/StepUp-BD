@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { CursorGlow, SkipLink, WhatsAppButton } from './components/layout/Chrome';
+import { SkipLink, WhatsAppButton } from './components/layout/Chrome';
 import { CartDrawer } from './components/cart/CartDrawer';
 import { WishlistDrawer } from './components/cart/WishlistDrawer';
 import { QuickView } from './components/product/QuickView';
@@ -13,7 +13,7 @@ import { TrackOrderPage } from './pages/TrackOrderPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { useRevealObserver } from './hooks/useReveal';
 import { initSmoothScroll, setScrollLocked } from './lib/lenis';
-import { runPreloader } from './lib/preloader';
+import { startReveal } from './lib/reveal';
 import { selectOverlayOpen, useUi } from './store/uiStore';
 
 export function App() {
@@ -22,7 +22,7 @@ export function App() {
   useRevealObserver();
 
   useEffect(() => initSmoothScroll(), []);
-  useEffect(() => runPreloader(), []);
+  useEffect(() => startReveal(), []);
 
   // Lock page scroll behind drawers and dialogs
   useEffect(() => {
@@ -54,7 +54,6 @@ export function App() {
       <Checkout />
       <Toasts />
       <WhatsAppButton />
-      <CursorGlow />
     </>
   );
 }
