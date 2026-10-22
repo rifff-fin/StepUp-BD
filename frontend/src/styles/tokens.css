@@ -1,0 +1,32 @@
+/* Design tokens: black, white and one red (#E10600). */
+:root {
+  --bg: #070707;
+  --bg-2: #0c0c0c;
+  --surface: #121212;
+  --surface-2: #181818;
+  --surface-3: #242424;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-2: rgba(255, 255, 255, 0.16);
+  --text: #ffffff;
+  --muted: #a6a6a6;
+  --muted-2: #8a8a8a; /* 5.2:1 on --bg, AA for small text */
+  --red: #e10600;
+  --red-hot: #ff2b1c;
+  --red-soft: rgba(225, 6, 0, 0.16);
+  --ok: #22c55e;
+  --warn: #fbbf24;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --nav-h: 68px;
+  --gutter: 16px;
+  --ff-display: 'Bebas Neue', 'Noto Sans Bengali', Impact, 'Arial Narrow Bold', sans-serif;
+  --ff-body: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 600px) {
+  :root {
+    --gutter: 24px;
+  }
+}

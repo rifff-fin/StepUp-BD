@@ -1,0 +1,342 @@
+/* =========================================================
+   Hero: giant headline behind a live 3D sneaker
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 8px) 0 28px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(55% 45% at 50% 52%, rgba(225, 6, 0, 0.3), transparent 70%),
+    radial-gradient(40% 30% at 85% 10%, rgba(225, 6, 0, 0.1), transparent 70%), var(--bg);
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 20%, transparent 75%);
+  opacity: 0.6;
+}
+.hero-center {
+  position: relative;
+  flex: 1;
+  display: grid;
+  min-height: min(70vh, 640px);
+}
+.hero-center > * {
+  grid-area: 1 / 1;
+}
+.hero-title {
+  align-self: start;
+  justify-self: center;
+  margin-top: 2vh;
+  font-size: clamp(5.2rem, 22.5vw, 21rem);
+  line-height: 0.8;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  transform: translateY(calc(var(--hp, 0) * -60px)) scale(calc(1 - var(--hp, 0) * 0.06));
+  opacity: calc(1 - var(--hp, 0) * 0.7);
+  will-change: transform;
+}
+.hero-title .solid {
+  background: linear-gradient(180deg, #fff 30%, #8a8a8a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-title .accent {
+  color: var(--red);
+  text-shadow: 0 0 60px rgba(225, 6, 0, 0.45);
+}
+.hero-stage {
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  margin-top: 9vh;
+  min-height: 300px;
+  touch-action: pan-y;
+}
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out);
+  cursor: grab;
+}
+.hero-canvas:active {
+  cursor: grabbing;
+}
+.hero-stage.is-3d .hero-canvas {
+  opacity: 1;
+}
+.hero-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.8s;
+}
+.hero-fallback svg {
+  width: min(88%, 640px);
+  filter: drop-shadow(0 40px 50px rgba(225, 6, 0, 0.35));
+  animation: floaty 5s ease-in-out infinite;
+}
+.hero-stage.is-3d .hero-fallback {
+  opacity: 0;
+  pointer-events: none;
+}
+.fallback-note {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-2deg);
+  }
+}
+.drag-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.6s 0.8s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.hero-stage.is-3d .drag-hint {
+  opacity: 1;
+}
+.drag-hint svg {
+  width: 16px;
+  height: 16px;
+}
+
+.hero-bottom {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 22px;
+  justify-items: center;
+  text-align: center;
+  margin-top: 8px;
+}
+.hero-copy .tagline {
+  margin: 0;
+  max-width: none;
+  color: #fff;
+  font-family: var(--ff-display);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 6.5vw, 3.6rem);
+  line-height: 0.95;
+}
+.hero-copy .tagline em {
+  font-style: normal;
+  color: var(--red);
+}
+.hero-copy p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 380px;
+  margin: 10px auto 0;
+}
+.hero-ctas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 18px;
+}
+.swatch-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 8px;
+}
+.swatches {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.swatch:hover {
+  color: #fff;
+}
+.swatch[aria-pressed='true'] {
+  background: #fff;
+  color: #000;
+}
+.swatch-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%);
+  flex: none;
+}
+.swatch[aria-pressed='true'] .swatch-dot {
+  border-color: #000;
+}
+.hero-stats {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+}
+.hero-stats div {
+  text-align: center;
+}
+.hero-stats b {
+  display: block;
+  font-family: var(--ff-display);
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 400;
+}
+.hero-stats b em {
+  font-style: normal;
+  color: var(--red);
+}
+.hero-stats span {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scroll-cue {
+  display: none;
+}
+@media (min-width: 900px) {
+  .hero-bottom {
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    text-align: left;
+    justify-items: stretch;
+    gap: 30px;
+  }
+  .hero-copy p {
+    margin: 12px 0 0;
+  }
+  .hero-ctas {
+    justify-content: flex-start;
+  }
+  .hero-swatches {
+    justify-self: center;
+    text-align: center;
+  }
+  .hero-stats {
+    justify-content: flex-end;
+  }
+  .hero-stage {
+    margin-top: 4vh;
+  }
+  .hero-center {
+    min-height: min(56vh, 560px);
+  }
+  .hero {
+    padding-bottom: 84px; /* keeps the stats clear of the WhatsApp button */
+  }
+  .hero-copy .tagline {
+    font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  }
+  .scroll-cue {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 40px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .scroll-cue i {
+    width: 100%;
+    height: 50%;
+    background: var(--red);
+    animation: cue 1.8s ease-in-out infinite;
+  }
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+.swatch {
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .swatches {
+    gap: 2px;
+    padding: 4px;
+  }
+  .swatch {
+    gap: 6px;
+    padding: 6px 9px 6px 6px;
+    font-size: 11.5px;
+  }
+}
+@media (max-width: 380px) {
+  .swatch {
+    padding: 6px 7px 6px 5px;
+    font-size: 10.5px;
+  }
+  .swatch-dot {
+    width: 18px;
+    height: 18px;
+  }
+  .hero-stats {
+    gap: 16px;
+  }
+}
