@@ -92,18 +92,18 @@
   height: 16px;
 }
 .step.active {
-  color: #fff;
+  color: var(--text);
 }
 .step.active b {
   border-color: var(--red);
-  color: #fff;
+  color: var(--text);
   background: var(--bg);
-  box-shadow: 0 0 0 5px rgba(225, 6, 0, 0.18);
+  box-shadow: 0 0 0 5px rgb(var(--red-rgb) / 0.09);
 }
 .step.done b {
   background: var(--red);
   border-color: var(--red);
-  color: #fff;
+  color: var(--on-accent);
 }
 .co-step {
   animation: stepIn 0.5s var(--ease-out);
@@ -164,14 +164,14 @@
 }
 .field select option,
 .field select optgroup {
-  background: #111;
-  color: #fff;
+  background: var(--surface);
+  color: var(--text);
 }
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   border-color: var(--red);
-  box-shadow: 0 0 0 4px rgba(225, 6, 0, 0.16);
+  box-shadow: 0 0 0 4px rgb(var(--red-rgb) / 0.08);
   outline: none;
 }
 .field.invalid input,
@@ -201,7 +201,7 @@
   padding: 6px 12px;
   border-radius: 999px;
   background: var(--red-soft);
-  border: 1px solid rgba(225, 6, 0, 0.35);
+  border: 1px solid rgb(var(--red-rgb) / 0.175);
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -254,7 +254,7 @@
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 0.02em;
-  color: #fff;
+  color: var(--on-accent);
 }
 .pay-logo svg {
   width: 18px;
@@ -309,9 +309,9 @@
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: rgba(225, 6, 0, 0.12);
-  border: 1px solid rgba(225, 6, 0, 0.45);
-  color: #ffb4ae;
+  background: rgb(var(--red-rgb) / 0.06);
+  border: 1px solid rgb(var(--red-rgb) / 0.225);
+  color: var(--red);
   font-size: 14px;
   font-weight: 600;
 }
@@ -419,7 +419,7 @@
   border-bottom: 1px solid var(--line);
 }
 .wallet-amount b {
-  color: #fff;
+  color: var(--text);
   font-family: var(--ff-display);
   font-size: 26px;
   font-weight: 400;
@@ -580,8 +580,8 @@ html[data-reduced] .success-icon svg {
   margin-bottom: 18px;
   padding: 14px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(225, 6, 0, 0.55);
-  background: rgba(225, 6, 0, 0.1);
+  border: 1px solid rgb(var(--red-rgb) / 0.275);
+  background: rgb(var(--red-rgb) / 0.05);
 }
 .error-summary:focus-visible {
   outline: 2px solid var(--red-hot);
@@ -598,7 +598,7 @@ html[data-reduced] .success-icon svg {
   gap: 4px;
 }
 .error-summary a {
-  color: #ffb4ae;
+  color: var(--red);
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 3px;

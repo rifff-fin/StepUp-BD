@@ -17,7 +17,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className="footer theme-dark" data-nav-dark>
       <div className="container">
         <div className="footer-grid">
           <div className="footer-about">

@@ -1,6 +1,7 @@
 import { isReducedMotion } from '../../lib/motion';
 
-const COLORS = ['#E10600', '#ff2b1c', '#ffffff', '#ffb020', '#22c55e', '#1f4fd1'];
+// the brand palette: University Red, ink, bone and sand
+const COLORS = ['#b3121c', '#c8102e', '#15120f', '#f3efe8', '#d9cdbd', '#8f887f'];
 
 /** A short burst of confetti on a full-screen canvas (skipped with reduced motion). */
 export function fireConfetti(duration = 3200) {

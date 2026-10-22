@@ -31,7 +31,7 @@ export function Newsletter() {
   return (
     <section className="section" aria-labelledby="nl-title" style={{ paddingTop: 0 }}>
       <div className="container" data-reveal>
-        <div className="newsletter">
+        <div className="newsletter theme-dark">
           <span className="big-bg" aria-hidden="true">
             STEP UP
           </span>

@@ -19,7 +19,7 @@
 }
 .why-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(225, 6, 0, 0.45);
+  border-color: rgb(var(--red-rgb) / 0.225);
 }
 .why-card::after {
   content: '';
@@ -29,7 +29,7 @@
   right: -90px;
   top: -90px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(225, 6, 0, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgb(var(--red-rgb) / 0.125), transparent 70%);
   opacity: 0;
   transition: opacity 0.5s;
 }
@@ -43,7 +43,7 @@
   font-family: var(--ff-display);
   font-size: 64px;
   line-height: 1;
-  color: rgba(255, 255, 255, 0.05);
+  color: rgb(var(--fg-rgb) / 0.05);
 }
 .why-icon {
   width: 56px;
@@ -54,7 +54,7 @@
   background: var(--red-soft);
   color: var(--red-hot);
   margin-bottom: 22px;
-  border: 1px solid rgba(225, 6, 0, 0.3);
+  border: 1px solid rgb(var(--red-rgb) / 0.15);
 }
 .why-icon svg {
   width: 28px;
@@ -187,7 +187,7 @@
 }
 .review-card p {
   font-size: 16px;
-  color: #ddd;
+  color: var(--text);
   flex: 1;
 }
 .reviewer {
@@ -202,7 +202,7 @@
   display: grid;
   place-items: center;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--red), #5a0200);
+  background: linear-gradient(135deg, var(--red), #6d0b12);
   flex: none;
 }
 .reviewer b {
@@ -291,7 +291,7 @@
   transition: border-color 0.3s;
 }
 .faq-item.open {
-  border-color: rgba(225, 6, 0, 0.5);
+  border-color: rgb(var(--red-rgb) / 0.25);
 }
 .faq-q {
   width: 100%;
@@ -367,9 +367,10 @@
   overflow: hidden;
   border-radius: 28px;
   padding: 48px 22px;
+  /* an ink card with a low red ember, like the hero stage */
   background:
-    radial-gradient(80% 120% at 100% 0%, rgba(255, 255, 255, 0.18), transparent 50%),
-    linear-gradient(135deg, #ff1a0d, #a10400);
+    radial-gradient(70% 90% at 100% 100%, rgb(var(--red-rgb) / 0.22), transparent 60%),
+    radial-gradient(60% 80% at 0% 0%, rgb(var(--fg-rgb) / 0.06), transparent 60%), var(--bg);
   text-align: center;
 }
 .newsletter h2 {
@@ -380,7 +381,7 @@
   position: relative;
   max-width: 460px;
   margin: 12px auto 26px;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgb(var(--fg-rgb) / 0.88);
 }
 .nl-form {
   position: relative;
@@ -393,16 +394,16 @@
 .nl-form input {
   height: 56px;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid rgb(var(--fg-rgb) / 0.35);
+  background: rgb(var(--fg-rgb) / 0.06);
   padding: 0 22px;
   font-size: 16px;
 }
 .nl-form input::placeholder {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgb(var(--fg-rgb) / 0.75);
 }
 .nl-form input:focus {
-  border-color: #fff;
+  border-color: var(--text);
   outline: none;
 }
 .nl-msg {
@@ -419,7 +420,7 @@
   font-family: var(--ff-display);
   font-size: 16rem;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.12);
+  color: rgb(var(--fg-rgb) / 0.05);
   pointer-events: none;
   user-select: none;
 }

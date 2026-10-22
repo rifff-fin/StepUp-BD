@@ -1,20 +1,35 @@
-/* Design tokens: black, white and one red (#E10600). */
+/*
+ * Design tokens: "Sail & Ink", taken from the AJ1 "Bred" itself.
+ * Light sail paper for the shop (product photos sit naturally on it), warm ink sections for
+ * the 3D hero/story and the footer, and ONE accent, University Red, used sparingly: buttons,
+ * sale badges, key words. No neon glows.
+ *
+ * `--fg-rgb` is the theme's foreground as RGB channels, for hairlines and tints:
+ * `rgb(var(--fg-rgb) / 0.1)` works on both themes.
+ */
 :root {
-  --bg: #070707;
-  --bg-2: #0c0c0c;
-  --surface: #121212;
-  --surface-2: #181818;
-  --surface-3: #242424;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-2: rgba(255, 255, 255, 0.16);
-  --text: #ffffff;
-  --muted: #a6a6a6;
-  --muted-2: #8a8a8a; /* 5.2:1 on --bg, AA for small text */
-  --red: #e10600;
-  --red-hot: #ff2b1c;
-  --red-soft: rgba(225, 6, 0, 0.16);
-  --ok: #22c55e;
-  --warn: #fbbf24;
+  --bg: #f3f0ea; /* sail paper */
+  --bg-2: #ece7df; /* sand: alternate sections */
+  --surface: #ffffff;
+  --surface-2: #f7f5f1;
+  --surface-3: #e3ddd3;
+  --fg-rgb: 21 18 15;
+  --text: #15120f; /* warm ink */
+  --muted: #5c554d; /* 6.6:1 on paper */
+  --muted-2: #6b645b; /* 5.2:1 on paper */
+  --line: rgb(var(--fg-rgb) / 0.1);
+  --line-2: rgb(var(--fg-rgb) / 0.18);
+  --red-rgb: 179 18 28;
+  --red: #b3121c; /* University Red: 6.9:1 with white text */
+  --red-hot: #9a0f18; /* hover: deeper, not brighter */
+  --red-soft: rgb(var(--red-rgb) / 0.08);
+  --on-accent: #ffffff;
+  --ok: #1e7a46;
+  --ok-soft: rgb(30 122 70 / 0.1);
+  --warn: #8a5300; /* amber text that passes on paper */
+  --warn-soft: rgb(176 112 0 / 0.1);
+  --shadow: 0 1px 2px rgb(21 18 15 / 0.06), 0 12px 32px -12px rgb(21 18 15 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(21 18 15 / 0.06), 0 24px 48px -20px rgb(21 18 15 / 0.28);
   --radius: 20px;
   --radius-sm: 12px;
   --nav-h: 68px;
@@ -23,6 +38,31 @@
   --ff-body: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: light;
+}
+
+/* Warm ink sections: hero + 3D story, marquee, footer, loader, toasts */
+.theme-dark {
+  --bg: #121110;
+  --bg-2: #0d0c0b;
+  --surface: #1b1a18;
+  --surface-2: #23211e;
+  --surface-3: #2f2c28;
+  --fg-rgb: 243 239 232;
+  --text: #f3efe8; /* bone */
+  --muted: #b1aaa0;
+  --muted-2: #958e85;
+  --red-rgb: 209 31 42;
+  --red: #c8102e; /* a touch brighter on ink */
+  --red-hot: #e0303b;
+  --red-soft: rgb(var(--red-rgb) / 0.14);
+  --ok: #4ade80;
+  --warn: #f5c35b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -16px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 2px 6px rgb(0 0 0 / 0.35), 0 28px 56px -24px rgb(0 0 0 / 0.7);
+  color-scheme: dark;
+  background: var(--bg);
+  color: var(--text);
 }
 
 @media (min-width: 600px) {
