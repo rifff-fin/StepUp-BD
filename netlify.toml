@@ -1,0 +1,36 @@
+# Netlify builds the store (frontend/) as a static Vite site.
+# The API runs on Render (see render.yaml); Netlify proxies /api/* to it, so the browser
+# only ever talks to one origin (no CORS, no API URL baked into the bundle).
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# TODO(deploy): replace with the Render service URL once the API is deployed.
+[[redirects]]
+  from = "/api/*"
+  to = "https://stepup-bd-api.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Single-page app: every other path is served by index.html (react-router takes over).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Hashed build files never change: cache them for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

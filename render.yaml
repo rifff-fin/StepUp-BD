@@ -1,0 +1,20 @@
+# Render blueprint for the StepUp BD API (backend/).
+services:
+  - type: web
+    name: stepup-bd-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: '22'
+      - key: MONGODB_URI
+        sync: false # set in the Render dashboard (MongoDB Atlas connection string)
+      - key: MONGODB_DB_NAME
+        value: stepupbd
+      - key: CLIENT_ORIGIN
+        value: https://stepupbd.netlify.app # TODO(deploy): the Netlify site URL
