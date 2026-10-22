@@ -1,8 +1,9 @@
 # StepUp BD: Build Progress
 
 **Client work by Fin Projukti** (finprojukti.tech)
-**Updated:** 22 Oct 2026 · **Stage:** Built and tested locally. Next: deploy (needs the
-client's MongoDB Atlas, Render and Netlify accounts) and client content.
+**Updated:** 22 Oct 2026 (evening) · **Stage:** Phase 2 done: real AJ1 Bred 3D model, the
+client's product photos, UI polish. On GitHub: `rifff-fin/StepUp-BD` (`main`). Next: deploy
+(needs the client's MongoDB Atlas, Render and Netlify accounts) and client content.
 
 > Update this file at the end of every piece of work: what changed, what's next, what's
 > blocked, plus a dated log line. Original brief: `prompt.txt`. How to run and deploy:
@@ -80,6 +81,40 @@ delivery timeline. **404** page shows trending picks.
 **Never empty**: if the API can't be reached, the store uses the bundled demo catalog
 (same product IDs) and places demo orders in the browser.
 
+## Phase 2 (22 Oct 2026): real 3D Bred, real photos, UI polish
+
+- **3D hero = Air Jordan 1 High OG "Bred"** (client requirement).
+  - Source: "Air Jordan 1" by makoto, Sketchfab, CC BY 4.0. The credit is in the footer,
+    the README and `docs/3d-model.md`.
+  - Reduced to one shoe and recoloured panel by panel from Panda to Bred: red toe box, heel,
+    ankle wing and outsole; black mudguard, quarter, swoosh, collar and tongue; white
+    midsole.
+  - Compressed 8.1 MB → 0.96 MB (WebP textures, meshopt geometry, no CDN decoder).
+  - Leather finish (matte, softer reflections) fixes the plastic look the client noticed.
+  - The colour switcher cross-fades between three painted textures: Bred, White/Red, All
+    Black.
+  - Falls back to the procedural shoe if the model fails, and to a drawn shoe without WebGL.
+- **Catalog rebuilt from the client's 37 photos**: 36 products plus the Bred flagship
+  (studio renders of the model). The two Samba OG photos became one product with a gallery.
+  - Photos are WebP (about 900 px) plus 480 px thumbnails, with EXIF stripped: 2.8 MB in
+    total, lazy-loaded.
+  - New colours: Beige, Yellow, Pink, Purple. Brands are now Nike, Jordan, Air Force,
+    Adidas, New Balance; Puma and Asics return when their photos arrive.
+- **UI polish** using the ui-ux-pro-max skill. Its generic design system (gold, glass,
+  Cormorant) did not fit the client's red/black brand, so its UX rules were applied
+  instead:
+  - Nothing smaller than 12 px.
+  - Photos reserve their space, use `srcset`, and are lazy.
+  - Shipping fields are checked on blur, with an error summary on submit that is focused
+    and links to each field.
+  - The CTA repeats: "Shop this pair" in the hero, and a new "The icon" Bred spotlight
+    section.
+  - The WhatsApp button appears after the hero, so it no longer covers the stats.
+  - Cards show a size range ("EU 39–45"); the category is hidden on phone cards.
+  - The quick view has a gallery; its 3D viewer is shown only for the Bred.
+- **Git**: the repo was initialised and pushed in focused commits under the owner's name,
+  with no co-author lines.
+
 ## Verified (22 Oct 2026, headless Chromium)
 
 - `npm run typecheck`, `npm run lint` and `npm run build` are clean. The main bundle is
@@ -107,11 +142,13 @@ delivery timeline. **404** page shows trending picks.
   - Phone, email, address, hours, social links, WhatsApp number.
   - Hero stats (10K+, 4.9★).
   - The authenticity/refund wording.
-- [ ] Real product data and photos (README, "Replace the placeholder products").
-- [ ] Optional: a real `.glb` shoe (README, "Use a real .glb shoe model").
+- [x] Real product photos (client's 37) and the real AJ1 "Bred" 3D model.
+- [ ] Confirm the photos may be used commercially (the client supplied them; some carry
+      other shops' watermarks or packaging, e.g. #5 and #10).
+- [ ] Puma and Asics products, once photos exist.
 - [ ] Optional: real payment gateways (bKash/Nagad merchant APIs, SSLCommerz) and an
       admin page for orders. Both are out of scope for the demo.
-- [ ] Optional: `git init` and push, as with the other studio repos.
+- [x] Git: `rifff-fin/StepUp-BD`, focused commits under the owner's name.
 
 ## Log
 
@@ -132,3 +169,18 @@ delivery timeline. **404** page shows trending picks.
   - Toasts moved off the drawer button.
   - Footer word was blocking the Motion switch (now `pointer-events: none`).
   - Coupon placeholder casing.
+- 22 Oct 2026: Git initialised and pushed in 5 commits (setup, backend, frontend setup,
+  store UI, 3D).
+- 22 Oct 2026: Phase 2.
+  - Client feedback: use real photos, use the AJ1 High OG "Bred" for the 3D hero, and the
+    texture looked plastic.
+  - Found a CC BY AJ1 model (makoto). Built a model lab (`frontend/tools/model-lab`) to
+    split the pair and map texture islands to panels, then repainted it to Bred (checked
+    against a reference photo of the Bred colour blocking).
+  - Exported and compressed the model; added White/Red and All Black textures with a shader
+    cross-fade.
+  - Catalog rebuilt from the 37 photos. UI fixes per ui-ux-pro-max.
+  - QA: 0 console errors. The full checkout flow passes (an order of 2 Bred came to ৳10,000
+    after STEPUP10, stored on the API). No broken images; the 3D model is on the Bred only.
+  - Note: `prompt.txt` was deleted from the working copy by the owner and is not part of
+    these commits.

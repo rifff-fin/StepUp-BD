@@ -2,10 +2,12 @@
 
 A 3D sneaker store for Bangladesh, built by [Fin Projukti](https://finprojukti.tech).
 
-- **Hero**: a real-time 3D sneaker built from code. It floats, follows the mouse, can be
-  dragged and turns as you scroll, with a colour switcher (Red/Black, White/Red, All Black).
-- **Shop**: 29 products, live search, category tabs, filters (brand, price, size, colour),
-  sorting, and quick view with a mini 3D viewer.
+- **Hero**: a real-time 3D **Air Jordan 1 High OG "Bred"**. It floats, follows the mouse,
+  can be dragged and turns as you scroll. The colour switcher (Bred, White/Red, All Black)
+  cross-fades the leather, and a "Shop this pair" link sits under it.
+- **Shop**: 37 products with real photos. Live search, category tabs, filters (brand,
+  price, size, colour), sorting, and a quick view with a photo gallery. The Bred's quick
+  view adds the 3D viewer.
 - **Cart and wishlist**: kept in the browser, with delivery zones and the `STEPUP10` coupon.
 - **Checkout (demo)**: shipping, payment (bKash, Nagad, card, Cash on Delivery), review,
   success with confetti, plus order tracking.
@@ -36,9 +38,13 @@ stepup bd/
 │   ├── src/store/          zustand stores: cart, wishlist, ui (client-side models)
 │   ├── src/services/       API calls (axios), with fallback to the bundled demo data
 │   ├── src/hooks/          catalog controller hook, focus trap, reveal, media queries
-│   ├── src/three/          the procedural 3D shoe, hero scene, mini viewer, .glb option
+│   ├── src/three/          AJ1 Bred model loader, hero scene, mini viewer, procedural fallback
+│   ├── public/products/    product photos (WebP + 480px thumbnails)
+│   ├── public/models/      the 3D model and its colourway textures
+│   └── tools/model-lab/    dev-only tool that made the Bred model (docs/3d-model.md)
 │   ├── src/content/        all copy (copy.ts) + demoCatalog.json (generated)
 │   └── src/styles/         tokens + plain CSS per area
+├── docs/3d-model.md        3D model source, licence, edits, and how to regenerate it
 ├── netlify.toml            frontend deploy + /api proxy to Render
 ├── render.yaml             API deploy (Render blueprint)
 └── PROGRESS.md             build log and status
@@ -52,7 +58,7 @@ Requires Node 22 or newer.
 # 1. API (http://localhost:5000)
 cd backend
 npm install
-npm run dev          # no .env needed: uses an in-memory MongoDB and seeds 29 products
+npm run dev          # no .env needed: uses an in-memory MongoDB and seeds 37 products
 
 # 2. Store (http://localhost:5190), in a second terminal
 cd frontend
@@ -84,60 +90,62 @@ If the API is asleep (free tier) or not deployed yet, the store falls back to th
 demo catalog and a browser-only demo checkout, so it is never empty. A small "built-in
 demo catalog" note shows when that happens.
 
-## Replace the placeholder products
+## Products and photos
 
-The catalog lives in **`backend/data/products.js`**. Each product looks like this:
+The catalog lives in **`backend/data/products.js`** (37 products, from the client's photos).
+Each product looks like this:
 
 ```js
 {
-  slug: 'nike-dunk-low-panda',          // unique, lowercase-with-dashes
-  name: 'Nike Dunk Low "Panda"',
-  brand: 'Nike',                        // one of BRANDS in data/catalogOptions.js
-  category: 'Sneakers',                 // Sneakers | Running | Lifestyle | Basketball
-  silhouette: 'low',                    // drawn image shape: low | high | runner
-  price: 4200, originalPrice: 5500,     // BDT; the discount badge is calculated
-  rating: 4.9, reviewCount: 320,
-  sizes: [39, 40, 41, 42, 43, 44, 45],  // EU sizes in stock
-  colors: ['Black', 'White'],           // for the colour filter (COLORS)
-  palette: palette('#F4F4F4', '#111111', ...),  // colours of the drawn image + 3D shoe
-  description: '…', popularity: 100, isNewArrival: false, trending: true,
+  slug: 'nike-dunk-low-cacao-wow',          // unique, lowercase-with-dashes
+  name: 'Nike Dunk Low "Cacao Wow"',
+  brand: 'Nike',                            // one of BRANDS in data/catalogOptions.js
+  category: 'Sneakers',                     // Sneakers | Running | Lifestyle | Basketball
+  price: 4300, originalPrice: 5600,         // BDT; the discount badge is calculated
+  rating: 4.8, reviewCount: 228,
+  sizes: [39, 40, 41, 42, 43, 44, 45],      // EU sizes in stock
+  colors: ['Brown', 'White'],               // for the colour filter (COLORS)
+  images: img('nike-dunk-low-cacao-wow'),   // photos; the first is the main one
+  palette: palette('#F1ECE4', '#7B4A32', …), // card glow + drawn fallback if a photo fails
+  silhouette: 'low',                        // shape of that fallback drawing
+  description: '…', popularity: 94, isNewArrival: false, trending: true,
 }
 ```
 
-1. Edit the list (add brands, colours or sizes in `data/catalogOptions.js` first).
-2. `cd backend && npm run seed` replaces the catalog in the database. Orders are kept.
-3. `npm run export:demo` refreshes `frontend/src/content/demoCatalog.json`, the offline
-   fallback copy. Commit it.
+**Adding or changing a product:**
+1. Save the photo as `frontend/public/products/<slug>.webp` (about 900 px on the long side)
+   plus a `<slug>-480.webp` thumbnail. Any image tool works; for example with Pillow:
+   `img.thumbnail((900, 1200)); img.save('x.webp', quality=82)` and again at 480 px.
+   Portrait (4:5) or square photos fit the cards best. Several photos make a gallery:
+   `images: img('slug', 'slug-2')`.
+2. Edit the list (new brands, colours or sizes go in `data/catalogOptions.js` first).
+3. `cd backend && npm run seed` replaces the catalog in the database. Orders are kept.
+4. `npm run export:demo` refreshes `frontend/src/content/demoCatalog.json`, the offline
+   copy the store uses if the API is down. Commit it with the photos.
 
-**Real photos.** Product images are drawn SVGs (`frontend/src/components/product/ShoeArt.tsx`).
-To use photos, add an `image` field to the Product model and seed data, put the files in
-`frontend/public/products/` (or a CDN), and render `<img src={product.image} alt={product.name}>`
-in `ProductCard.tsx`, `QuickView.tsx` and `OrderSummary.tsx` where `<ShoeArt>` is used now.
+Photos can also be full URLs (e.g. a CDN). Thumbnails are then not derived, and the URL is
+used as it is.
+
+> The current photos were supplied by the client. Before launch, make sure the shop owns
+> them or has permission to use them.
 
 **Copy, contacts, socials, WhatsApp number**: `frontend/src/content/copy.ts` (lines marked
 `TODO(client)`). The WhatsApp number can also be set with `VITE_WHATSAPP_NUMBER`.
 
-## Use a real .glb shoe model
+## The 3D shoe (Air Jordan 1 High OG "Bred")
 
-The 3D shoe is built from code (`frontend/src/three/shoeGeometry.ts`). To show a real model
-instead, in the hero and in every quick view:
+The hero uses a real model: **"Air Jordan 1" by makoto (Sketchfab), CC BY 4.0**. It was
+reduced to one shoe, recoloured from black/white to Bred, and compressed from 8 MB to
+0.96 MB. The licence requires credit, which is in the footer; keep it. The colour switcher
+swaps the model's leather texture (`frontend/public/models/aj1-*.webp`).
 
-1. Put the file at `frontend/public/models/shoe.glb` (keep it small: under 2–3 MB,
-   Draco or meshopt compression helps).
-2. In **`frontend/src/three/config.ts`**:
-   ```ts
-   export const SHOE_MODEL_URL = '/models/shoe.glb';
-   export const GLB_MATERIALS = { Upper: 'upper', Sole: 'midsole', Laces: 'laces' };
-   export const GLB_ROTATION_Y = 0; // e.g. -Math.PI / 2 if the toe doesn't point right
-   ```
-   `GLB_MATERIALS` maps the model's material names to palette parts, so the colour switcher
-   and each product's colours still apply. Unmapped materials keep their own look.
-3. Reload. The model is scaled to the same size as the procedural shoe and stood on the
-   floor automatically, so the camera, lighting, float, drag and scroll effects all keep
-   working.
+- Settings: `frontend/src/three/config.ts` (model URL, leather finish, fade time).
+- Colourways: `frontend/src/three/colorways.ts`.
+- Full story, the panel-by-panel colour map, and how to add a colourway or swap the model:
+  **[docs/3d-model.md](docs/3d-model.md)**.
 
-This path has been tested with a model exported from the procedural shoe (rotated toe
-along -z, named materials, then recoloured White/Red).
+If the model can't load, the procedural shoe (`src/three/shoeGeometry.ts`) is shown
+instead. Without WebGL, a drawn shoe is shown.
 
 ## API
 

@@ -35,7 +35,10 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    component state (`PaymentStep`, `WalletMock`). `createOrder` sends the method name
    only, and `validateOrder` builds the order from whitelisted fields. Only the test card
    `4242…` and the demo PIN `12345` pass.
-3. **No brand logos.** The shoe stripe is a generic S-wave; brand names appear as text only.
+3. **Brand assets.** The hero's 3D shoe is the client-required Air Jordan 1 High OG "Bred",
+   built from "Air Jordan 1" by makoto (CC BY 4.0). **The footer credit must stay**
+   (`footer.modelCredit`); see `docs/3d-model.md`. Product photos are the client's. The
+   procedural fallback shoe uses a generic S-wave, not a brand mark.
 4. **Never empty.** If the API cannot be reached, `services/fallback.ts` switches to
    `content/demoCatalog.json` (generated from `backend/data` by `npm run export:demo`;
    product ids are stable hashes of the slug, so both sides agree). Re-export after
@@ -49,6 +52,12 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
 8. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
    whose `className` React never changes.
+9. **Photos.** `images[]` holds paths under `public/products/`; every `<x>.webp` has an
+   `<x>-480.webp` thumbnail (`lib/images.ts`). Media boxes reserve their aspect ratio (no
+   layout shift); photos are lazy except in an open quick view. The 3D viewer in the quick
+   view appears only for `model3d: true` (the Bred), because the model depicts that shoe.
+10. **Commits** (owner's rule): several focused commits written as the owner, with no
+   co-author trailer; push after each.
 
 ## QA
 
