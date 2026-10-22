@@ -47,6 +47,7 @@ export const useCart = create<CartState>()(
             price: product.price,
             size,
             qty: clampQty(qty),
+            image: product.images?.[0],
             palette: product.palette,
             silhouette: product.silhouette,
           };

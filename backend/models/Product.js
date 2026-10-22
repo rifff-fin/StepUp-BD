@@ -51,6 +51,12 @@ const productSchema = new mongoose.Schema(
     },
     colors: [{ type: String, enum: COLORS.map((c) => c.name) }],
     palette: { type: paletteSchema, required: true },
+    // Photo paths (frontend public folder or a full CDN URL); the first is the main photo
+    images: {
+      type: [{ type: String, trim: true, maxlength: 300 }],
+      default: [],
+    },
+    model3d: { type: Boolean, default: false }, // the product the 3D model shows
     description: { type: String, trim: true, maxlength: 600 },
     popularity: { type: Number, default: 0 }, // higher = more popular (sales / views)
     isNewArrival: { type: Boolean, default: false },

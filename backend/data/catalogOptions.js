@@ -1,7 +1,8 @@
 // Store-wide catalog options. The single source for the enums the models validate against
 // and for the filter lists the frontend reads from GET /api/meta.
 
-const BRANDS = ['Nike', 'Jordan', 'Air Force', 'Adidas', 'Puma', 'New Balance', 'Asics'];
+// Brands currently in stock (add Puma, Asics… back here when their products are added)
+const BRANDS = ['Nike', 'Jordan', 'Air Force', 'Adidas', 'New Balance'];
 
 const CATEGORIES = ['Sneakers', 'Running', 'Lifestyle', 'Basketball'];
 
@@ -15,7 +16,11 @@ const COLORS = [
   { name: 'Blue', hex: '#1F4FD1' },
   { name: 'Grey', hex: '#9AA0A6' },
   { name: 'Green', hex: '#1E7A46' },
-  { name: 'Brown', hex: '#9A6436' },
+  { name: 'Brown', hex: '#7B4A32' },
+  { name: 'Beige', hex: '#D8C3A5' },
+  { name: 'Yellow', hex: '#F2B705' },
+  { name: 'Pink', hex: '#F0A6BF' },
+  { name: 'Purple', hex: '#5B2C8F' },
 ];
 
 // EU sizes stocked

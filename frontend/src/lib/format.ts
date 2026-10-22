@@ -35,3 +35,11 @@ export function tintOf(palette: { upper: string; overlay: string; stripe: string
   });
   return hexToRgba(colourful || '#E10600', 0.32);
 }
+
+/** Card size label: "EU 39–45" for an unbroken run, else the sizes listed. */
+export function sizeLabel(sizes: number[]) {
+  const sorted = [...sizes].sort((a, b) => a - b);
+  const contiguous = sorted.every((size, i) => i === 0 || size === sorted[i - 1] + 1);
+  if (contiguous && sorted.length > 2) return `EU ${sorted[0]}–${sorted[sorted.length - 1]}`;
+  return `EU ${sorted.join(' · ')}`;
+}

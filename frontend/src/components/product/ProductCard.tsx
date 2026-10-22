@@ -1,8 +1,8 @@
 import { useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { FiEye, FiHeart } from 'react-icons/fi';
-import { ShoeArt } from './ShoeArt';
+import { ProductPhoto } from './ProductPhoto';
 import { Stars } from '../ui/Stars';
-import { formatTaka, tintOf } from '../../lib/format';
+import { formatTaka, sizeLabel, tintOf } from '../../lib/format';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { useUi } from '../../store/uiStore';
@@ -80,10 +80,11 @@ export function ProductCard({ product }: { product: Product }) {
           aria-label={`Quick view ${product.name}`}
           onClick={() => openQuickView(product)}
         >
-          <ShoeArt
+          <ProductPhoto
+            src={product.images?.[0]}
+            alt={`${product.name}`}
             palette={product.palette}
             silhouette={product.silhouette}
-            label={`${product.name}, side view`}
           />
         </button>
         <button
@@ -97,17 +98,15 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="card-body">
         <p className="card-brand">
-          {product.brand} · {product.category}
+          {product.brand}
+          <span className="card-cat"> · {product.category}</span>
         </p>
         <h3 className="card-title">{product.name}</h3>
         <Stars rating={product.rating} count={product.reviewCount} />
-        <div className="sizes-mini" aria-label={`Sizes in stock: EU ${product.sizes.join(', ')}`}>
-          {product.sizes.map((size) => (
-            <span key={size} aria-hidden="true">
-              {size}
-            </span>
-          ))}
-        </div>
+        <p className="sizes-mini">
+          <span className="sr-only">Sizes in stock: </span>
+          {sizeLabel(product.sizes)}
+        </p>
         <div className="price-row">
           <strong>{formatTaka(product.price)}</strong>
           {product.originalPrice > product.price && (

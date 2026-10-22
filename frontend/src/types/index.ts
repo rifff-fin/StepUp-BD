@@ -29,6 +29,10 @@ export interface Product {
   sizes: number[];
   colors: string[];
   palette: Palette;
+  /** Photo paths; the first is the main photo (see ProductPhoto for thumbnails). */
+  images: string[];
+  /** The product the 3D model shows: quick view adds the 3D viewer. */
+  model3d?: boolean;
   description: string;
   popularity: number;
   isNewArrival: boolean;
@@ -82,6 +86,7 @@ export interface CartItem {
   price: number;
   size: number;
   qty: number;
+  image?: string;
   palette: Palette;
   silhouette: Silhouette;
 }

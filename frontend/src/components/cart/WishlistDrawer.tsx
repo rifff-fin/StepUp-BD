@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { Drawer } from '../ui/Overlay';
-import { ShoeArt } from '../product/ShoeArt';
+import { ProductPhoto } from '../product/ProductPhoto';
 import { Suggestions } from './Suggestions';
 import { formatTaka, tintOf } from '../../lib/format';
 import { useUi } from '../../store/uiStore';
@@ -42,7 +42,13 @@ export function WishlistDrawer() {
                   className="li-img"
                   style={{ '--tint-a': tintOf(product.palette) } as CSSProperties}
                 >
-                  <ShoeArt palette={product.palette} silhouette={product.silhouette} />
+                  <ProductPhoto
+                    src={product.images?.[0]}
+                    alt={product.name}
+                    sizes="84px"
+                    palette={product.palette}
+                    silhouette={product.silhouette}
+                  />
                 </div>
                 <div>
                   <div className="li-top">

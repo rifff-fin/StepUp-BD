@@ -90,13 +90,18 @@
   width: 84px;
   height: 84px;
   border-radius: 14px;
+  overflow: hidden;
   display: grid;
   place-items: center;
-  padding: 6px;
   background: radial-gradient(70% 70% at 50% 45%, var(--tint-a), transparent 72%), #161616;
 }
-.li-img svg {
+.li-img .photo {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.li-img .photo-art {
+  width: 88%;
 }
 .li-top {
   display: flex;
@@ -414,13 +419,48 @@ button.li-name:hover {
   inset: 0;
   display: grid;
   place-items: center;
-  padding: 10% 8% 16%;
   transition: opacity 0.4s;
 }
-.qv-img svg {
+.qv-img .photo {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fadeIn 0.4s ease both;
+}
+.qv-img .photo-art {
+  width: 84%;
   filter: drop-shadow(0 30px 30px rgba(0, 0, 0, 0.5));
   animation: floaty 6s ease-in-out infinite;
+}
+.qv-thumbs {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+.qv-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: #111;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.qv-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.qv-thumb:hover {
+  transform: translateY(-2px);
+}
+.qv-thumb[aria-pressed='true'] {
+  border-color: var(--red-hot);
 }
 .qv-3d {
   position: absolute;
@@ -456,7 +496,7 @@ button.li-name:hover {
   left: 8px;
   top: 8px;
   z-index: 1;
-  font-size: 9.5px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -644,7 +684,7 @@ button.li-name:hover {
   border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--line);
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--muted);
   text-align: center;

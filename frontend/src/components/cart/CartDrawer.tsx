@@ -2,7 +2,7 @@ import { useState, type CSSProperties, type FormEvent } from 'react';
 import { FiArrowRight, FiShoppingBag, FiTag, FiX } from 'react-icons/fi';
 import { Drawer } from '../ui/Overlay';
 import { QtyStepper } from '../ui/QtyStepper';
-import { ShoeArt } from '../product/ShoeArt';
+import { ProductPhoto } from '../product/ProductPhoto';
 import { Suggestions } from './Suggestions';
 import { formatTaka, tintOf } from '../../lib/format';
 import { cartTotals, DELIVERY_FEES } from '../../lib/pricing';
@@ -38,7 +38,7 @@ export function CartDrawer() {
           <div className="empty-state">
             <FiShoppingBag aria-hidden="true" />
             <h3>Your cart is empty</h3>
-            <p>Find your next favourite pair. Prices start at ৳3,000.</p>
+            <p>Find your next favourite pair. Prices start at ৳3,500.</p>
             <button
               type="button"
               className="btn btn-primary"
@@ -57,7 +57,13 @@ export function CartDrawer() {
           {items.map((item) => (
             <li key={item.key} className="line-item">
               <div className="li-img" style={{ '--tint-a': tintOf(item.palette) } as CSSProperties}>
-                <ShoeArt palette={item.palette} silhouette={item.silhouette} />
+                <ProductPhoto
+                  src={item.image}
+                  alt={item.name}
+                  sizes="84px"
+                  palette={item.palette}
+                  silhouette={item.silhouette}
+                />
               </div>
               <div>
                 <div className="li-top">

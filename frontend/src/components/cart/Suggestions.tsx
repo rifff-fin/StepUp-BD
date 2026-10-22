@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import snapshot from '../../content/demoCatalog.json';
-import { ShoeArt } from '../product/ShoeArt';
+import { ProductPhoto } from '../product/ProductPhoto';
 import { formatTaka, tintOf } from '../../lib/format';
 import { useUi } from '../../store/uiStore';
 import type { Product } from '../../types';
@@ -24,7 +24,13 @@ export function Suggestions({ exclude = [] as string[] }) {
               className="li-img"
               style={{ '--tint-a': tintOf(product.palette) } as CSSProperties}
             >
-              <ShoeArt palette={product.palette} silhouette={product.silhouette} />
+              <ProductPhoto
+                src={product.images?.[0]}
+                alt={product.name}
+                sizes="84px"
+                palette={product.palette}
+                silhouette={product.silhouette}
+              />
             </div>
             <div>
               <p className="li-name">{product.name}</p>

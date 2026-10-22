@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import snapshot from '../../content/demoCatalog.json';
-import { ShoeArt } from '../product/ShoeArt';
+import { ProductPhoto } from '../product/ProductPhoto';
 import { formatTaka, tintOf } from '../../lib/format';
 import { HERO_COLORWAYS } from '../../three/colorways';
 import type { Palette, Silhouette } from '../../types';
@@ -13,6 +13,7 @@ export interface SummaryLine {
   qty: number;
   unitPrice: number;
   slug: string;
+  image?: string;
   palette?: Palette;
   silhouette?: Silhouette;
 }
@@ -27,7 +28,12 @@ export interface SummaryTotals {
 
 const bySlug = new Map(
   (
-    snapshot.products as unknown as { slug: string; palette: Palette; silhouette: Silhouette }[]
+    snapshot.products as unknown as {
+      slug: string;
+      images: string[];
+      palette: Palette;
+      silhouette: Silhouette;
+    }[]
   ).map((p) => [p.slug, p]),
 );
 
@@ -42,7 +48,13 @@ export function OrderSummary({ lines, totals }: { lines: SummaryLine[]; totals: 
           return (
             <li key={line.key} className="mini-item">
               <div className="li-img" style={{ '--tint-a': tintOf(palette) } as CSSProperties}>
-                <ShoeArt palette={palette} silhouette={line.silhouette ?? known?.silhouette} />
+                <ProductPhoto
+                  src={line.image ?? known?.images?.[0]}
+                  alt={line.name}
+                  sizes="54px"
+                  palette={palette}
+                  silhouette={line.silhouette ?? known?.silhouette}
+                />
               </div>
               <div>
                 <b>{line.name}</b>

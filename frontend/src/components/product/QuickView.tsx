@@ -11,7 +11,8 @@ import {
 import { Modal } from '../ui/Overlay';
 import { QtyStepper } from '../ui/QtyStepper';
 import { Stars } from '../ui/Stars';
-import { ShoeArt } from './ShoeArt';
+import { ProductPhoto } from './ProductPhoto';
+import { thumbOf } from '../../lib/images';
 import { SizePicker } from './SizePicker';
 import { ErrorBoundary } from '../layout/ErrorBoundary';
 import { productReviews } from '../../content/copy';
@@ -48,8 +49,11 @@ function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
   const [errorKey, setErrorKey] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [viewerFailed, setViewerFailed] = useState(false);
+  const [photo, setPhoto] = useState(0);
   const wished = useIsWished(product._id);
-  const show3d = hasWebGL() && !viewerFailed;
+  // The 3D viewer only for the product the model actually shows (the AJ1 "Bred")
+  const show3d = !!product.model3d && hasWebGL() && !viewerFailed;
+  const images = product.images ?? [];
 
   const addToCart = () => {
     if (!size) {
@@ -75,15 +79,38 @@ function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
     <div className="qv" style={{ '--tint-a': tintOf(product.palette) } as CSSProperties}>
       <div className={`qv-media ${expanded ? 'show3d' : ''}`}>
         <div className="qv-img">
-          <ShoeArt
+          <ProductPhoto
+            key={images[photo]}
+            src={images[photo]}
+            alt={`${product.name}, photo ${photo + 1} of ${Math.max(1, images.length)}`}
+            sizes="(min-width: 900px) 560px, 100vw"
+            eager
             palette={product.palette}
             silhouette={product.silhouette}
-            label={`${product.name}, side view`}
           />
         </div>
+        {images.length > 1 && (
+          <div className="qv-thumbs" role="group" aria-label="Product photos">
+            {images.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                className="qv-thumb"
+                aria-label={`Show photo ${i + 1}`}
+                aria-pressed={i === photo}
+                onClick={() => {
+                  setPhoto(i);
+                  setExpanded(false);
+                }}
+              >
+                <img src={thumbOf(src)} alt="" loading="lazy" decoding="async" />
+              </button>
+            ))}
+          </div>
+        )}
         {show3d && (
           <div className={`qv-3d ${expanded ? 'expanded' : ''}`}>
-            <span className="qv-3d-label">3D · drag</span>
+            <span className="qv-3d-label">{expanded ? '3D · drag to rotate' : '3D'}</span>
             <ErrorBoundary fallback={null} onError={() => setViewerFailed(true)}>
               <Suspense
                 fallback={
@@ -92,7 +119,7 @@ function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
                   </div>
                 }
               >
-                {open && <MiniViewer palette={product.palette} />}
+                {open && <MiniViewer />}
               </Suspense>
             </ErrorBoundary>
             <button
