@@ -6,10 +6,10 @@ import { Shoe } from './Shoe';
 import { Studio } from './Studio';
 import { useDragSpin } from './useDragSpin';
 import { SHOE_HEIGHT } from './shoeGeometry';
-import type { Palette } from '../types';
+import type { Colorway } from './colorways';
 
 interface Props {
-  palette: Palette;
+  colorway: Colorway;
   /** False while the hero is off screen: rendering pauses. */
   active: boolean;
   reduced: boolean;
@@ -30,7 +30,7 @@ const BASE_ANGLE = -0.55; // a three-quarter view to start with
  * The camera also dollies in as the hero scrolls away.
  */
 export default function HeroScene({
-  palette,
+  colorway,
   active,
   reduced,
   heroRef,
@@ -50,7 +50,7 @@ export default function HeroScene({
     >
       <Studio />
       <Suspense fallback={null}>
-        <Rig palette={palette} reduced={reduced} heroRef={heroRef} />
+        <Rig colorway={colorway} reduced={reduced} heroRef={heroRef} />
         <Ready onReady={onReady} />
       </Suspense>
     </Canvas>
@@ -68,11 +68,11 @@ function Ready({ onReady }: { onReady: () => void }) {
 }
 
 function Rig({
-  palette,
+  colorway,
   reduced,
   heroRef,
 }: {
-  palette: Palette;
+  colorway: Colorway;
   reduced: boolean;
   heroRef: RefObject<HTMLElement | null>;
 }) {
@@ -149,7 +149,7 @@ function Rig({
           <group ref={spin}>
             {/* stand the shoe on the floor and centre it */}
             <group position={[0, -SHOE_HEIGHT / 2, 0]}>
-              <Shoe palette={palette} />
+              <Shoe colorway={colorway} />
             </group>
           </group>
         </group>

@@ -38,21 +38,21 @@ export function createShoeMaterials(palette: Palette): ShoeMaterials {
 
   return {
     // vertex colours darken the lining inside the foot opening
-    upper: std('upper', { roughness: 0.52, vertexColors: true, side: THREE.DoubleSide }),
+    upper: std('upper', { roughness: 0.68, vertexColors: true, side: THREE.DoubleSide }),
     tongue: std('tongue', { roughness: 0.6 }),
     overlay: std('overlay', {
-      roughness: 0.38,
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.4,
+      roughness: 0.55,
+      clearcoat: 0.08,
+      clearcoatRoughness: 0.6,
       side: THREE.DoubleSide,
     }),
-    stripe: std('stripe', { roughness: 0.3, clearcoat: 0.5, side: THREE.DoubleSide }),
+    stripe: std('stripe', { roughness: 0.5, side: THREE.DoubleSide }),
     collar: std('collar', { roughness: 0.7 }),
     midsole: std('midsole', { roughness: 0.62 }),
     foxing: std('foxing', { roughness: 0.45 }),
     outsole: std('outsole', { roughness: 0.92 }),
     laces: std('laces', { roughness: 0.85 }),
-    tab: std('tab', { roughness: 0.4, clearcoat: 0.3 }),
+    tab: std('tab', { roughness: 0.55 }),
     eyelet: new THREE.MeshStandardMaterial({ color: '#2a2a2a', metalness: 0.9, roughness: 0.3 }),
   };
 }

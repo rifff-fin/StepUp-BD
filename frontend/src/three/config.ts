@@ -1,28 +1,28 @@
-import type { Palette } from '../types';
-
 /**
- * Swap the procedural shoe for a real model (see README, "Use a .glb shoe model").
+ * The 3D shoe. The hero shows a real model of the Air Jordan 1 High OG "Bred" (client
+ * requirement). It is built from "Air Jordan 1" by makoto (Sketchfab, CC BY 4.0, credited
+ * in the footer and README), reduced to a single shoe, recoloured to Bred from the original
+ * black/white, and compressed (meshopt geometry + WebP textures).
  *
- * 1. Put the file in frontend/public/models/, e.g. public/models/shoe.glb
- * 2. Set SHOE_MODEL_URL to '/models/shoe.glb'
- * 3. Map the model's material names to palette parts in GLB_MATERIALS so the colour
- *    switcher and product colours still work (unmapped materials keep their own colours).
- *
- * The model is scaled to the procedural shoe's size (3.3 units long), so the hero camera
- * and the quick-view viewer need no changes. Turn it with GLB_ROTATION_Y if the toe does
- * not point along +x.
+ * To use a different model: put the .glb in frontend/public/models/, point SHOE_MODEL_URL
+ * at it and set GLB_ROTATION_Y if the toe does not point along +x. Set it to null to fall
+ * back to the procedural shoe (src/three/shoeGeometry.ts).
  */
-export const SHOE_MODEL_URL: string | null = null;
+export const SHOE_MODEL_URL: string | null = '/models/aj1-bred.glb';
 
-export const GLB_MATERIALS: Record<string, keyof Palette> = {
-  // 'Upper': 'upper',
-  // 'Overlay': 'overlay',
-  // 'Sole': 'midsole',
-  // 'Outsole': 'outsole',
-  // 'Laces': 'laces',
-};
+/** Material in the .glb whose base texture changes with the colour switcher. */
+export const GLB_COLOURWAY_MATERIAL = 'shoe';
 
 export const GLB_ROTATION_Y = 0;
 
-/** Target length of the shoe in scene units (matches the procedural model). */
+/** Target length of the shoe in scene units (the procedural model is the same length). */
 export const SHOE_LENGTH = 3.3;
+
+/**
+ * Leather, not plastic: the source materials are glossy. Roughness multiplies the model's
+ * own roughness map; reflections from the studio environment are toned down.
+ */
+export const LEATHER = { roughness: 1, envMapIntensity: 0.55 };
+
+/** Seconds for the cross-fade between colourway textures. */
+export const COLOURWAY_FADE = 0.6;

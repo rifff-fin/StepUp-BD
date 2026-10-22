@@ -6,13 +6,13 @@ import { Studio } from './Studio';
 import { useDragSpin } from './useDragSpin';
 import { SHOE_HEIGHT } from './shoeGeometry';
 import { isReducedMotion } from '../lib/motion';
-import type { Palette } from '../types';
+import { HERO_COLORWAYS, type Colorway } from './colorways';
 
 /**
  * The quick view's small 3D viewer (lazy chunk, shares the shoe geometry with the hero).
  * It only exists while the quick view is open, so it never renders in the background.
  */
-export default function MiniViewer({ palette }: { palette: Palette }) {
+export default function MiniViewer({ colorway = HERO_COLORWAYS[0] }: { colorway?: Colorway }) {
   return (
     <Canvas
       dpr={[1, 2]}
@@ -22,13 +22,13 @@ export default function MiniViewer({ palette }: { palette: Palette }) {
     >
       <Studio />
       <Suspense fallback={null}>
-        <Turntable palette={palette} />
+        <Turntable colorway={colorway} />
       </Suspense>
     </Canvas>
   );
 }
 
-function Turntable({ palette }: { palette: Palette }) {
+function Turntable({ colorway }: { colorway: Colorway }) {
   const spin = useRef<THREE.Group>(null);
   const stepSpin = useDragSpin();
 
@@ -47,7 +47,7 @@ function Turntable({ palette }: { palette: Palette }) {
   return (
     <group ref={spin} rotation={[0, -0.6, 0]}>
       <group position={[0, -SHOE_HEIGHT / 2, 0]}>
-        <Shoe palette={palette} />
+        <Shoe colorway={colorway} />
       </group>
     </group>
   );

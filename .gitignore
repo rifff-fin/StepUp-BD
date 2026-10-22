@@ -22,3 +22,6 @@ npm-debug.log*
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+# 3D model lab: the 8 MB source model is downloaded locally, never committed
+frontend/tools/model-lab/*.glb
