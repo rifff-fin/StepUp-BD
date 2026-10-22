@@ -126,7 +126,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
@@ -179,7 +179,7 @@
   margin-top: 18px;
 }
 .swatch-label {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted-2);
@@ -246,7 +246,7 @@
   color: var(--red);
 }
 .hero-stats span {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -324,13 +324,13 @@
   .swatch {
     gap: 6px;
     padding: 6px 9px 6px 6px;
-    font-size: 11.5px;
+    font-size: 12px;
   }
 }
 @media (max-width: 380px) {
   .swatch {
     padding: 6px 7px 6px 5px;
-    font-size: 10.5px;
+    font-size: 12px;
   }
   .swatch-dot {
     width: 18px;
@@ -339,4 +339,28 @@
   .hero-stats {
     gap: 16px;
   }
+}
+.shop-pair {
+  display: flex;
+  width: max-content;
+  margin-inline: auto;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  transition:
+    color 0.25s,
+    border-color 0.25s;
+}
+.shop-pair:hover {
+  color: var(--red-hot);
+  border-color: var(--red-hot);
+}
+.shop-pair svg {
+  width: 15px;
+  height: 15px;
 }

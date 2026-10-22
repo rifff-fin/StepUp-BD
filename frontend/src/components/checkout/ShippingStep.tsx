@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { FiArrowRight, FiTruck } from 'react-icons/fi';
 import { formatTaka } from '../../lib/format';
 import { deliveryZoneFor, DELIVERY_FEES } from '../../lib/pricing';
@@ -16,18 +16,36 @@ interface Props {
 /** Step 1: name, phone, address, district (delivery fee follows the district). */
 export function ShippingStep({ meta, value, onChange, serverErrors, onNext }: Props) {
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [summary, setSummary] = useState(false);
+  const summaryRef = useRef<HTMLDivElement>(null);
   const shown = { ...errors, ...serverErrors };
+  const LABELS: Record<keyof ShippingDetails, string> = {
+    name: 'Full name',
+    phone: 'Mobile number',
+    address: 'Address',
+    district: 'District',
+    note: 'Note',
+  };
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
     const found = validateShipping(value);
     setErrors(found);
-    const first = Object.keys(found)[0];
-    if (first) {
-      document.getElementById(`ship-${first}`)?.focus();
+    if (Object.keys(found).length) {
+      // error summary at the top, focused, linking to each field (inline errors stay)
+      setSummary(true);
+      window.setTimeout(() => summaryRef.current?.focus(), 0);
       return;
     }
+    setSummary(false);
     onNext();
+  };
+
+  // Check a field when the shopper leaves it (only once they've typed something)
+  const validateOnBlur = (key: keyof ShippingDetails) => {
+    if (!value[key] && !errors[key]) return;
+    const message = validateShipping(value)[key];
+    setErrors((prev) => ({ ...prev, [key]: message }));
   };
 
   const field = (key: keyof ShippingDetails) => ({
@@ -39,12 +57,43 @@ export function ShippingStep({ meta, value, onChange, serverErrors, onNext }: Pr
       onChange({ [key]: event.target.value });
       if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
     },
+    onBlur: () => validateOnBlur(key),
   });
+
+  const summaryItems = (Object.keys(shown) as (keyof ShippingDetails)[]).filter((k) => shown[k]);
 
   const zone = value.district ? deliveryZoneFor(value.district) : null;
 
   return (
     <form className="co-step" onSubmit={submit} noValidate>
+      {summary && summaryItems.length > 0 && (
+        <div
+          className="error-summary"
+          role="alert"
+          tabIndex={-1}
+          ref={summaryRef}
+          aria-labelledby="ship-error-title"
+        >
+          <h3 id="ship-error-title">
+            Please check {summaryItems.length === 1 ? 'this field' : 'these fields'}
+          </h3>
+          <ul>
+            {summaryItems.map((key) => (
+              <li key={key}>
+                <a
+                  href={`#ship-${key}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    document.getElementById(`ship-${key}`)?.focus();
+                  }}
+                >
+                  {LABELS[key]}: {shown[key]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="form-grid two">
         <div className={`field ${shown.name ? 'invalid' : ''}`}>
           <label htmlFor="ship-name">Full name</label>

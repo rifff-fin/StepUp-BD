@@ -1,4 +1,4 @@
-import { useEffect, useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { site } from '../../content/copy';
 import { getMotionPref, isReducedMotion, setMotionPref, subscribeMotion } from '../../lib/motion';
@@ -16,9 +16,17 @@ export function SkipLink() {
 /** Floating WhatsApp chat button. */
 export function WhatsAppButton() {
   const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(site.whatsappMessage)}`;
+  // Appears once the hero is scrolled past, so it never covers the hero's buttons and stats
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShown(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   return (
     <a
-      className="wa-fab"
+      className={`wa-fab ${shown ? 'show' : ''}`}
       href={href}
       target="_blank"
       rel="noopener noreferrer"

@@ -86,7 +86,7 @@
   border-radius: 9px;
   background: var(--red);
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   line-height: 18px;
   text-align: center;
@@ -429,6 +429,13 @@ html[data-reduced] .marquee-track {
   right: 16px;
   bottom: 16px;
   z-index: 60;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.9);
+  transition:
+    transform 0.35s var(--ease-out),
+    opacity 0.3s,
+    visibility 0s linear 0.35s;
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -437,9 +444,14 @@ html[data-reduced] .marquee-track {
   display: grid;
   place-items: center;
   box-shadow: 0 12px 30px -8px rgba(37, 211, 102, 0.7);
-  transition: transform 0.3s var(--ease-out);
 }
-.wa-fab:hover {
+.wa-fab.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.wa-fab.show:hover {
   transform: scale(1.08) translateY(-2px);
 }
 .wa-fab svg {
@@ -560,4 +572,16 @@ html[data-reduced] .marquee-track {
   border-radius: 999px;
   border: 1px solid rgba(251, 191, 36, 0.35);
   background: rgba(251, 191, 36, 0.08);
+}
+.model-credit {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+.model-credit a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.model-credit a:hover {
+  color: #fff;
 }

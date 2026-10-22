@@ -36,7 +36,8 @@ export const hero = {
   titleAccent: 'BD',
   tagline: 'Premium, but',
   taglineAccent: 'Affordable.',
-  lede: 'Authentic Nike, Jordan, Adidas, Puma and New Balance pairs from ৳3,000, delivered to your door anywhere in Bangladesh.',
+  lede: 'Air Jordan, Nike Dunk, Air Force 1, Adidas Samba and New Balance pairs from ৳3,500, delivered to your door anywhere in Bangladesh.',
+  shopPair: 'Shop this pair',
   cta: 'Shop Now',
   ctaSecondary: 'Trending',
   colorLabel: 'Pick a colourway',
@@ -50,7 +51,25 @@ export const hero = {
   ],
 };
 
-export const marquee = ['Nike', 'Jordan', 'Air Force', 'Adidas', 'Puma', 'New Balance', 'Asics'];
+export const marquee = [
+  'Air Jordan 1',
+  'Nike Dunk',
+  'Air Force 1',
+  'Adidas Samba',
+  'New Balance 550',
+  'Campus 00s',
+];
+
+// The flagship spotlight under the marquee (the hero's 3D shoe)
+export const featured = {
+  eyebrow: 'The icon',
+  title: 'Air Jordan 1',
+  titleAccent: 'High OG "Bred"',
+  lede: 'Black leather, University Red toe, heel and collar, white midsole, red outsole. The 1985 colourway that changed sneakers, now in 3D: open it and spin it around.',
+  points: ['Premium leather upper', 'All sizes EU 39–45', 'Cash on Delivery'],
+  cta: 'Shop the Bred',
+  ctaSecondary: 'Spin it in 3D',
+};
 
 export const why = {
   eyebrow: 'Why StepUp BD',
@@ -92,7 +111,7 @@ export const shop = {
   eyebrow: 'The collection',
   title: 'Shop the',
   titleAccent: 'drop',
-  lede: 'Filter by brand, size, colour and budget. Every price includes VAT.',
+  lede: 'Filter by brand, size, colour and budget. Every pair ships with Cash on Delivery.',
   searchPlaceholder: 'Search Jordan, Dunk, Samba…',
   tabs: ['All', 'Sneakers', 'Running', 'Lifestyle', 'Basketball'],
   sorts: [
@@ -247,6 +266,12 @@ export const footer = {
   ],
   demoNote: 'Demo store, no real orders are fulfilled and no real payments are taken.',
   crafted: 'Website by',
+  // CC BY 4.0 requires this credit for the 3D model
+  modelCredit: {
+    text: '3D model: “Air Jordan 1” by makoto, CC BY 4.0, recoloured and adapted',
+    href: 'https://sketchfab.com/3d-models/air-jordan-1-a4b434181fbb48008ad460722fd53725',
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+  },
 };
 
 export const checkout = {

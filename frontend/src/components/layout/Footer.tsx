@@ -112,6 +112,17 @@ export function Footer() {
           </div>
         </div>
 
+        <p className="model-credit">
+          <a href={footer.modelCredit.href} target="_blank" rel="noopener noreferrer">
+            {footer.modelCredit.text}
+          </a>{' '}
+          (
+          <a href={footer.modelCredit.license} target="_blank" rel="noopener noreferrer">
+            licence
+          </a>
+          )
+        </p>
+
         <p className="footer-word" aria-hidden="true">
           STEPUP BD
         </p>

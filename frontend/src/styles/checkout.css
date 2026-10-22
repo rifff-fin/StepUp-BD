@@ -68,7 +68,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -251,7 +251,7 @@
   border-radius: 8px;
   display: grid;
   place-items: center;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
   letter-spacing: 0.02em;
   color: #fff;
@@ -360,7 +360,6 @@
   width: 54px;
   height: 54px;
   border-radius: 10px;
-  padding: 4px;
 }
 .mini-item b {
   display: block;
@@ -398,7 +397,7 @@
   letter-spacing: 0.02em;
 }
 .wallet-head span {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   padding: 4px 8px;
   border-radius: 999px;
@@ -576,4 +575,31 @@ html[data-reduced] .success-icon svg {
   .modal-panel.co-panel {
     width: min(760px, 100%);
   }
+}
+.error-summary {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(225, 6, 0, 0.55);
+  background: rgba(225, 6, 0, 0.1);
+}
+.error-summary:focus-visible {
+  outline: 2px solid var(--red-hot);
+  outline-offset: 3px;
+}
+.error-summary h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.error-summary ul {
+  list-style: disc;
+  padding-left: 20px;
+  display: grid;
+  gap: 4px;
+}
+.error-summary a {
+  color: #ffb4ae;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }

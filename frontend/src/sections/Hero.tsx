@@ -8,6 +8,9 @@ import { useInView } from '../hooks/useInView';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { hasWebGL } from '../lib/webgl';
 import { scrollToId } from '../lib/lenis';
+import { flagship } from '../lib/flagship';
+import { formatTaka } from '../lib/format';
+import { useUi } from '../store/uiStore';
 
 // three + R3F + drei load in their own chunk, after the page is interactive
 const HeroScene = lazy(() => import('../three/HeroScene'));
@@ -26,6 +29,7 @@ export function Hero() {
   const reduced = useReducedMotion();
   const webgl = hasWebGL();
   const show3d = webgl && !failed;
+  const pair = flagship;
 
   // Headline fades and lifts as the hero scrolls away (CSS reads --hp)
   useEffect(() => {
@@ -69,7 +73,7 @@ export function Hero() {
               <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
                 <Suspense fallback={null}>
                   <HeroScene
-                    palette={colorway.palette}
+                    colorway={colorway}
                     active={inView}
                     reduced={reduced}
                     heroRef={heroRef}
@@ -138,6 +142,15 @@ export function Hero() {
               </button>
             ))}
           </div>
+          {pair && (
+            <button
+              type="button"
+              className="shop-pair"
+              onClick={() => useUi.getState().openQuickView(pair)}
+            >
+              {hero.shopPair} · {formatTaka(pair.price)} <FiArrowRight aria-hidden="true" />
+            </button>
+          )}
         </div>
 
         <div className="hero-stats">
