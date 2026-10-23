@@ -1,4 +1,4 @@
-import type { PaymentMethod, ShippingDetails } from '../types';
+import type { PaymentMethod, ShippingDetails, WalletMethod } from '../types';
 
 export type FieldErrors = Partial<Record<keyof ShippingDetails, string>>;
 
@@ -63,7 +63,7 @@ export const formatExpiry = (value: string) => {
   return digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
 };
 
-/** Checkout payment choices (bKash / Nagad / card are demo screens). */
+/** Checkout payment choices (bKash / Nagad / Rocket / card are demo screens). */
 export const PAYMENT_OPTIONS: {
   id: PaymentMethod;
   label: string;
@@ -86,6 +86,13 @@ export const PAYMENT_OPTIONS: {
     badge: 'N',
   },
   {
+    id: 'rocket',
+    label: 'Rocket',
+    note: 'Mobile wallet (demo screen)',
+    colour: '#8c3494',
+    badge: 'R',
+  },
+  {
     id: 'card',
     label: 'Card',
     note: 'Visa / Mastercard (test card only)',
@@ -100,6 +107,10 @@ export const PAYMENT_OPTIONS: {
     badge: '',
   },
 ];
+
+/** bKash, Nagad and Rocket confirm on a mock wallet screen. */
+export const isWallet = (method: PaymentMethod): method is WalletMethod =>
+  method === 'bkash' || method === 'nagad' || method === 'rocket';
 
 export const paymentLabel = (method: PaymentMethod) =>
   PAYMENT_OPTIONS.find((option) => option.id === method)?.label ?? method;

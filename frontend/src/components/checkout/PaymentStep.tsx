@@ -4,7 +4,9 @@ import { checkout } from '../../content/copy';
 import {
   formatCardNumber,
   formatExpiry,
+  isWallet,
   PAYMENT_OPTIONS,
+  paymentLabel,
   validateTestCard,
   type CardInput,
 } from '../../lib/checkout';
@@ -149,11 +151,10 @@ export function PaymentStep({ method, onMethod, onBack, onNext }: Props) {
         </div>
       )}
 
-      {(method === 'bkash' || method === 'nagad') && (
+      {isWallet(method) && (
         <p className="test-note" style={{ marginTop: 16 }}>
-          <FiInfo aria-hidden="true" /> You will confirm on a demo{' '}
-          {method === 'bkash' ? 'bKash' : 'Nagad'} screen after reviewing your order.{' '}
-          {checkout.walletNote}
+          <FiInfo aria-hidden="true" /> You will confirm on a demo {paymentLabel(method)} screen
+          after reviewing your order. {checkout.walletNote}
         </p>
       )}
 

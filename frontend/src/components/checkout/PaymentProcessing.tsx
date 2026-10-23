@@ -1,13 +1,14 @@
 import { useState, type FormEvent } from 'react';
 import { FiLock } from 'react-icons/fi';
 import { checkout } from '../../content/copy';
-import { DEMO_PIN, isBdMobile, normalizePhone } from '../../lib/checkout';
+import { DEMO_PIN, isBdMobile, normalizePhone, paymentLabel } from '../../lib/checkout';
 import { formatTaka } from '../../lib/format';
-import type { PaymentMethod } from '../../types';
+import type { PaymentMethod, WalletMethod } from '../../types';
 
 const WALLETS = {
   bkash: { name: 'bKash', colour: '#e2136e' },
   nagad: { name: 'Nagad', colour: '#f6921e' },
+  rocket: { name: 'Rocket', colour: '#8c3494' },
 } as const;
 
 /**
@@ -21,7 +22,7 @@ export function WalletMock({
   onConfirm,
   onCancel,
 }: {
-  method: 'bkash' | 'nagad';
+  method: WalletMethod;
   amount: number;
   phone: string;
   onConfirm: () => void;
@@ -123,7 +124,7 @@ export function Processing({ method }: { method: PaymentMethod }) {
   const text =
     method === 'cod'
       ? 'Placing your order…'
-      : `Processing your ${method === 'card' ? 'card' : method === 'bkash' ? 'bKash' : 'Nagad'} payment…`;
+      : `Processing your ${method === 'card' ? 'card' : paymentLabel(method)} payment…`;
   return (
     <div className="processing co-step" role="status" aria-live="polite">
       <div className="spinner" aria-hidden="true" />

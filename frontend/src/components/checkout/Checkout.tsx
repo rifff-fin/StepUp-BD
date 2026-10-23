@@ -8,7 +8,7 @@ import { Processing, WalletMock } from './PaymentProcessing';
 import { SuccessStep } from './SuccessStep';
 import { checkout } from '../../content/copy';
 import { apiErrorMessage, apiFieldErrors } from '../../lib/api';
-import { LAST_ORDER_KEY, normalizePhone, type FieldErrors } from '../../lib/checkout';
+import { isWallet, LAST_ORDER_KEY, normalizePhone, type FieldErrors } from '../../lib/checkout';
 import { writePref } from '../../lib/storage';
 import { scrollToId } from '../../lib/lenis';
 import { cartTotals, deliveryZoneFor } from '../../lib/pricing';
@@ -183,11 +183,9 @@ export function Checkout() {
             method={method}
             error={error}
             onEdit={setStep}
-            onPlace={() =>
-              method === 'bkash' || method === 'nagad' ? setStep('wallet') : placeOrder()
-            }
+            onPlace={() => (isWallet(method) ? setStep('wallet') : placeOrder())}
           />
-        ) : step === 'wallet' && (method === 'bkash' || method === 'nagad') ? (
+        ) : step === 'wallet' && isWallet(method) ? (
           <WalletMock
             method={method}
             amount={totals.total}
