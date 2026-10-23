@@ -1,33 +1,20 @@
-import { lazy, Suspense, useState, type CSSProperties } from 'react';
-import {
-  FiHeart,
-  FiMaximize2,
-  FiMinimize2,
-  FiRotateCcw,
-  FiShield,
-  FiShoppingBag,
-  FiTruck,
-} from 'react-icons/fi';
+import { useState, type CSSProperties } from 'react';
+import { FiHeart, FiRotateCcw, FiShield, FiShoppingBag, FiTruck } from 'react-icons/fi';
 import { Modal } from '../ui/Overlay';
 import { QtyStepper } from '../ui/QtyStepper';
 import { Stars } from '../ui/Stars';
 import { ProductPhoto } from './ProductPhoto';
 import { thumbOf } from '../../lib/images';
 import { SizePicker } from './SizePicker';
-import { ErrorBoundary } from '../layout/ErrorBoundary';
 import { productReviews } from '../../content/copy';
 import { formatTaka, tintOf } from '../../lib/format';
 import { sampleReviewsFor } from '../../lib/sampleReviews';
-import { hasWebGL } from '../../lib/webgl';
 import { useCart } from '../../store/cartStore';
 import { useUi } from '../../store/uiStore';
 import { useIsWished, useWishlist } from '../../store/wishlistStore';
 import type { Product } from '../../types';
 
-// The 3D viewer (three + R3F) is its own chunk, loaded the first time a quick view opens
-const MiniViewer = lazy(() => import('../../three/MiniViewer'));
-
-/** Quick view dialog: big image, mini 3D viewer, size + quantity, cart and wishlist. */
+/** Quick view dialog: photo gallery, size + quantity, cart and wishlist. */
 export function QuickView() {
   const product = useUi((s) => s.quickView);
   const close = useUi((s) => s.closeQuickView);
@@ -37,22 +24,18 @@ export function QuickView() {
 
   return (
     <Modal open={!!product} onClose={close} labelledBy="qv-title" closeLabel="Close quick view">
-      {shown && <QuickViewBody key={shown._id} product={shown} open={!!product} />}
+      {shown && <QuickViewBody key={shown._id} product={shown} />}
     </Modal>
   );
 }
 
-function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
+function QuickViewBody({ product }: { product: Product }) {
   const [size, setSize] = useState<number | null>(null);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState('');
   const [errorKey, setErrorKey] = useState(0);
-  const [expanded, setExpanded] = useState(false);
-  const [viewerFailed, setViewerFailed] = useState(false);
   const [photo, setPhoto] = useState(0);
   const wished = useIsWished(product._id);
-  // The 3D viewer only for the product the model actually shows (the AJ1 "Bred")
-  const show3d = !!product.model3d && hasWebGL() && !viewerFailed;
   const images = product.images ?? [];
 
   const addToCart = () => {
@@ -77,7 +60,7 @@ function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
 
   return (
     <div className="qv" style={{ '--tint-a': tintOf(product.palette) } as CSSProperties}>
-      <div className={`qv-media ${expanded ? 'show3d' : ''}`}>
+      <div className="qv-media">
         <div className="qv-img">
           <ProductPhoto
             key={images[photo]}
@@ -98,39 +81,11 @@ function QuickViewBody({ product, open }: { product: Product; open: boolean }) {
                 className="qv-thumb"
                 aria-label={`Show photo ${i + 1}`}
                 aria-pressed={i === photo}
-                onClick={() => {
-                  setPhoto(i);
-                  setExpanded(false);
-                }}
+                onClick={() => setPhoto(i)}
               >
                 <img src={thumbOf(src)} alt="" loading="lazy" decoding="async" />
               </button>
             ))}
-          </div>
-        )}
-        {show3d && (
-          <div className={`qv-3d ${expanded ? 'expanded' : ''}`}>
-            <span className="qv-3d-label">{expanded ? '3D · drag to rotate' : '3D'}</span>
-            <ErrorBoundary fallback={null} onError={() => setViewerFailed(true)}>
-              <Suspense
-                fallback={
-                  <div className="qv-3d-loading">
-                    <div className="spinner sm" />
-                  </div>
-                }
-              >
-                {open && <MiniViewer />}
-              </Suspense>
-            </ErrorBoundary>
-            <button
-              type="button"
-              className="qv-3d-expand"
-              aria-pressed={expanded}
-              aria-label={expanded ? 'Shrink 3D viewer' : 'Expand 3D viewer'}
-              onClick={() => setExpanded((v) => !v)}
-            >
-              {expanded ? <FiMinimize2 /> : <FiMaximize2 />}
-            </button>
           </div>
         )}
       </div>

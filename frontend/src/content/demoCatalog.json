@@ -40,12 +40,11 @@
         "/products/air-jordan-1-high-og-bred.webp",
         "/products/air-jordan-1-high-og-bred-2.webp"
       ],
-      "model3d": true,
       "description": "The one that started it all. Black leather with University Red on the toe, heel and collar, white midsole and red outsole. Spin it in 3D.",
       "popularity": 100,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-10-20T14:17:48.090Z",
+      "createdAt": "2026-10-21T00:28:15.033Z",
       "discountPercent": 27
     },
     {
@@ -89,7 +88,7 @@
       "popularity": 97,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-22T14:17:48.091Z",
+      "createdAt": "2026-09-23T00:28:15.034Z",
       "discountPercent": 27
     },
     {
@@ -132,7 +131,7 @@
       "popularity": 90,
       "isNewArrival": true,
       "trending": true,
-      "createdAt": "2026-10-17T14:17:48.091Z",
+      "createdAt": "2026-10-18T00:28:15.034Z",
       "discountPercent": 25
     },
     {
@@ -176,7 +175,7 @@
       "popularity": 88,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-04T14:17:48.091Z",
+      "createdAt": "2026-09-05T00:28:15.034Z",
       "discountPercent": 25
     },
     {
@@ -219,7 +218,7 @@
       "popularity": 79,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-13T14:17:48.091Z",
+      "createdAt": "2026-08-14T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -262,7 +261,7 @@
       "popularity": 86,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-28T14:17:48.091Z",
+      "createdAt": "2026-08-29T00:28:15.034Z",
       "discountPercent": 25
     },
     {
@@ -305,7 +304,7 @@
       "popularity": 72,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-13T14:17:48.091Z",
+      "createdAt": "2026-10-14T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -350,7 +349,7 @@
       "popularity": 84,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-12T14:17:48.091Z",
+      "createdAt": "2026-09-13T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -395,7 +394,7 @@
       "popularity": 81,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-07-29T14:17:48.091Z",
+      "createdAt": "2026-07-30T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -437,7 +436,7 @@
       "popularity": 66,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-10T14:17:48.091Z",
+      "createdAt": "2026-10-11T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -479,7 +478,7 @@
       "popularity": 95,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-30T14:17:48.091Z",
+      "createdAt": "2026-10-01T00:28:15.034Z",
       "discountPercent": 27
     },
     {
@@ -522,7 +521,7 @@
       "popularity": 87,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-15T14:17:48.091Z",
+      "createdAt": "2026-10-16T00:28:15.034Z",
       "discountPercent": 26
     },
     {
@@ -564,7 +563,7 @@
       "popularity": 70,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-23T14:17:48.091Z",
+      "createdAt": "2026-08-24T00:28:15.034Z",
       "discountPercent": 25
     },
     {
@@ -608,7 +607,7 @@
       "popularity": 94,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-27T14:17:48.091Z",
+      "createdAt": "2026-09-28T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -652,7 +651,7 @@
       "popularity": 92,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-19T14:17:48.091Z",
+      "createdAt": "2026-09-20T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -695,7 +694,7 @@
       "popularity": 80,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-02T14:17:48.091Z",
+      "createdAt": "2026-09-03T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -738,7 +737,7 @@
       "popularity": 74,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-18T14:17:48.091Z",
+      "createdAt": "2026-10-19T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -781,7 +780,7 @@
       "popularity": 68,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-17T14:17:48.091Z",
+      "createdAt": "2026-08-18T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -824,7 +823,7 @@
       "popularity": 63,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-06T14:17:48.091Z",
+      "createdAt": "2026-08-07T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -865,7 +864,7 @@
       "popularity": 58,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-07-24T14:17:48.091Z",
+      "createdAt": "2026-07-25T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -907,7 +906,7 @@
       "popularity": 55,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-19T14:17:48.091Z",
+      "createdAt": "2026-10-20T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -951,7 +950,7 @@
       "popularity": 91,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-24T14:17:48.091Z",
+      "createdAt": "2026-09-25T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -994,7 +993,7 @@
       "popularity": 78,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-19T14:17:48.091Z",
+      "createdAt": "2026-08-20T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1036,7 +1035,7 @@
       "popularity": 62,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-16T14:17:48.091Z",
+      "createdAt": "2026-10-17T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1078,7 +1077,7 @@
       "popularity": 57,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-11T14:17:48.091Z",
+      "createdAt": "2026-08-12T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1123,7 +1122,7 @@
       "popularity": 69,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-08T14:17:48.091Z",
+      "createdAt": "2026-09-09T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1165,7 +1164,7 @@
       "popularity": 65,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-12T14:17:48.091Z",
+      "createdAt": "2026-10-13T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1209,7 +1208,7 @@
       "popularity": 54,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-07-19T14:17:48.091Z",
+      "createdAt": "2026-07-20T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1254,7 +1253,7 @@
       "popularity": 99,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-17T14:17:48.091Z",
+      "createdAt": "2026-09-18T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1297,7 +1296,7 @@
       "popularity": 89,
       "isNewArrival": true,
       "trending": true,
-      "createdAt": "2026-10-14T14:17:48.091Z",
+      "createdAt": "2026-10-15T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1339,7 +1338,7 @@
       "popularity": 76,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-31T14:17:48.091Z",
+      "createdAt": "2026-09-01T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1381,7 +1380,7 @@
       "popularity": 71,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-08-15T14:17:48.091Z",
+      "createdAt": "2026-08-16T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1423,7 +1422,7 @@
       "popularity": 67,
       "isNewArrival": true,
       "trending": false,
-      "createdAt": "2026-10-11T14:17:48.091Z",
+      "createdAt": "2026-10-12T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1467,7 +1466,7 @@
       "popularity": 85,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-14T14:17:48.091Z",
+      "createdAt": "2026-09-15T00:28:15.034Z",
       "discountPercent": 23
     },
     {
@@ -1510,7 +1509,7 @@
       "popularity": 52,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-07-14T14:17:48.091Z",
+      "createdAt": "2026-07-15T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1554,7 +1553,7 @@
       "popularity": 93,
       "isNewArrival": false,
       "trending": true,
-      "createdAt": "2026-09-21T14:17:48.091Z",
+      "createdAt": "2026-09-22T00:28:15.034Z",
       "discountPercent": 24
     },
     {
@@ -1598,7 +1597,7 @@
       "popularity": 82,
       "isNewArrival": false,
       "trending": false,
-      "createdAt": "2026-09-06T14:17:48.091Z",
+      "createdAt": "2026-09-07T00:28:15.034Z",
       "discountPercent": 24
     }
   ],

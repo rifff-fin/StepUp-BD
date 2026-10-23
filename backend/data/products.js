@@ -6,7 +6,6 @@
 //             `<name>.webp` has a `<name>-480.webp` thumbnail next to it.
 // palette:    the card's glow colour and the drawn placeholder used if a photo fails.
 // silhouette: shape of that drawn placeholder: 'low' | 'high' | 'runner'.
-// model3d:    true for the product the 3D model shows (quick view adds the 3D viewer).
 const crypto = require('crypto');
 
 // Stable ids: the same slug always gets the same ObjectId, so the frontend's bundled demo
@@ -49,7 +48,6 @@ const products = [
     colors: ['Black', 'Red', 'White'],
     palette: palette('#121212', '#B01220', '#121212', '#F2F2F2', '#B01220'),
     images: img('air-jordan-1-high-og-bred', 'air-jordan-1-high-og-bred-2'),
-    model3d: true,
     description:
       'The one that started it all. Black leather with University Red on the toe, heel and collar, white midsole and red outsole. Spin it in 3D.',
     popularity: 100,

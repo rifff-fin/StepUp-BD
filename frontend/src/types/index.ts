@@ -31,12 +31,12 @@ export interface Product {
   palette: Palette;
   /** Photo paths; the first is the main photo (see ProductPhoto for thumbnails). */
   images: string[];
-  /** The product the 3D model shows: quick view adds the 3D viewer. */
-  model3d?: boolean;
   description: string;
   popularity: number;
   isNewArrival: boolean;
   trending: boolean;
+  /** Hidden from the store when false (admin only sees these). */
+  active?: boolean;
   createdAt: string;
 }
 
@@ -47,7 +47,8 @@ export interface ProductListResponse {
 }
 
 export type DeliveryZone = 'inside-dhaka' | 'outside-dhaka';
-export type PaymentMethod = 'bkash' | 'nagad' | 'card' | 'cod';
+export type PaymentMethod = 'bkash' | 'nagad' | 'rocket' | 'card' | 'cod';
+export type WalletMethod = Extract<PaymentMethod, 'bkash' | 'nagad' | 'rocket'>;
 export type SortKey = 'popular' | 'price-asc' | 'price-desc' | 'new';
 
 export interface Meta {

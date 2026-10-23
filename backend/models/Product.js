@@ -56,7 +56,6 @@ const productSchema = new mongoose.Schema(
       type: [{ type: String, trim: true, maxlength: 300 }],
       default: [],
     },
-    model3d: { type: Boolean, default: false }, // the product the 3D model shows
     description: { type: String, trim: true, maxlength: 600 },
     popularity: { type: Number, default: 0 }, // higher = more popular (sales / views)
     isNewArrival: { type: Boolean, default: false },

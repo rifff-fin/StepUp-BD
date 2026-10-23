@@ -56,11 +56,21 @@ function blendableMap(material: THREE.MeshStandardMaterial) {
 
   let progress = 1;
   let wanted: string | null = null;
+  let first = true;
   return {
-    setTarget(url: string | null) {
+    /** Fade to `url`; the very first colourway is applied at once (no fade from the file's map). */
+    setTarget(url: string | null, onApplied?: () => void) {
       wanted = url;
       void load(url).then((tex) => {
-        if (wanted !== url || tex === material.map) return;
+        if (wanted !== url) return;
+        if (first) {
+          first = false;
+          material.map = tex;
+          uniforms.map2.value = tex;
+          onApplied?.();
+          return;
+        }
+        if (tex === material.map) return;
         if (progress < 1) material.map = uniforms.map2.value; // finish the previous fade
         uniforms.map2.value = tex;
         progress = isReducedMotion() ? 1 - 1e-6 : 0;
@@ -83,9 +93,19 @@ function blendableMap(material: THREE.MeshStandardMaterial) {
 
 /**
  * A real .glb shoe: cloned per scene, given a leather finish, scaled to SHOE_LENGTH, stood
- * on y = 0 and centred. `texture` switches the colourway (null = the map in the file).
+ * on y = 0 and centred. `texture` switches the colourway (null = the map in the file). The
+ * shoe stays hidden until its first colourway is on, then calls `onShown`, so a reload never
+ * flashes the file's own colours first.
  */
-export function GltfShoe({ url, texture }: { url: string; texture: string | null }) {
+export function GltfShoe({
+  url,
+  texture,
+  onShown,
+}: {
+  url: string;
+  texture: string | null;
+  onShown?: () => void;
+}) {
   // meshopt-compressed geometry; no Draco, so no decoder is fetched from a CDN
   const { scene } = useGLTF(url, false, true);
 
@@ -124,12 +144,22 @@ export function GltfShoe({ url, texture }: { url: string; texture: string | null
     const centre = box.getCenter(new THREE.Vector3());
     clone.position.set(-centre.x, -box.min.y, -centre.z);
 
+    clone.visible = !blendHandle; // shown once the first colourway is on
     return { root: clone, blend: blendHandle as ReturnType<typeof blendableMap> | null };
   }, [scene]);
 
   useEffect(() => {
-    blend?.setTarget(texture);
-  }, [blend, texture]);
+    if (!blend) {
+      onShown?.();
+      return;
+    }
+    blend.setTarget(texture, () => {
+      root.visible = true;
+      onShown?.();
+    });
+    // onShown is a one-off "ready" signal: re-running for a new callback identity is not wanted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blend, root, texture]);
 
   useFrame((_, delta) => blend?.update(Math.min(delta, 0.1)));
 
