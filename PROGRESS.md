@@ -206,3 +206,24 @@ delivery timeline. **404** page shows trending picks.
   - Navbar turns dark over ink sections (`data-nav-dark`). Trending autoplay with pause.
   - QA at 1440 × 900 and 390 × 844, with motion on and reduced: 0 console errors; full
     checkout flow passes.
+- 23 Oct 2026: Phase 4. Owner feedback: "it still looks like AI generated".
+  - Audited the page against real stores (Sneakersnstuff, Footshop, Kith screenshots).
+    The AI tells: a giant gradient wordmark behind the 3D shoe, the same eyebrow + giant
+    condensed headline + red accent word in every section, a hero stats row, icon cards
+    with ghost numbers, quote marks and avatar circles, cream background, grid background,
+    film grain, cursor glow, glowing tilt cards, shine-sweep buttons, pills everywhere, an
+    intro loader, a giant footer wordmark, Bebas Neue.
+  - Rebuilt in a retail style: white page, Archivo only, square corners, an ink
+    announcement bar (COD, ৳100 Dhaka delivery, 7-day exchange, Track order), a solid
+    header with upper-case category links, small section titles with "Shop all" links, a
+    service strip instead of icon cards, "Shop by brand" photo tiles that filter the
+    catalog, plain product cards (second photo on hover, red sale price), underline tabs,
+    plain FAQ list, newsletter band. Copy rewritten plainly; unverifiable claims removed.
+  - Hero: light studio backdrop, label tags, the tagline as the H1, "Shop Air Jordan 1".
+    Default colourway is now White / Red (owner's request); hero and story copy made
+    colour-neutral.
+  - Removed: cursor glow, intro loader (the brief asked for both; restore from git if
+    wanted), film grain, the brand marquee, the hero stats.
+  - QA: 1440 x 900 and 390 x 844, 0 console errors; brand tile filters the shop (7 Adidas);
+    the full checkout flow passes.
+

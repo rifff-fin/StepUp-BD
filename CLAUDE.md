@@ -5,11 +5,13 @@ Client store built by **Fin Projukti** (finprojukti.tech). Original brief: `prom
 
 ## What it is
 
-A premium 3D sneaker store for Bangladesh. Palette "Sail & Ink" (`styles/tokens.css`),
-taken from the AJ1 "Bred": sail-paper shop (`#F3F0EA`), warm-ink sections (`.theme-dark`:
-the hero story, marquee, newsletter, footer) and one accent, University Red (`#B3121C`,
-`#C8102E` on ink), used sparingly. No neon glows. Bebas Neue for display text and Inter for
-body text. Prices are in BDT (৳3,000–৳5,500).
+A 3D sneaker store for Bangladesh, styled like a real sneaker retailer (Sneakersnstuff,
+Footshop): white page, ink type, light-grey product boxes, square corners, an announcement
+bar, small upper-case section titles (`styles/tokens.css`). One typeface, Archivo:
+condensed 800 for headings, regular for text. University Red (`#C8102E`) only for the logo,
+sale prices and badges; selections and buttons are ink. No glows, gradients on text,
+eyebrow-plus-giant-headline sections, cursor effects or loader screens: they read as
+template/AI-made. Prices are in BDT (৳3,000–৳5,500).
 It is a **demo store**: payments are simulated and orders are never fulfilled.
 
 ## Stack and layout
@@ -55,8 +57,9 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
 8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under the hero
    panel and four story steps; `three/HeroScene.tsx` maps scroll (screens into the story)
-   to the `DESKTOP` / `PHONE` poses. Change the copy and the poses together. Ink sections
-   carry `data-nav-dark` so the navbar turns dark over them.
+   to the `DESKTOP` / `PHONE` poses. Change the copy and the poses together. The hero
+   opens on the White / Red colourway (`DEFAULT_HERO_COLORWAY`, the client's pick), so the
+   hero and story copy stay colour-neutral; the in-stock product is the Bred.
 9. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
    whose `className` React never changes.
 10. **Photos.** `images[]` holds paths under `public/products/`; every `<x>.webp` has an
