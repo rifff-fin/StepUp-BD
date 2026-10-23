@@ -2,17 +2,19 @@
 
 A 3D sneaker store for Bangladesh, built by [Fin Projukti](https://finprojukti.tech).
 
-- **Hero + scroll story**: a real-time 3D **Air Jordan 1 High OG "Bred"** spins in on load,
-  floats, follows the mouse and can be dragged. Scrolling on, it stays on screen and turns
-  to each detail (side profile, toe box, Wings logo) beside the story copy, then ends on
-  "Shop the Bred". The colour switcher (Bred, White/Red, All Black) cross-fades the leather.
+- **Hero + short scroll story**: a real-time 3D **Air Jordan 1 High OG** (White / Red by
+  default; Bred and All Black too) spins in once loaded, follows the mouse and can be
+  dragged, then turns to three details as you scroll. It is for the look only, not a
+  product for sale. The hero sells the store: a STEPUP10 offer pill (tap to copy), shop
+  buttons and quick brand chips.
 - **Trending**: a carousel that advances on its own, with a pause button; it holds while
   you hover, focus or swipe it.
 - **Shop**: 37 products with real photos. Live search, category tabs, filters (brand,
-  price, size, colour), sorting, and a quick view with a photo gallery. The Bred's quick
-  view adds the 3D viewer.
+  price, size, colour), sorting, and a quick view with a photo gallery.
+- **Admin panel** at `/admin`: dashboard, products (add / edit / hide / delete, photos
+  uploaded to Cloudinary), orders (status), coupons, newsletter subscribers (CSV).
 - **Cart and wishlist**: kept in the browser, with delivery zones and the `STEPUP10` coupon.
-- **Checkout (demo)**: shipping, payment (bKash, Nagad, card, Cash on Delivery), review,
+- **Checkout (demo)**: shipping, payment (bKash, Nagad, Rocket, card, Cash on Delivery), review,
   success with confetti, plus order tracking.
 
 > **Demo store.** No real orders are fulfilled and no real payments are taken. The card
@@ -69,9 +71,10 @@ npm install
 npm run dev          # /api is proxied to localhost:5000
 ```
 
-To keep data between restarts, copy `backend/.env.example` to `backend/.env` and set
-`MONGODB_URI` (e.g. a free MongoDB Atlas cluster). The products seed themselves into an
-empty database at start-up.
+For real data, copy `backend/.env.example` to `backend/.env` and fill it in: the MongoDB
+Atlas URI, the Cloudinary keys, and the admin login (`ADMIN_EMAIL`, `ADMIN_PASSWORD`,
+`JWT_SECRET`). The `.env` file is git-ignored; never commit it. The products seed
+themselves into an empty database at start-up. Admin panel: http://localhost:5190/admin
 
 Checks: `npm run typecheck`, `npm run lint` and `npm run build` in `frontend/`.
 
@@ -82,8 +85,9 @@ the site turns animations off. The hero then shows a **"Turn on motion"** pill, 
 ## Deploy
 
 1. **API → Render.** Create a Blueprint from `render.yaml` (or a Web Service with root
-   `backend`, build `npm install`, start `npm start`). Set `MONGODB_URI` to your Atlas
-   connection string. Health check: `/api/health`.
+   `backend`, build `npm install`, start `npm start`). In the Render dashboard set
+   `MONGODB_URI`, the three `CLOUDINARY_*` keys, `ADMIN_EMAIL` and `ADMIN_PASSWORD`
+   (`JWT_SECRET` is generated). Health check: `/api/health`.
 2. **Store → Netlify.** Connect the repo; `netlify.toml` already sets base `frontend`,
    build `npm run build` and publish `dist`. Replace the Render URL in the `/api/*`
    redirect with your API's URL.
@@ -162,5 +166,12 @@ instead. Without WebGL, a drawn shoe is shown.
 | GET | `/api/orders/:orderNumber?phone=` | look an order up (phone must match) |
 | POST | `/api/newsletter` | `{ email }` |
 | GET | `/api/health` | status + database connection |
+| POST | `/api/admin/login` | `{ email, password }` to an admin token (rate limited) |
+| GET / POST / PUT / DELETE | `/api/admin/products[/:id]` | catalog management (admin) |
+| GET / PATCH | `/api/admin/orders[/:id]` | orders and status (admin) |
+| GET / POST / PUT / DELETE | `/api/admin/coupons[/:id]` | coupons (admin) |
+| GET / DELETE | `/api/admin/subscribers[/:id]` | newsletter list (admin) |
+| GET | `/api/admin/stats` | dashboard numbers (admin) |
+| POST | `/api/admin/uploads/sign` | one-time Cloudinary upload signature (admin) |
 
 Demo orders are deleted automatically after 30 days (TTL index).

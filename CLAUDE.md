@@ -5,13 +5,14 @@ Client store built by **Fin Projukti** (finprojukti.tech). Original brief: `prom
 
 ## What it is
 
-A 3D sneaker store for Bangladesh, styled like a real sneaker retailer (Sneakersnstuff,
-Footshop): white page, ink type, light-grey product boxes, square corners, an announcement
-bar, small upper-case section titles (`styles/tokens.css`). One typeface, Archivo:
-condensed 800 for headings, regular for text. University Red (`#C8102E`) only for the logo,
-sale prices and badges; selections and buttons are ink. No glows, gradients on text,
-eyebrow-plus-giant-headline sections, cursor effects or loader screens: they read as
-template/AI-made. Prices are in BDT (৳3,000–৳5,500).
+A premium 3D sneaker store for Bangladesh in an iOS-like style (`styles/tokens.css`): soft
+Apple greys, white rounded cards, capsule buttons and frosted glass (`.glass`,
+`--glass-*`) for the floating navbar, hero panels and pills. One typeface, Archivo
+(heavy, slightly condensed headings). University Red (`#C8102E`) only for the logo
+accent, sale prices and badges; buttons and selections are ink. Logo: `LogoMark` (rising
+steps) + wordmark in `components/layout/Logo.tsx`; the favicon matches. Avoid template/AI
+tells: glows, gradient text, eyebrow-plus-giant-headline sections, cursor effects, loader
+screens. A "Built by Fin Projukti" badge (`FinCredit`) sits bottom-left. Prices are in BDT (৳3,000–৳5,500).
 It is a **demo store**: payments are simulated and orders are never fulfilled.
 
 ## Stack and layout
@@ -43,7 +44,8 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
 3. **Brand assets.** The hero's 3D shoe is the client-required Air Jordan 1 High OG "Bred",
    built from "Air Jordan 1" by makoto (CC BY 4.0). **The footer credit must stay**
    (`footer.modelCredit`); see `docs/3d-model.md`. Product photos are the client's. The
-   procedural fallback shoe uses a generic S-wave, not a brand mark.
+   procedural fallback shoe uses a generic S-wave, not a brand mark. **The 3D shoe is for
+   the look only, never a product for sale**: no price, cart or quick view is tied to it.
 4. **Never empty.** If the API cannot be reached, `services/fallback.ts` switches to
    `content/demoCatalog.json` (generated from `backend/data` by `npm run export:demo`;
    product ids are stable hashes of the slug, so both sides agree). Re-export after
@@ -56,18 +58,27 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
 7. **Motion.** `html[data-reduced]` (set before first paint) drives CSS and JS; the
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
 8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under the hero
-   panel and four story steps; `three/HeroScene.tsx` maps scroll (screens into the story)
-   to the `DESKTOP` / `PHONE` poses. Change the copy and the poses together. The hero
-   opens on the White / Red colourway (`DEFAULT_HERO_COLORWAY`, the client's pick), so the
-   hero and story copy stay colour-neutral; the in-stock product is the Bred.
+   panel and three short story steps (60svh each = `STEP_SCREENS` in
+   `three/HeroScene.tsx`, which maps scroll to the `DESKTOP` / `PHONE` poses). Keep it
+   short: the owner wants shoppers in the shop quickly. The hero opens on White / Red
+   (`DEFAULT_HERO_COLORWAY`); copy stays colour-neutral. The stage shows nothing until the
+   shoe is visible in its colourway (`onShown` then `onReady`): never flash a stand-in or
+   the file's own colours on reload.
 9. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
    whose `className` React never changes.
-10. **Photos.** `images[]` holds paths under `public/products/`; every `<x>.webp` has an
-   `<x>-480.webp` thumbnail (`lib/images.ts`). Media boxes reserve their aspect ratio (no
-   layout shift); photos are lazy except in an open quick view. The 3D viewer in the quick
-   view appears only for `model3d: true` (the Bred), because the model depicts that shoe.
+10. **Photos.** `images[]` holds local paths under `public/products/` (each `<x>.webp` has
+   an `<x>-480.webp` thumbnail) or Cloudinary URLs uploaded from the admin (resized by URL);
+   `lib/images.ts` handles both. Media boxes reserve their aspect ratio (no layout shift).
 11. **Commits** (owner's rule): several focused commits written as the owner, with no
     co-author trailer; push after each.
+12. **Secrets.** `backend/.env` (git-ignored) holds the Atlas URI, Cloudinary keys, the
+    admin login and `JWT_SECRET`. Never commit them or put them in the frontend; the
+    browser uploads to Cloudinary with a one-time signature from `/api/admin/uploads/sign`.
+13. **Admin panel** (`frontend/src/admin`, lazy chunk at `/admin`; API `/api/admin/*`
+    behind `adminAuth`, JWT 12 h). Input is whitelisted in `services/productInput.js`.
+14. **Payments**: bKash, Nagad, Rocket (demo wallet screens via `isWallet`), card (test
+    card), Cash on Delivery. Add a method in `Order.PAYMENT_METHODS` and
+    `lib/checkout.ts` together.
 
 ## QA
 

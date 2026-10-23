@@ -226,4 +226,24 @@ delivery timeline. **404** page shows trending picks.
     wanted), film grain, the brand marquee, the hero stats.
   - QA: 1440 x 900 and 390 x 844, 0 console errors; brand tile filters the shop (7 Adidas);
     the full checkout flow passes.
+- 23 Oct 2026: Phase 5 (owner's list).
+  - The 3D shoe is decoration only: the quick-view 3D viewer, the `model3d` flag and the
+    "Shop the Bred" story step are gone; nothing sells the 3D shoe.
+  - Reload flash fixed: the stage stays empty until the shoe is visible in its colourway
+    (the first colourway is applied with no fade, the model is hidden until then); the
+    drawn stand-in shows only without WebGL.
+  - Backend on MongoDB Atlas (cluster0, database `stepupbd`, user `fin`; the
+    `finprojuktitech_db_user` login was rejected) and Cloudinary (cloud `oholbdy4`). All
+    secrets in the git-ignored `backend/.env`; `render.yaml` lists them as dashboard-only.
+  - Admin panel at `/admin`: JWT login (rate limited), dashboard, products CRUD with direct
+    signed Cloudinary uploads, orders + status, coupons, subscribers + CSV. Tested end to
+    end (upload, create, delete; QA data removed afterwards).
+  - Rocket added (demo wallet), stored as `rocket`; tested end to end.
+  - Hero shortened from 5 screens to 2.8; it sells the store: STEPUP10 pill (copies the
+    code), shop buttons, brand chips, trust line.
+  - Premium iOS look: frosted-glass floating navbar under a sliding announcement bar, a
+    real logo mark (also the favicon), rounded cards, capsule buttons, segmented tabs.
+  - "Built by Fin Projukti" badge bottom-left with a contact card.
+  - `docs/feature-checklist.md`: BD-market feature list with tick boxes for the owner.
+  - Fixed: Express 5 swallowed "port in use" errors (the API now exits loudly).
 
