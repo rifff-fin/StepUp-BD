@@ -14,6 +14,7 @@ const metaRoutes = require('./routes/metaRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -30,7 +31,7 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
 app.use(
   cors({
     origin: allowedOrigins.length ? allowedOrigins : true,
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   }),
 );
 app.use(express.json({ limit: '50kb' }));
@@ -51,6 +52,7 @@ app.use('/api/meta', metaRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Errors
 app.use('/api', notFound);
@@ -63,7 +65,12 @@ const PORT = process.env.PORT || 5000;
 const start = async () => {
   await connectDB();
   await seedIfEmpty();
-  app.listen(PORT, () => {
+  app.listen(PORT, (error) => {
+    // Express 5 passes listen errors here (e.g. the port is taken by another API)
+    if (error) {
+      console.error(`❌ Could not start on port ${PORT}:`, error.message);
+      process.exit(1);
+    }
     console.log(`🚀 StepUp BD API running on http://localhost:${PORT}`);
   });
 };

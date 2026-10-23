@@ -4,7 +4,8 @@ const { ALL_DISTRICTS } = require('../data/districts');
 // Demo orders are removed automatically after this many days (TTL index below)
 const DEMO_ORDER_TTL_DAYS = 30;
 
-const PAYMENT_METHODS = ['bkash', 'nagad', 'card', 'cod'];
+const PAYMENT_METHODS = ['bkash', 'nagad', 'rocket', 'card', 'cod'];
+const ORDER_STATUSES = ['placed', 'confirmed', 'shipped', 'delivered', 'cancelled'];
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -54,7 +55,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['placed', 'confirmed', 'shipped', 'delivered', 'cancelled'],
+      enum: ORDER_STATUSES,
       default: 'placed',
     },
     isDemo: { type: Boolean, default: true },
@@ -71,3 +72,4 @@ orderSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model('Order', orderSchema);
 module.exports.PAYMENT_METHODS = PAYMENT_METHODS;
+module.exports.ORDER_STATUSES = ORDER_STATUSES;
