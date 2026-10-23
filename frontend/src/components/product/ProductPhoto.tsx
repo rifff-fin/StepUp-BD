@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ShoeArt } from './ShoeArt';
-import { thumbOf } from '../../lib/images';
+import { fullOf, hasThumb, thumbOf } from '../../lib/images';
 import type { Palette, Silhouette } from '../../types';
 
 interface Props {
@@ -35,14 +35,14 @@ export function ProductPhoto({
     return <ShoeArt palette={palette} silhouette={silhouette} label={alt} className="photo-art" />;
   }
 
-  // External URLs (e.g. a CDN) have no thumbnail convention: use them as they are
-  const local = src.startsWith('/');
+  // Local photos and Cloudinary uploads have thumbnails; any other URL is used as it is
+  const sized = hasThumb(src);
   return (
     <img
       className={className}
-      src={src}
-      srcSet={local ? `${thumbOf(src)} 480w, ${src} 900w` : undefined}
-      sizes={local ? sizes : undefined}
+      src={fullOf(src)}
+      srcSet={sized ? `${thumbOf(src)} 480w, ${fullOf(src)} 900w` : undefined}
+      sizes={sized ? sizes : undefined}
       alt={alt}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"

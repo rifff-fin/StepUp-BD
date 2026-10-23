@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { SkipLink, WhatsAppButton } from './components/layout/Chrome';
+import { FinCredit } from './components/layout/FinCredit';
 import { CartDrawer } from './components/cart/CartDrawer';
 import { WishlistDrawer } from './components/cart/WishlistDrawer';
 import { QuickView } from './components/product/QuickView';
@@ -15,6 +16,8 @@ import { useRevealObserver } from './hooks/useReveal';
 import { initSmoothScroll, setScrollLocked } from './lib/lenis';
 import { startReveal } from './lib/reveal';
 import { selectOverlayOpen, useUi } from './store/uiStore';
+
+const AdminApp = lazy(() => import('./admin/AdminApp'));
 
 export function App() {
   const overlayOpen = useUi(selectOverlayOpen);
@@ -35,6 +38,15 @@ export function App() {
     useUi.getState().closePanel();
   }, [pathname]);
 
+  // The admin panel is its own app (own chunk, no store header/footer)
+  if (pathname.startsWith('/admin')) {
+    return (
+      <Suspense fallback={<div className="admin-boot" />}>
+        <AdminApp />
+      </Suspense>
+    );
+  }
+
   return (
     <>
       <SkipLink />
@@ -54,6 +66,7 @@ export function App() {
       <Checkout />
       <Toasts />
       <WhatsAppButton />
+      <FinCredit />
     </>
   );
 }

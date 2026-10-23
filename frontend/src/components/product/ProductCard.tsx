@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { ProductPhoto } from './ProductPhoto';
 import { formatTaka, sizeLabel } from '../../lib/format';
-import { thumbOf } from '../../lib/images';
+import { fullOf, hasThumb, thumbOf } from '../../lib/images';
 import { useUi } from '../../store/uiStore';
 import { useIsWished, useWishlist } from '../../store/wishlistStore';
 import type { Product } from '../../types';
@@ -60,11 +60,11 @@ export function ProductCard({ product }: { product: Product }) {
             palette={product.palette}
             silhouette={product.silhouette}
           />
-          {second?.startsWith('/') && (
+          {second && hasThumb(second) && (
             <img
               className="photo photo-alt"
               src={thumbOf(second)}
-              srcSet={`${thumbOf(second)} 480w, ${second} 900w`}
+              srcSet={`${thumbOf(second)} 480w, ${fullOf(second)} 900w`}
               sizes={SIZES}
               alt=""
               loading="lazy"
