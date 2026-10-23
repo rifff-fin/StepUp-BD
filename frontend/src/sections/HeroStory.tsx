@@ -52,7 +52,10 @@ export function HeroStory() {
         <div className="stage-bg" aria-hidden="true" />
         <div className={`stage-3d ${ready && show3d ? 'is-3d' : ''}`}>
           <div className="hero-fallback">
-            <ShoeArt palette={colorway.palette} label={`Air Jordan 1 High OG in ${colorway.label}`} />
+            <ShoeArt
+              palette={colorway.palette}
+              label={`Air Jordan 1 High OG in ${colorway.label}`}
+            />
             {!show3d && <p className="fallback-note">{hero.fallbackNote}</p>}
           </div>
           {show3d && (

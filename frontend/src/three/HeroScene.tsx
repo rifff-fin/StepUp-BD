@@ -39,15 +39,15 @@ interface Pose {
 }
 
 const DESKTOP: Pose[] = [
-  { x: 0.14, y: 0.12, scale: 0.74, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
+  { x: 0.2, y: 0.22, scale: 0.66, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
   { x: 0.42, y: 0.04, scale: 0.78, rotY: 0.02, rotX: 0.06 }, // side profile: leather
-  { x: 0.4, y: 0.08, scale: 0.8, rotY: -1.05, rotX: 0.42 }, // toe box
+  { x: 0.4, y: 0.0, scale: 0.72, rotY: -1.05, rotX: 0.42 }, // toe box
   { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
   { x: 0.38, y: 0.04, scale: 0.8, rotY: -0.6, rotX: 0.16 }, // three-quarter, buy
 ];
 
 const PHONE: Pose[] = [
-  { x: 0, y: 0.24, scale: 0.8, rotY: BASE_ANGLE, rotX: 0.12 }, // between the tags and the copy
+  { x: 0, y: 0.26, scale: 0.92, rotY: BASE_ANGLE, rotX: 0.12 }, // between the tags and the copy
   { x: 0, y: 0.3, scale: 1, rotY: 0.02, rotX: 0.06 },
   { x: 0, y: 0.3, scale: 1, rotY: -1.05, rotX: 0.42 },
   { x: 0, y: 0.3, scale: 0.95, rotY: Math.PI - 0.85, rotX: 0.12 },

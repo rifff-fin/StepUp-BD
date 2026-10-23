@@ -476,8 +476,7 @@ button.li-name:hover {
   border-radius: var(--radius);
   border: 1px solid var(--line-2);
   background:
-    radial-gradient(circle at 50% 60%, rgb(var(--fg-rgb) / 0.04), transparent 70%),
-    var(--surface-2);
+    radial-gradient(circle at 50% 60%, rgb(var(--fg-rgb) / 0.04), transparent 70%), var(--surface-2);
   overflow: hidden;
   transition: all 0.55s var(--ease-out);
   touch-action: pan-y;
