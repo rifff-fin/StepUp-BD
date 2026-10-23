@@ -119,6 +119,7 @@
   width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
+  border-radius: var(--radius);
   background: var(--surface-2);
   text-align: left;
 }
@@ -145,7 +146,10 @@
 }
 .brand-label b,
 .brand-label span {
-  background: #ffffff;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.8);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   color: #111111;
   line-height: 1.2;
 }
@@ -153,23 +157,20 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 9px 4px;
+  padding: 6px 12px;
   font-family: var(--ff-display);
   font-weight: 800;
-  font-stretch: 75%;
-  font-size: 19px;
-  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: -0.01em;
 }
 .brand-label b svg {
   width: 16px;
   height: 16px;
 }
 .brand-label span {
-  padding: 4px 8px 3px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 @media (min-width: 900px) {
   .brand-grid {
@@ -216,6 +217,8 @@
 .review-card {
   height: 100%;
   padding: 22px;
+  border-radius: var(--radius);
+  background: var(--surface);
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;

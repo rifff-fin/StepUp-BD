@@ -1,21 +1,20 @@
 /*
- * Design tokens. Plain retail: a white page, ink type, light-grey product boxes and square
- * corners, the way sneaker shops (Sneakersnstuff, Footshop, END.) present product. The
- * colour comes from the photos and the 3D shoe; the only brand colour is University Red,
- * kept for the logo, sale prices and badges. One typeface, Archivo: condensed and heavy for
- * headings, regular for text.
+ * Design tokens. A premium, iOS-like store: soft Apple greys, white cards, rounded
+ * corners, capsule buttons and frosted glass for everything that floats over content
+ * (navbar, hero panels, pills). Ink type, one typeface (Archivo). The colour comes from the
+ * photos and the 3D shoe; University Red only for the logo accent, sale prices and badges.
  *
  * `--fg-rgb` is the theme's foreground as RGB channels, for hairlines and tints:
  * `rgb(var(--fg-rgb) / 0.1)` works on both themes.
  */
 :root {
-  --bg: #ffffff;
-  --bg-2: #f4f4f2; /* alternate bands (newsletter, hero studio) */
+  --bg: #fbfbfd;
+  --bg-2: #f2f2f5; /* alternate bands */
   --surface: #ffffff;
-  --surface-2: #f2f2f0; /* product image boxes */
-  --surface-3: #e4e4e1;
+  --surface-2: #f2f2f4; /* product image boxes */
+  --surface-3: #e3e3e8;
   --fg-rgb: 17 17 17;
-  --text: #111111;
+  --text: #111114;
   --muted: #555555; /* 7.5:1 on white */
   --muted-2: #6b6b6b; /* 5.3:1 on white */
   --line: rgb(var(--fg-rgb) / 0.12);
@@ -31,11 +30,19 @@
   --warn-soft: rgb(176 112 0 / 0.1);
   --shadow: 0 1px 2px rgb(17 17 17 / 0.06), 0 8px 24px -12px rgb(17 17 17 / 0.18);
   --shadow-lift: 0 2px 4px rgb(17 17 17 / 0.06), 0 18px 40px -20px rgb(17 17 17 / 0.28);
-  --radius: 4px;
-  --radius-sm: 2px;
-  --bar-h: 32px; /* announcement bar */
-  --row-h: 60px; /* logo + links row */
-  --nav-h: calc(var(--bar-h) + var(--row-h));
+  --radius: 18px;
+  --radius-sm: 12px;
+  --pill: 999px;
+  /* frosted glass */
+  --glass-bg: rgb(255 255 255 / 0.62);
+  --glass-strong: rgb(255 255 255 / 0.82);
+  --glass-border: rgb(255 255 255 / 0.75);
+  --glass-blur: blur(22px) saturate(180%);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 10px 30px -12px rgb(17 17 20 / 0.22);
+  --bar-h: 32px; /* announcement bar (scrolls away) */
+  --row-h: 60px; /* the floating glass navbar */
+  --nav-gap: 10px;
+  --nav-h: calc(var(--row-h) + var(--nav-gap) * 2); /* what stays fixed once scrolled */
   --gutter: 16px;
   --ff-display: 'Archivo', 'Noto Sans Bengali', 'Arial Narrow', Arial, sans-serif;
   --ff-body:
@@ -60,6 +67,9 @@
   --red: #e2263c; /* lifted for contrast on ink */
   --red-hot: #f04257;
   --red-soft: rgb(var(--red-rgb) / 0.14);
+  --glass-bg: rgb(30 30 34 / 0.6);
+  --glass-strong: rgb(30 30 34 / 0.82);
+  --glass-border: rgb(255 255 255 / 0.12);
   --ok: #4ade80;
   --warn: #f5c35b;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -16px rgb(0 0 0 / 0.6);
@@ -77,6 +87,7 @@
 @media (max-width: 599px) {
   :root {
     --bar-h: 30px;
-    --row-h: 56px;
+    --row-h: 54px;
+    --nav-gap: 8px;
   }
 }

@@ -8,8 +8,8 @@ import { useUi } from '../../store/uiStore';
 import { useWishlist } from '../../store/wishlistStore';
 
 /**
- * Fixed store header: an ink announcement bar (delivery facts, order tracking), then the
- * logo, section links, search, wishlist and cart.
+ * Store header: an ink announcement bar (delivery facts, order tracking) that slides away
+ * on scroll, and a floating frosted-glass navbar (logo, links, search, wishlist, cart).
  */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -52,96 +52,98 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
-        <div className="nav-bar theme-dark">
-          <div className="container nav-bar-inner">
-            <p>
-              {nav.announcement.map((message) => (
-                <span key={message}>{message}</span>
-              ))}
-            </p>
+      <div className={`announce theme-dark ${scrolled ? 'away' : ''}`}>
+        <div className="container announce-inner">
+          <p>
+            {nav.announcement.map((message) => (
+              <span key={message}>{message}</span>
+            ))}
+          </p>
+          <a href="/track" onClick={(event) => onClick(event, '/track')}>
+            {nav.track}
+          </a>
+        </div>
+      </div>
+      <header className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+        <div className="container">
+          <div className="nav-inner glass">
+            <a
+              href={href('#top')}
+              onClick={(event) => onClick(event, '#top')}
+              aria-label="StepUp BD home"
+              className="nav-logo"
+            >
+              <Logo />
+            </a>
+            <nav className="nav-links" aria-label="Main">
+              {links}
+            </nav>
+            <div className="nav-actions">
+              <button
+                type="button"
+                className="icon-btn"
+                aria-label="Search sneakers"
+                onClick={openSearch}
+              >
+                <FiSearch />
+              </button>
+              <button
+                type="button"
+                key={`wish-${wishPulse}`}
+                className={`icon-btn ${wishPulse ? 'bump' : ''}`}
+                aria-label={`Wishlist, ${wishCount} ${wishCount === 1 ? 'item' : 'items'}`}
+                onClick={() => useUi.getState().openPanel('wishlist')}
+              >
+                <FiHeart />
+                <span
+                  className={`count ${wishCount ? 'has' : ''} ${wishPulse ? 'bump' : ''}`}
+                  aria-hidden="true"
+                >
+                  {wishCount}
+                </span>
+              </button>
+              <button
+                type="button"
+                key={`cart-${cartPulse}`}
+                className={`icon-btn cart-btn ${cartPulse ? 'bump' : ''}`}
+                aria-label={`Cart, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
+                onClick={() => useUi.getState().openPanel('cart')}
+              >
+                <FiShoppingBag />
+                <span
+                  className={`count ${cartCount ? 'has' : ''} ${cartPulse ? 'bump' : ''}`}
+                  aria-hidden="true"
+                >
+                  {cartCount}
+                </span>
+              </button>
+              <button
+                type="button"
+                className="icon-btn burger"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                onClick={() => useUi.getState().togglePanel('menu')}
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
+          </div>
+          <nav
+            id="mobile-menu"
+            className={`mobile-menu glass ${menuOpen ? 'open' : ''}`}
+            aria-label="Mobile"
+            aria-hidden={!menuOpen}
+          >
+            {links}
             <a href="/track" onClick={(event) => onClick(event, '/track')}>
               {nav.track}
             </a>
-          </div>
-        </div>
-        <div className="container nav-inner">
-          <a
-            href={href('#top')}
-            onClick={(event) => onClick(event, '#top')}
-            aria-label="StepUp BD home"
-            className="nav-logo"
-          >
-            <Logo />
-          </a>
-          <nav className="nav-links" aria-label="Main">
-            {links}
           </nav>
-          <div className="nav-actions">
-            <button
-              type="button"
-              className="icon-btn"
-              aria-label="Search sneakers"
-              onClick={openSearch}
-            >
-              <FiSearch />
-            </button>
-            <button
-              type="button"
-              key={`wish-${wishPulse}`}
-              className={`icon-btn ${wishPulse ? 'bump' : ''}`}
-              aria-label={`Wishlist, ${wishCount} ${wishCount === 1 ? 'item' : 'items'}`}
-              onClick={() => useUi.getState().openPanel('wishlist')}
-            >
-              <FiHeart />
-              <span
-                className={`count ${wishCount ? 'has' : ''} ${wishPulse ? 'bump' : ''}`}
-                aria-hidden="true"
-              >
-                {wishCount}
-              </span>
-            </button>
-            <button
-              type="button"
-              key={`cart-${cartPulse}`}
-              className={`icon-btn ${cartPulse ? 'bump' : ''}`}
-              aria-label={`Cart, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
-              onClick={() => useUi.getState().openPanel('cart')}
-            >
-              <FiShoppingBag />
-              <span
-                className={`count ${cartCount ? 'has' : ''} ${cartPulse ? 'bump' : ''}`}
-                aria-hidden="true"
-              >
-                {cartCount}
-              </span>
-            </button>
-            <button
-              type="button"
-              className="icon-btn burger"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              onClick={() => useUi.getState().togglePanel('menu')}
-            >
-              <span />
-              <span />
-              <span />
-            </button>
-          </div>
         </div>
       </header>
-      <nav
-        id="mobile-menu"
-        className={`mobile-menu ${menuOpen ? 'open' : ''}`}
-        aria-label="Mobile"
-        aria-hidden={!menuOpen}
-      >
-        {links}
-        <a href="/track" onClick={(event) => onClick(event, '/track')}>
-          {nav.track}
-        </a>
-      </nav>
     </>
   );
 }

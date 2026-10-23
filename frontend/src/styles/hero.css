@@ -1,6 +1,6 @@
 /* =========================================================
-   Hero + scroll story: one sticky 3D stage (a light studio sweep) behind the hero panel and
-   the story steps
+   Hero + short scroll story: one sticky 3D stage (a light studio) behind the hero panel and
+   three story steps
    ========================================================= */
 .story {
   position: relative;
@@ -17,10 +17,12 @@
 .stage-bg {
   position: absolute;
   inset: 0;
-  /* a paper sweep: lighter wall, slightly darker floor */
+  /* a soft studio: light wall, a glow behind the shoe, a slightly darker floor */
   background:
-    radial-gradient(90% 55% at 50% 100%, #e3e2de 0%, transparent 70%),
-    linear-gradient(180deg, #f7f7f5 0%, #efefec 62%, #e8e7e3 100%);
+    radial-gradient(45% 40% at 62% 42%, rgb(255 255 255 / 0.95), transparent 70%),
+    radial-gradient(60% 50% at 85% 15%, rgb(200 16 46 / 0.06), transparent 70%),
+    radial-gradient(90% 55% at 50% 100%, #e2e2e7 0%, transparent 70%),
+    linear-gradient(180deg, #f7f7f9 0%, #efeff3 62%, #e7e7ec 100%);
 }
 .stage-3d {
   position: absolute;
@@ -30,7 +32,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.8s var(--ease-out);
+  transition: opacity 0.6s var(--ease-out);
   touch-action: pan-y;
   cursor: grab;
 }
@@ -40,20 +42,32 @@
 .stage-3d.is-3d .hero-canvas {
   opacity: 1;
 }
+/* while the 3D shoe loads: a soft pulse where it will stand (never a stand-in shoe) */
+.stage-loading {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(46vw, 520px);
+  aspect-ratio: 3 / 1;
+  transform: translate(-30%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(17 17 20 / 0.08), transparent);
+  animation: stagePulse 1.4s ease-in-out infinite;
+}
+@keyframes stagePulse {
+  50% {
+    opacity: 0.4;
+  }
+}
 .hero-fallback {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
-  transition: opacity 0.6s;
 }
 .hero-fallback svg {
   width: min(70%, 600px);
   filter: drop-shadow(0 30px 30px rgb(0 0 0 / 0.18));
-}
-.stage-3d.is-3d .hero-fallback {
-  opacity: 0;
-  pointer-events: none;
 }
 .fallback-note {
   position: absolute;
@@ -76,66 +90,116 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 24px;
-  padding: calc(var(--nav-h) + 20px) 0 28px;
+  justify-content: flex-end;
+  padding: calc(var(--bar-h) + var(--nav-h) + 16px) 0 28px;
   pointer-events: none; /* drags reach the 3D stage behind; the controls opt back in */
-}
-.hero-panel .tags,
-.hero-bottom > * {
-  pointer-events: auto;
-}
-/* label tags, black on white, like a shop's product labels */
-.tags {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  width: max-content;
-  max-width: 100%;
-}
-.tags li {
-  padding: 5px 9px 4px;
-  background: #ffffff;
-  color: #111111;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-.tags li:first-child {
-  font-family: var(--ff-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: 20px;
-  letter-spacing: 0;
 }
 .hero-bottom {
   display: grid;
-  gap: 20px;
+  gap: 18px;
+}
+.hero-copy > *,
+.hero-swatches {
+  pointer-events: auto;
+}
+.offer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 16px;
+  transition: transform 0.2s var(--ease-out);
+}
+.offer-pill:hover {
+  transform: translateY(-1px);
+}
+.offer-pill b {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.offer-pill svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
 }
 .hero-title {
-  font-size: clamp(44px, 5.6vw, 84px);
-  line-height: 0.9;
-  max-width: 7.5em;
+  font-size: clamp(42px, 6vw, 88px);
+  line-height: 0.95;
+  max-width: 8.5em;
 }
-.hero-copy p {
+.hero-copy > p {
   color: var(--muted);
-  font-size: 15px;
-  max-width: 420px;
+  font-size: 16px;
+  max-width: 440px;
   margin-top: 14px;
 }
 .hero-ctas {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 22px;
 }
-.swatch-label {
+.quick-brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+.quick-brands button {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  transition:
+    background 0.2s,
+    transform 0.2s var(--ease-out);
+}
+.quick-brands button:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+.hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 16px;
   font-size: 13px;
   color: var(--muted);
-  margin-bottom: 8px;
+}
+.hero-trust li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-trust svg {
+  width: 14px;
+  height: 14px;
+  color: var(--ok);
+}
+
+/* colourway panel */
+.hero-swatches {
+  justify-self: start;
+  padding: 14px 16px;
+  border-radius: 20px;
+}
+.swatch-model {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.swatch-label {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 2px 0 10px;
 }
 .swatch-label b {
   color: var(--text);
@@ -143,28 +207,30 @@
 }
 .swatches {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 .swatch {
-  width: 46px;
-  height: 46px;
-  padding: 4px;
-  border: 1px solid var(--line-2);
-  border-radius: var(--radius-sm);
-  background: #ffffff;
-  transition: border-color 0.2s;
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition:
+    border-color 0.2s,
+    transform 0.2s var(--ease-out);
 }
 .swatch:hover {
-  border-color: var(--text);
+  transform: scale(1.06);
 }
 .swatch[aria-pressed='true'] {
   border-color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--text);
 }
 .swatch-dot {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgb(17 17 20 / 0.12);
   background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%);
 }
 .drag-hint {
@@ -186,9 +252,9 @@
   gap: 8px;
   margin-top: 10px;
   padding: 8px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   border: 1px solid var(--line-2);
-  background: #ffffff;
+  background: #fff;
   font-size: 12px;
   color: var(--muted);
 }
@@ -203,17 +269,17 @@
   text-underline-offset: 3px;
 }
 
-/* ---- story steps: the copy scrolls past while the shoe turns to each detail ---- */
+/* ---- story steps: each 60% of a screen (STEP_SCREENS in HeroScene.tsx) ---- */
 .story-steps {
   position: relative;
   z-index: 2;
 }
 .story-step {
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: 60vh;
+  min-height: 60svh;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 88px; /* clear of the WhatsApp button */
+  padding-bottom: 24px;
   pointer-events: none;
 }
 .story-step > .container {
@@ -221,46 +287,19 @@
 }
 .story-copy {
   pointer-events: auto;
-  max-width: 440px;
-  padding: 40px 0 6px;
-  /* phones: the shoe sits above, the copy reads on the studio floor */
-  background: linear-gradient(to top, rgb(232 231 227 / 0.96) 62%, transparent);
+  max-width: 400px;
+  padding: 20px 22px;
+  border-radius: 22px;
 }
 .story-copy h2 {
-  font-size: clamp(36px, 5vw, 64px);
-  margin: 10px 0 12px;
+  font-size: clamp(28px, 3.4vw, 44px);
+  margin: 6px 0 8px;
 }
 .story-copy p {
   color: var(--muted);
-  font-size: 16px;
 }
-.story-points {
-  display: grid;
-  gap: 6px;
-  margin: 4px 0 18px;
-}
-.story-points li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-}
-.story-points svg {
-  width: 16px;
-  height: 16px;
-}
-.story-price {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.story-price strong {
-  font-family: var(--ff-display);
-  font-weight: 800;
-  font-stretch: 75%;
-  font-size: 40px;
-  line-height: 1;
+.story-copy .btn {
+  margin-top: 16px;
 }
 
 /* ---- intro: plays once the page is revealed (html.revealed) ---- */
@@ -269,7 +308,7 @@ html.js:not(.revealed) .intro-up {
 }
 html.revealed .intro-up {
   animation: introRise 0.8s var(--ease-out) both;
-  animation-delay: calc(0.15s + var(--i, 0) * 0.1s);
+  animation-delay: calc(0.1s + var(--i, 0) * 0.08s);
 }
 @keyframes introRise {
   from {
@@ -283,23 +322,57 @@ html.revealed .intro-up {
 }
 
 @media (max-width: 899px) {
-  /* phones: colourways sit right under the shoe, in one row */
+  /* phones: shoe on top, colourways in one row, then the copy */
   .hero-swatches {
     order: -1;
+    justify-self: stretch;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px 10px;
+    padding: 10px 12px;
+  }
+  .swatch-model,
+  .drag-hint {
+    display: none;
   }
   .swatch-label {
     margin: 0;
   }
-  .drag-hint {
+  .hero-ctas .btn {
+    flex: 1 1 0;
+    padding: 0 14px;
+  }
+  .hero-trust {
     display: none;
   }
-  .hero-ctas .btn {
-    flex: 1 1 100%;
+}
+@media (max-width: 599px) {
+  .hero-copy > p {
+    display: none; /* the shoe needs the room; the announcement bar and chips carry it */
+  }
+  .offer-pill {
+    margin-bottom: 12px;
+  }
+  .hero-ctas {
+    margin-top: 16px;
+  }
+  .hero-ctas .btn-glass {
+    display: none; /* Trending is the very next section */
+  }
+  .quick-brands {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 14px calc(var(--gutter) * -1) 0;
+    padding: 0 var(--gutter) 2px;
+  }
+  .quick-brands li {
+    flex: none;
+  }
+  .hero-panel {
+    padding-bottom: 64px; /* clear of the Fin Projukti badge */
   }
 }
 @media (min-width: 900px) {
@@ -309,17 +382,13 @@ html.revealed .intro-up {
     gap: 40px;
   }
   .hero-panel {
-    padding-bottom: 40px;
+    padding-bottom: 72px; /* clear of the Fin Projukti pill */
   }
   .hero-swatches {
-    padding-right: 72px; /* clear of the WhatsApp button */
+    margin-right: 64px; /* clear of the WhatsApp button */
   }
   .story-step {
-    align-items: center;
-    padding-bottom: 0;
-  }
-  .story-copy {
-    background: none;
-    padding: 0;
+    align-items: flex-start;
+    padding: 12vh 0 0;
   }
 }

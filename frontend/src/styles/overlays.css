@@ -467,73 +467,6 @@ button.li-name:hover {
 .qv-thumb[aria-pressed='true'] {
   border-color: var(--text);
 }
-.qv-3d {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  width: 132px;
-  height: 132px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line-2);
-  background:
-    radial-gradient(circle at 50% 60%, rgb(var(--fg-rgb) / 0.04), transparent 70%), var(--surface-2);
-  overflow: hidden;
-  transition: all 0.55s var(--ease-out);
-  touch-action: pan-y;
-  box-shadow: var(--shadow);
-  cursor: grab;
-}
-.qv-3d:active {
-  cursor: grabbing;
-}
-.qv-3d.expanded {
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  border-color: transparent;
-}
-.qv-media.show3d .qv-img {
-  opacity: 0;
-}
-.qv-3d-label {
-  position: absolute;
-  left: 8px;
-  top: 8px;
-  z-index: 1;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  background: rgb(21 18 15 / 0.78);
-  padding: 3px 7px;
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}
-.qv-3d-expand {
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
-  z-index: 1;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgb(21 18 15 / 0.78);
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line-2);
-}
-.qv-3d-expand svg {
-  width: 16px;
-  height: 16px;
-}
-.qv-3d-loading {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-}
 .qv-info {
   padding: 22px 20px 26px;
   display: flex;
@@ -711,10 +644,6 @@ button.li-name:hover {
   .size-grid {
     grid-template-columns: repeat(7, 1fr);
   }
-  .qv-3d {
-    width: 160px;
-    height: 160px;
-  }
 }
 @media (min-width: 900px) {
   /* Fixed-height dialog: the image fills the left side, the details scroll on the right */
@@ -796,7 +725,3 @@ button.li-name:hover {
 }
 
 /* dark pills over the media (labels on photos / 3D) */
-.qv-3d-label,
-.qv-3d-expand {
-  color: #f3efe8;
-}

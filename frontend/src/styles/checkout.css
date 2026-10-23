@@ -218,6 +218,9 @@
   padding: 0;
   margin: 0;
 }
+.pay-opt:last-child:nth-child(odd) {
+  grid-column: 1 / -1; /* five methods: Cash on Delivery takes the full last row */
+}
 .pay-opt {
   position: relative;
   cursor: pointer;

@@ -18,6 +18,13 @@ export const site = {
     { id: 'youtube', label: 'YouTube', href: 'https://youtube.com/' },
   ],
   builtBy: { label: 'Fin Projukti', href: 'https://finprojukti.tech' },
+  // the floating "built by" card (bottom-left)
+  credit: {
+    short: 'Built by Fin Projukti',
+    title: 'Want a website like this?',
+    text: 'Fin Projukti builds online stores, 3D product pages, admin panels and apps for Bangladeshi businesses.',
+    cta: 'Contact Fin Projukti',
+  },
 } as const;
 
 export const nav = {
@@ -38,44 +45,41 @@ export const nav = {
 };
 
 export const hero = {
-  // label tags over the 3D stage: the brand, then the model in the chosen colourway
-  brandTag: 'Jordan',
-  model: 'Air Jordan 1 High OG',
+  offer: { code: 'STEPUP10', text: '10% off your first order' },
   title: 'Premium, but Affordable.',
   lede: 'Air Jordan, Dunk, Air Force 1, Samba and New Balance from ৳3,500. Cash on Delivery anywhere in Bangladesh.',
-  cta: 'Shop all sneakers',
-  ctaModel: 'Shop Air Jordan 1',
+  cta: 'Shop the collection',
+  ctaSecondary: 'Trending now',
+  // quick brand chips under the buttons: each filters the shop
+  quickBrands: ['Jordan', 'Nike', 'Air Force', 'Adidas', 'New Balance'],
+  trust: ['Cash on Delivery', '7-day exchange', 'All 64 districts'],
+  model: 'Air Jordan 1 High OG',
   colorLabel: 'Colourway',
   dragHint: 'Drag to turn',
   fallbackNote: '3D preview unavailable on this device',
 };
 
-// The scroll story under the hero: the 3D shoe turns to each detail as you scroll
+// The short scroll story under the hero: the 3D shoe turns to each detail. The 3D shoe is
+// for the look only; it is not a product for sale.
 export const story = {
   steps: [
     {
-      eyebrow: '01 / 04',
-      title: 'Air Jordan 1 High OG',
-      text: 'The 1985 original: leather upper, Air unit in the heel. Pick White / Red, Bred or All Black above.',
+      eyebrow: '01 / 03',
+      title: 'The 1985 original',
+      text: 'The Air Jordan 1 High OG silhouette: leather upper, Air unit in the heel.',
     },
     {
-      eyebrow: '02 / 04',
+      eyebrow: '02 / 03',
       title: 'Perforated toe box',
       text: 'Perforations across the toe for airflow, framed by the toe overlay.',
     },
     {
-      eyebrow: '03 / 04',
+      eyebrow: '03 / 03',
       title: 'Wings on the collar',
       text: 'The Wings logo pressed into the ankle collar, with a padded lining.',
     },
   ],
-  final: {
-    eyebrow: '04 / 04',
-    title: 'Shop the Bred',
-    points: ['Leather upper', 'EU 39–45 in stock', 'Cash on Delivery, all 64 districts'],
-    cta: 'Choose your size',
-    ctaSecondary: 'Browse all pairs',
-  },
+  cta: 'Find your pair',
   motionOff: 'Animations are off on this device',
   motionOn: 'Turn on motion',
 };

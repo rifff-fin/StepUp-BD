@@ -39,22 +39,23 @@ interface Pose {
 }
 
 const DESKTOP: Pose[] = [
-  { x: 0.2, y: 0.22, scale: 0.66, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
+  { x: 0.24, y: 0.12, scale: 0.6, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
   { x: 0.42, y: 0.04, scale: 0.78, rotY: 0.02, rotX: 0.06 }, // side profile: leather
   { x: 0.4, y: 0.0, scale: 0.72, rotY: -1.05, rotX: 0.42 }, // toe box
   { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
-  { x: 0.38, y: 0.04, scale: 0.8, rotY: -0.6, rotX: 0.16 }, // three-quarter, buy
 ];
 
 const PHONE: Pose[] = [
-  { x: 0, y: 0.26, scale: 0.92, rotY: BASE_ANGLE, rotX: 0.12 }, // between the tags and the copy
-  { x: 0, y: 0.3, scale: 1, rotY: 0.02, rotX: 0.06 },
-  { x: 0, y: 0.3, scale: 1, rotY: -1.05, rotX: 0.42 },
-  { x: 0, y: 0.3, scale: 0.95, rotY: Math.PI - 0.85, rotX: 0.12 },
-  { x: 0, y: 0.42, scale: 0.8, rotY: -0.6, rotX: 0.16 },
+  { x: 0, y: 0.36, scale: 0.84, rotY: BASE_ANGLE, rotX: 0.12 }, // above the copy
+  // the story: the shoe sits mid-screen, between the card leaving and the one arriving
+  { x: 0, y: -0.12, scale: 0.9, rotY: 0.02, rotX: 0.06 },
+  { x: 0, y: -0.12, scale: 0.9, rotY: -1.05, rotX: 0.42 },
+  { x: 0, y: -0.12, scale: 0.86, rotY: Math.PI - 0.85, rotX: 0.12 },
 ];
 
 export const STORY_STOPS = DESKTOP.length - 1;
+/** Each story step is this many screens tall (keep in sync with `.story-step` in hero.css). */
+const STEP_SCREENS = 0.6;
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
 const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a)); // to (-π, π]
@@ -63,7 +64,7 @@ const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a)); // to (-�
  * The hero + scroll-story 3D stage (lazy chunk). The canvas is sticky behind the hero and
  * the story steps; the shoe glides between poses as the page scrolls, eased so it feels
  * like a scrubbed timeline. In the hero it also spins slowly, floats, leans towards the
- * mouse and can be dragged. It plays an intro spin when the loader lifts.
+ * mouse and can be dragged. It spins up into place once the shoe has loaded.
  */
 export default function HeroScene({
   colorway,
@@ -86,31 +87,23 @@ export default function HeroScene({
     >
       <Studio />
       <Suspense fallback={null}>
-        <Rig colorway={colorway} reduced={reduced} storyRef={storyRef} />
-        <Ready onReady={onReady} />
+        <Rig colorway={colorway} reduced={reduced} storyRef={storyRef} onReady={onReady} />
       </Suspense>
     </Canvas>
   );
-}
-
-/** Tells the page once the first frame with the shoe has been drawn. */
-function Ready({ onReady }: { onReady: () => void }) {
-  const frames = useRef(0);
-  useFrame(() => {
-    frames.current += 1;
-    if (frames.current === 2) onReady();
-  });
-  return null;
 }
 
 function Rig({
   colorway,
   reduced,
   storyRef,
+  onReady,
 }: {
   colorway: Colorway;
   reduced: boolean;
   storyRef: RefObject<HTMLElement | null>;
+  /** Called a frame after the shoe is visible in its colourway. */
+  onReady: () => void;
 }) {
   const rig = useRef<THREE.Group>(null);
   const tilt = useRef<THREE.Group>(null);
@@ -133,9 +126,10 @@ function Rig({
     return () => window.removeEventListener('pointermove', onMove);
   }, []);
 
-  // The intro spin starts when the loader lifts
+  // The intro spin starts once the page is revealed and the shoe is visible
   const revealedAt = useRef(false);
   useEffect(() => onRevealed(() => (revealedAt.current = true)), []);
+  const shownAt = useRef<number | null>(null); // frames since the shoe became visible
 
   useFrame((state, rawDelta) => {
     const delta = Math.min(rawDelta, 0.05);
@@ -143,10 +137,13 @@ function Rig({
     const { damp, clamp, lerp } = THREE.MathUtils;
     const { camera, size } = state;
 
-    // Scroll: screens scrolled into the story (0 = hero)
+    // Tell the page a frame after the shoe is drawn, so the canvas fades in with it
+    if (shownAt.current !== null && shownAt.current < 2 && ++shownAt.current === 2) onReady();
+
+    // Scroll: story steps scrolled past (0 = hero)
     const el = storyRef.current;
     const vh = window.innerHeight || 1;
-    const s = el ? clamp(-el.getBoundingClientRect().top / vh, 0, STORY_STOPS) : 0;
+    const s = el ? clamp(-el.getBoundingClientRect().top / (vh * STEP_SCREENS), 0, STORY_STOPS) : 0;
 
     const aspect = size.width / Math.max(1, size.height);
     const poses = aspect < 0.9 ? PHONE : DESKTOP;
@@ -162,7 +159,9 @@ function Rig({
     if (i === 0) rotYa = b.rotY + wrapAngle(a.rotY + idle - b.rotY);
 
     // Intro: rise from below with one and a half turns (skipped with reduced motion)
-    if (intro.current === null && revealedAt.current) intro.current = time;
+    if (intro.current === null && revealedAt.current && shownAt.current !== null) {
+      intro.current = time;
+    }
     const introT = reduced
       ? 1
       : intro.current === null
@@ -222,7 +221,12 @@ function Rig({
         <group ref={spin}>
           {/* stand the shoe on the floor and centre it */}
           <group position={[0, -SHOE_HEIGHT / 2, 0]}>
-            <Shoe colorway={colorway} />
+            <Shoe
+              colorway={colorway}
+              onShown={() => {
+                shownAt.current ??= 0;
+              }}
+            />
           </group>
         </group>
       </group>
