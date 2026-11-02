@@ -4,7 +4,7 @@
 .usp {
   position: relative;
   z-index: 2;
-  padding: 8px 0 28px;
+  padding: 40px 0 0; /* right above Trending */
 }
 .usp-list {
   display: grid;
@@ -16,10 +16,9 @@
   gap: 12px;
   padding: 16px;
   border-radius: var(--radius);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
 }
 .usp-list svg {
   width: 34px;

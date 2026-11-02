@@ -64,8 +64,8 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
 7. **Motion.** `html[data-reduced]` (set before first paint) drives CSS and JS; the
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
 8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under: the hero
-   panel, the service strip (`WhyUs`, owner's order: hero, then the strip) and ONE story
-   step, "Wings on the collar" + "Find your pair" (the owner removed the others; keep the
+   panel and ONE story
+   step (the service strip `WhyUs` now sits outside it, right above Trending), "Wings on the collar" + "Find your pair" (the owner removed the others; keep the
    whole thing under ~1.8 screens). `storyProgress` in `three/HeroScene.tsx` maps scroll to
    one continuous move (hero pose to the Wings pose): ease-in-out, a slight arc, the shoe
    turning forward like a turntable, a soft scrub (`damp` k = 3.2, about GSAP `scrub: 1`).

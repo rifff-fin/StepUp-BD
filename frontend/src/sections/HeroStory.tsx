@@ -11,7 +11,6 @@ import { scrollToId } from '../lib/lenis';
 import { getMotionPref, setMotionPref } from '../lib/motion';
 import { onRevealed } from '../lib/reveal';
 import { useUi } from '../store/uiStore';
-import { WhyUs } from './WhyUs';
 
 // three + R3F + drei load in their own chunk, after the page is interactive
 const HeroScene = lazy(() => import('../three/HeroScene'));
@@ -192,10 +191,7 @@ export function HeroStory() {
         </div>
       </section>
 
-      {/* 2 · why StepUp BD, right under the hero */}
-      <WhyUs />
-
-      {/* 3 · a short story: the shoe turns to each detail */}
+      {/* 2 · a short story: the shoe turns to each detail */}
       <div className="story-steps">
         {story.steps.map((step, i) => (
           <section className="story-step" key={step.title} aria-label={step.title}>

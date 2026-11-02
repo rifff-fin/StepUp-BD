@@ -269,4 +269,6 @@ delivery timeline. **404** page shows trending picks.
     ease-in-out, a slight lift and push-in arc, a forward turntable turn and a softer scrub;
     it finishes as the card enters and holds while the card scrolls past.
   - QA: desktop + phone frames through the scroll, 0 console errors, build clean.
-
+- 2 Nov 2026: The service strip (Checked by hand, Pay on delivery, 7-day exchange, Dhaka
+  in 24–48 hours) moved out of the dark hero to sit right above Trending, as white cards
+  with mocha icons. The hero section is now 1.6 screens.
