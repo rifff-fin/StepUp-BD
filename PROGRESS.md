@@ -261,4 +261,12 @@ delivery timeline. **404** page shows trending picks.
     3D chunk 290 kB gzip.
   - QA: desktop + phone, 0 console errors; full flow (brand chip, quick view, size check,
     STEPUP10, Rocket wallet, order) on both; QA orders deleted from Atlas.
+- 2 Nov 2026: Phase 7. Owner: the hero was too long and the scroll motion not good.
+  - Removed "The 1985 original" and "Perforated toe box"; the story goes straight to
+    "Wings on the collar" + "Find your pair". The hero section is 1.75 screens (was 2.95).
+  - Motion reworked along the web3d-integration-patterns guide (one scrubbed timeline, not
+    stepwise snaps): a single continuous move from the hero pose to the Wings view with
+    ease-in-out, a slight lift and push-in arc, a forward turntable turn and a softer scrub;
+    it finishes as the card enters and holds while the card scrolls past.
+  - QA: desktop + phone frames through the scroll, 0 console errors, build clean.
 
