@@ -196,7 +196,7 @@ export function HeroStory() {
         {story.steps.map((step, i) => (
           <section className="story-step" key={step.title} aria-label={step.title}>
             <div className="container">
-              <div className="story-copy glass" data-reveal>
+              <div className="story-copy" data-reveal>
                 <h2 className="display">{step.title}</h2>
                 <p>{step.text}</p>
                 {i === story.steps.length - 1 && (

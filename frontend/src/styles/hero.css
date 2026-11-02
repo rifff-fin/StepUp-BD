@@ -383,19 +383,34 @@
 }
 .story-copy {
   pointer-events: auto;
-  max-width: 400px;
-  padding: 20px 22px;
-  border-radius: 22px;
+  max-width: 460px;
+}
+/* a short mocha rule above the title instead of a box */
+.story-copy::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  margin-bottom: 18px;
+  border-radius: 2px;
+  background: var(--mocha-3);
 }
 .story-copy h2 {
-  font-size: clamp(28px, 3.4vw, 44px);
-  margin: 6px 0 8px;
+  font-size: clamp(36px, 4.6vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+  text-wrap: balance;
 }
 .story-copy p {
+  max-width: 34ch;
+  font-size: 17px;
+  line-height: 1.6;
   color: var(--muted);
+  text-wrap: pretty;
 }
 .story-copy .btn {
-  margin-top: 16px;
+  margin-top: 26px;
 }
 
 /* ---- intro: plays once the page is revealed (html.revealed) ---- */
