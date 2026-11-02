@@ -374,8 +374,8 @@
   min-height: 60vh;
   min-height: 60svh;
   display: flex;
-  align-items: flex-start; /* phones: the card arrives under the shoe (top of the screen) */
-  padding-top: 8px;
+  align-items: flex-end; /* phones: the card at the bottom, the shoe in the space above */
+  padding-bottom: 76px; /* clear of the WhatsApp button */
   pointer-events: none;
 }
 .story-step > .container {

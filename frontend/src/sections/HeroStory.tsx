@@ -19,7 +19,7 @@ const HeroScene = lazy(() => import('../three/HeroScene'));
 /**
  * The hero and a short scroll story share one sticky 3D stage. The 3D shoe is there for
  * the look (it is not a product for sale): the hero sells the store (offer, shop buttons,
- * quick brand chips), the shoe spins up, and three short steps turn it to its details.
+ * quick brand chips), the shoe spins up, then one short step turns it to the Wings logo.
  * Until the 3D shoe is ready the stage stays empty, so a reload never flashes a stand-in;
  * the drawn shoe only shows on devices without WebGL.
  */

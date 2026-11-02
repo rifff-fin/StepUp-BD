@@ -64,14 +64,6 @@ export const hero = {
 export const story = {
   steps: [
     {
-      title: 'The 1985 original',
-      text: 'The Air Jordan 1 High OG silhouette: leather upper, Air unit in the heel.',
-    },
-    {
-      title: 'Perforated toe box',
-      text: 'Perforations across the toe for airflow, framed by the toe overlay.',
-    },
-    {
       title: 'Wings on the collar',
       text: 'The Wings logo pressed into the ankle collar, with a padded lining.',
     },
