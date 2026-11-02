@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { HeroStory } from '../sections/HeroStory';
-import { WhyUs } from '../sections/WhyUs';
 import { Trending } from '../sections/Trending';
 import { Brands } from '../sections/Brands';
 import { Shop } from '../sections/Shop';
@@ -23,7 +22,6 @@ export function HomePage() {
   return (
     <>
       <HeroStory />
-      <WhyUs />
       <Trending />
       <Brands />
       <Shop />

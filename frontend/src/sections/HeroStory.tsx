@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState, type CSSProperties } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { FiArrowRight, FiCheck, FiCopy, FiMove, FiPlay, FiTag } from 'react-icons/fi';
 import { hero, story } from '../content/copy';
 import { ShoeArt } from '../components/product/ShoeArt';
@@ -9,7 +9,9 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import { hasWebGL } from '../lib/webgl';
 import { scrollToId } from '../lib/lenis';
 import { getMotionPref, setMotionPref } from '../lib/motion';
+import { onRevealed } from '../lib/reveal';
 import { useUi } from '../store/uiStore';
+import { WhyUs } from './WhyUs';
 
 // three + R3F + drei load in their own chunk, after the page is interactive
 const HeroScene = lazy(() => import('../three/HeroScene'));
@@ -27,11 +29,30 @@ export function HeroStory() {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [load3d, setLoad3d] = useState(false);
   const inView = useInView(storyRef, '100px');
   const reduced = useReducedMotion();
   const show3d = hasWebGL() && !failed;
   // OS asks for reduced motion and the visitor hasn't chosen: offer to turn motion on
   const offerMotion = reduced && getMotionPref() === 'auto';
+
+  // The 3D chunk (~290 kB) and the model (~0.9 MB) start downloading once the page is
+  // revealed and the browser is idle, so on phones the copy, buttons and shop load first
+  useEffect(() => {
+    let idle = 0;
+    const cancelReveal = onRevealed(() => {
+      const start = () => setLoad3d(true);
+      idle =
+        'requestIdleCallback' in window
+          ? window.requestIdleCallback(start, { timeout: 1500 })
+          : setTimeout(start, 300);
+    });
+    return () => {
+      cancelReveal();
+      if ('cancelIdleCallback' in window) window.cancelIdleCallback(idle);
+      window.clearTimeout(idle);
+    };
+  }, []);
 
   const go = (id: string) => (event: React.MouseEvent) => {
     event.preventDefault();
@@ -48,10 +69,12 @@ export function HeroStory() {
   };
 
   return (
-    <div id="top" ref={storyRef} className="story">
+    <div id="top" ref={storyRef} className="story theme-dark" data-nav-dark>
       {/* sticky stage: the 3D shoe on a studio backdrop */}
       <div className="story-stage">
-        <div className="stage-bg" aria-hidden="true" />
+        <div className="stage-bg" aria-hidden="true">
+          <StageGraphics />
+        </div>
         <div className={`stage-3d ${ready && show3d ? 'is-3d' : ''}`}>
           {!show3d && (
             <div className="hero-fallback">
@@ -60,7 +83,7 @@ export function HeroStory() {
             </div>
           )}
           {show3d && !ready && <div className="stage-loading" aria-hidden="true" />}
-          {show3d && (
+          {show3d && load3d && (
             <div className="hero-canvas">
               <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
                 <Suspense fallback={null}>
@@ -169,13 +192,15 @@ export function HeroStory() {
         </div>
       </section>
 
-      {/* 2–4 · a short story: the shoe turns to each detail */}
+      {/* 2 · why StepUp BD, right under the hero */}
+      <WhyUs />
+
+      {/* 3 · a short story: the shoe turns to each detail */}
       <div className="story-steps">
         {story.steps.map((step, i) => (
-          <section className="story-step" key={step.eyebrow} aria-label={step.title}>
+          <section className="story-step" key={step.title} aria-label={step.title}>
             <div className="container">
               <div className="story-copy glass" data-reveal>
-                <span className="eyebrow">{step.eyebrow}</span>
                 <h2 className="display">{step.title}</h2>
                 <p>{step.text}</p>
                 {i === story.steps.length - 1 && (
@@ -189,5 +214,29 @@ export function HeroStory() {
         ))}
       </div>
     </div>
+  );
+}
+
+/**
+ * The stage's graphics on the dark mocha backdrop: orbit rings behind the shoe, a fading
+ * floor grid, and a small spec label. Pure SVG/CSS, no images to download.
+ */
+function StageGraphics() {
+  return (
+    <>
+      <svg className="stage-rings" viewBox="0 0 800 800" fill="none">
+        <circle cx="400" cy="400" r="390" className="ring ring-1" />
+        <circle cx="400" cy="400" r="300" className="ring ring-2" />
+        <circle cx="400" cy="400" r="210" className="ring ring-3" />
+        <circle cx="400" cy="10" r="4" className="ring-dot" />
+        <circle cx="700" cy="400" r="3" className="ring-dot" />
+        <circle cx="190" cy="400" r="3" className="ring-dot" />
+      </svg>
+      <div className="stage-floor" />
+      <p className="stage-spec">
+        <span>{hero.model}</span>
+        <span>1985 · Leather · Air</span>
+      </p>
+    </>
   );
 }

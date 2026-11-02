@@ -4,23 +4,31 @@
 .usp {
   position: relative;
   z-index: 2;
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  padding: 8px 0 28px;
 }
 .usp-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .usp-list li {
   display: flex;
   gap: 12px;
-  padding: 18px 12px 18px 0;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
 }
 .usp-list svg {
-  width: 20px;
-  height: 20px;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
   flex: none;
-  margin-top: 2px;
+  border-radius: 50%;
+  color: #f7f2ee;
+  background: linear-gradient(135deg, var(--mocha-2), var(--mocha-1));
 }
 .usp-list h3 {
   font-size: 14px;
@@ -30,18 +38,34 @@
   font-size: 13px;
   color: var(--muted);
   line-height: 1.45;
+  margin-top: 2px;
+}
+@media (max-width: 599px) {
+  /* phones: one swipeable row, so the strip never covers the shoe for long */
+  .usp-list {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 0 var(--gutter);
+  }
+  .usp-list::-webkit-scrollbar {
+    display: none;
+  }
+  .usp-list li {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+    padding: 14px;
+  }
 }
 @media (min-width: 900px) {
   .usp-list {
     grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
   }
   .usp-list li {
-    padding: 22px 20px;
-    border-left: 1px solid var(--line);
-  }
-  .usp-list li:first-child {
-    border-left: 0;
-    padding-left: 0;
+    padding: 18px;
   }
 }
 
