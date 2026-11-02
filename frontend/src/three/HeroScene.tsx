@@ -1,6 +1,6 @@
-import { Suspense, useEffect, useRef, type RefObject } from 'react';
+import { Suspense, useEffect, useRef, useState, type RefObject } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Shadow } from '@react-three/drei';
+import { PerformanceMonitor, Shadow } from '@react-three/drei';
 import * as THREE from 'three';
 import { Shoe } from './Shoe';
 import { Studio } from './Studio';
@@ -40,22 +40,35 @@ interface Pose {
 
 const DESKTOP: Pose[] = [
   { x: 0.24, y: 0.12, scale: 0.6, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
-  { x: 0.42, y: 0.04, scale: 0.78, rotY: 0.02, rotX: 0.06 }, // side profile: leather
+  { x: 0.42, y: 0.02, scale: 0.68, rotY: 0.02, rotX: 0.06 }, // side profile: leather
   { x: 0.4, y: 0.0, scale: 0.72, rotY: -1.05, rotX: 0.42 }, // toe box
   { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
 ];
 
 const PHONE: Pose[] = [
   { x: 0, y: 0.36, scale: 0.84, rotY: BASE_ANGLE, rotX: 0.12 }, // above the copy
-  // the story: the shoe sits mid-screen, between the card leaving and the one arriving
-  { x: 0, y: -0.12, scale: 0.9, rotY: 0.02, rotX: 0.06 },
-  { x: 0, y: -0.12, scale: 0.9, rotY: -1.05, rotX: 0.42 },
-  { x: 0, y: -0.12, scale: 0.86, rotY: Math.PI - 0.85, rotX: 0.12 },
+  // the story: the shoe in the top part of the screen, each card arrives below it
+  { x: 0, y: 0.52, scale: 0.72, rotY: 0.02, rotX: 0.06 },
+  { x: 0, y: 0.52, scale: 0.74, rotY: -1.05, rotX: 0.42 },
+  { x: 0, y: 0.52, scale: 0.7, rotY: Math.PI - 0.85, rotX: 0.12 },
 ];
 
 export const STORY_STOPS = DESKTOP.length - 1;
 /** Each story step is this many screens tall (keep in sync with `.story-step` in hero.css). */
 const STEP_SCREENS = 0.6;
+
+/**
+ * Story progress (0 = hero pose, 1..STORY_STOPS = each step). The hero hands over to the
+ * first pose until the first step reaches 40% down the screen (whatever sits in between,
+ * like the service strip), then each step is STEP_SCREENS of a screen.
+ */
+function storyProgress(story: HTMLElement, vh: number) {
+  const scrolled = -story.getBoundingClientRect().top;
+  const steps = story.querySelector<HTMLElement>('.story-steps');
+  const first = Math.max(1, (steps ? steps.offsetTop : vh) - vh * 0.4);
+  const s = scrolled < first ? scrolled / first : 1 + (scrolled - first) / (vh * STEP_SCREENS);
+  return THREE.MathUtils.clamp(s, 0, STORY_STOPS);
+}
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
 const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a)); // to (-π, π]
@@ -74,17 +87,28 @@ export default function HeroScene({
   onReady,
   onContextLost,
 }: Props) {
+  // Phones: a lower pixel ratio, no MSAA on dense screens, and the default GPU profile
+  // (saves battery); if frames drop anywhere, the pixel ratio steps down to 1
+  const [phone] = useState(
+    () => window.matchMedia('(max-width: 899px), (pointer: coarse)').matches,
+  );
+  const [maxDpr, setMaxDpr] = useState(phone ? 1.5 : 2);
   return (
     <Canvas
-      dpr={[1, 2]} // pixel ratio capped at 2 for mid-range phones
+      dpr={[1, maxDpr]}
       frameloop={active ? 'always' : 'never'}
       camera={{ fov: FOV, position: [0, 0.6, 7], near: 0.1, far: 60 }}
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      gl={{
+        antialias: !phone || window.devicePixelRatio < 2,
+        alpha: true,
+        powerPreference: phone ? 'default' : 'high-performance',
+      }}
       onCreated={({ gl }) => {
         gl.domElement.addEventListener('webglcontextlost', onContextLost, { once: true });
       }}
       aria-hidden="true"
     >
+      <PerformanceMonitor onDecline={() => setMaxDpr(1)} />
       <Studio />
       <Suspense fallback={null}>
         <Rig colorway={colorway} reduced={reduced} storyRef={storyRef} onReady={onReady} />
@@ -143,7 +167,7 @@ function Rig({
     // Scroll: story steps scrolled past (0 = hero)
     const el = storyRef.current;
     const vh = window.innerHeight || 1;
-    const s = el ? clamp(-el.getBoundingClientRect().top / (vh * STEP_SCREENS), 0, STORY_STOPS) : 0;
+    const s = el ? storyProgress(el, vh) : 0;
 
     const aspect = size.width / Math.max(1, size.height);
     const poses = aspect < 0.9 ? PHONE : DESKTOP;
