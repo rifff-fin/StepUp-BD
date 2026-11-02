@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import { FiHeart, FiSearch, FiShoppingBag } from 'react-icons/fi';
 import { nav } from '../../content/copy';
 import { Logo } from './Logo';
@@ -13,6 +14,8 @@ import { useWishlist } from '../../store/wishlistStore';
  */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [overDark, setOverDark] = useState(false);
+  const { pathname } = useLocation();
   const panel = useUi((s) => s.panel);
   const cartPulse = useUi((s) => s.cartPulse);
   const wishPulse = useUi((s) => s.wishPulse);
@@ -21,12 +24,27 @@ export function Navbar() {
   const { href, onClick, onHome } = useSectionLink();
   const menuOpen = panel === 'menu';
 
+  // Scrolled state, and whether the bar floats over a dark section ([data-nav-dark], the
+  // hero): it then turns to dark glass so it never reads as a white slab on the dark stage
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      const y = 40; // the middle of the floating bar
+      setOverDark(
+        Array.from(document.querySelectorAll('[data-nav-dark]')).some((el) => {
+          const rect = el.getBoundingClientRect();
+          return rect.top <= y && rect.bottom > y;
+        }),
+      );
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [pathname]);
 
   // Escape closes the mobile menu
   useEffect(() => {
@@ -64,7 +82,9 @@ export function Navbar() {
           </a>
         </div>
       </div>
-      <header className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+      <header
+        className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''} ${overDark ? 'theme-dark' : ''}`}
+      >
         <div className="container">
           <div className="nav-inner glass">
             <a

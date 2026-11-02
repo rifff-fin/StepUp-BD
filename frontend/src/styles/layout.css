@@ -47,6 +47,8 @@
   left: 0;
   right: 0;
   z-index: 70;
+  background: transparent; /* .theme-dark paints a background otherwise */
+  color: var(--text);
   pointer-events: none;
   transition: top 0.35s var(--ease-out);
 }
@@ -80,6 +82,9 @@
   border-radius: 9px;
   box-shadow: 0 4px 12px -4px rgb(17 17 20 / 0.45);
 }
+.theme-dark .logo-mark {
+  box-shadow: 0 0 0 1px rgb(255 236 224 / 0.22); /* keeps the ink tile visible on dark */
+}
 .logo-word {
   font-family: var(--ff-display);
   font-weight: 800;
@@ -107,7 +112,7 @@
     color 0.2s;
 }
 .nav-links a:hover {
-  background: rgb(17 17 20 / 0.06);
+  background: rgb(var(--fg-rgb) / 0.08);
   color: var(--text);
 }
 .nav-actions {

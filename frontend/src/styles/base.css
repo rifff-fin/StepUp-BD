@@ -256,7 +256,7 @@ s {
   box-shadow: var(--glass-shadow);
 }
 .btn-glass:hover {
-  background: #ffffff;
+  background: rgb(var(--fg-rgb) / 0.14);
 }
 .btn-white {
   background: var(--text);
