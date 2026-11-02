@@ -65,7 +65,7 @@ export const story = {
   steps: [
     {
       title: 'Wings on the collar',
-      text: 'The Wings logo pressed into the ankle collar, with a padded lining.',
+      text: 'Embossed into the ankle collar since 1985, over a padded lining that holds your heel.',
     },
   ],
   cta: 'Find your pair',
@@ -86,7 +86,7 @@ export const why = {
     {
       icon: 'cash',
       title: 'Pay on delivery',
-      text: 'Cash on Delivery in all 64 districts, or bKash, Nagad and card.',
+      text: 'Cash on Delivery in all 64 districts, or bKash, Nagad, Rocket and card.',
     },
     {
       icon: 'return',
@@ -156,13 +156,13 @@ export const reviews = {
       name: 'Tanvir A.',
       place: 'Sylhet',
       rating: 4,
-      text: 'Great price for the Pegasus, cheaper than anywhere I checked. Delivery took 4 days to Sylhet but they kept me updated.',
+      text: 'Great price for the Dunk Low, cheaper than anywhere I checked. Delivery took 4 days to Sylhet but they kept me updated.',
     },
     {
       name: 'Mehjabin K.',
       place: 'Uttara, Dhaka',
       rating: 5,
-      text: "Exchanged my size within 2 days, super easy. The Dunk Panda is my everyday shoe now. Love this shop's vibe.",
+      text: "Exchanged my size within 2 days, super easy. The AF1 Panda is my everyday shoe now. Love this shop's vibe.",
     },
     {
       name: 'Shakib R.',
@@ -232,7 +232,7 @@ export const faq = {
     },
     {
       q: 'Can I pay with Cash on Delivery?',
-      a: 'Yes, Cash on Delivery is available all over Bangladesh. You can also pay with bKash, Nagad or a card.',
+      a: 'Yes, Cash on Delivery is available all over Bangladesh. You can also pay with bKash, Nagad, Rocket or a card.',
     },
     {
       q: 'What is your return and exchange policy?',
