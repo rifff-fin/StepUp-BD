@@ -12,7 +12,10 @@ Apple greys, white rounded cards, capsule buttons and frosted glass (`.glass`,
 accent, sale prices and badges; buttons and selections are ink. Logo: `LogoMark` (rising
 steps) + wordmark in `components/layout/Logo.tsx`; the favicon matches. Avoid template/AI
 tells: glows, gradient text, eyebrow-plus-giant-headline sections, cursor effects, loader
-screens. A "Built by Fin Projukti" badge (`FinCredit`) sits bottom-left. Prices are in BDT (৳3,000–৳5,500).
+screens. A "Built by Fin Projukti" badge (`FinCredit`) sits bottom-left. The hero + story
+are a dark mocha stage (owner's palette: `--ink #1C1C1C`, `--mocha-1 #723C26`,
+`--mocha-2 #86573E`, `--mocha-3 #936B5A`; `.theme-dark` on `.story`) with SVG/CSS graphics
+(orbit rings, turntable, spec label); the navbar turns dark glass over `[data-nav-dark]`. Prices are in BDT (৳3,000–৳5,500).
 It is a **demo store**: payments are simulated and orders are never fulfilled.
 
 ## Stack and layout
@@ -52,14 +55,19 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    editing the catalog.
 5. **Sample content is labelled.** Reviews are sample content, and the UI says so.
    Unconfirmed business facts carry `TODO(client)` in `copy.ts`.
-6. **3D performance.** The 3D code is a lazy chunk, `dpr` is capped at 2, the hero pauses
-   off-screen (`frameloop`), and an SVG fallback stays in place without WebGL. The
+6. **3D performance.** The 3D chunk and model load only once the page is revealed and the
+   browser is idle, so phones get the copy and shop first. `dpr` is capped at 2 (1.5 on
+   phones, no MSAA on dense phone screens, dropping to 1 via `PerformanceMonitor` if frames
+   fall), the hero pauses off-screen (`frameloop`), and an SVG fallback is used without
+   WebGL. The
    materials are made once and colours are eased, never re-created.
 7. **Motion.** `html[data-reduced]` (set before first paint) drives CSS and JS; the
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
-8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under the hero
-   panel and three short story steps (60svh each = `STEP_SCREENS` in
-   `three/HeroScene.tsx`, which maps scroll to the `DESKTOP` / `PHONE` poses). Keep it
+8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under: the hero
+   panel, the service strip (`WhyUs`, owner's order: hero, then the strip) and three short
+   story steps without "01 / 03" labels (60svh each = `STEP_SCREENS`; `storyProgress` in
+   `three/HeroScene.tsx` skips the strip and maps scroll to the `DESKTOP` / `PHONE` poses).
+   On phones each card sits at the top of its step and the shoe above it. Keep it
    short: the owner wants shoppers in the shop quickly. The hero opens on White / Red
    (`DEFAULT_HERO_COLORWAY`); copy stays colour-neutral. The stage shows nothing until the
    shoe is visible in its colourway (`onShown` then `onReady`): never flash a stand-in or

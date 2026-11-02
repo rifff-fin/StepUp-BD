@@ -246,4 +246,19 @@ delivery timeline. **404** page shows trending picks.
   - "Built by Fin Projukti" badge bottom-left with a contact card.
   - `docs/feature-checklist.md`: BD-market feature list with tick boxes for the owner.
   - Fixed: Express 5 swallowed "port in use" errors (the API now exits loudly).
+- 2 Nov 2026: Phase 6 (owner's list).
+  - Dark hero in the owner's mocha palette (#1C1C1C ink, #723C26 / #86573E / #936B5A):
+    warm light behind the shoe, slowly turning orbit rings, a turntable under the shoe and
+    a vertical spec label (SVG/CSS, nothing to download). Mocha accents on the offer pill,
+    trust ticks, chips; mocha rim light on the 3D shoe. The navbar turns dark glass over
+    the hero. Dark tokens moved to the same warm ink (footer matches).
+  - Order: hero, then the service strip (glass cards on the dark stage; a swipeable row on
+    phones), then the 3D story. "01 / 03" labels removed.
+  - Phones: 3D only after the page is revealed and idle; pixel ratio 1.5, no MSAA on dense
+    screens, automatic drop to 1 if frames fall; story cards under the shoe, not over it.
+  - Asset audit: nothing stale loads (model 934 kB, White/Red texture 54 kB, fonts, API);
+    no orphan source files; all 39 photos referenced. Production: main JS 148 kB gzip,
+    3D chunk 290 kB gzip.
+  - QA: desktop + phone, 0 console errors; full flow (brand chip, quick view, size check,
+    STEPUP10, Rocket wallet, order) on both; QA orders deleted from Atlas.
 
