@@ -40,17 +40,12 @@ interface Pose {
 
 const DESKTOP: Pose[] = [
   { x: 0.24, y: 0.12, scale: 0.6, rotY: BASE_ANGLE, rotX: 0.12 }, // hero, right of the copy
-  { x: 0.42, y: 0.02, scale: 0.68, rotY: 0.02, rotX: 0.06 }, // side profile: leather
-  { x: 0.4, y: 0.0, scale: 0.72, rotY: -1.05, rotX: 0.42 }, // toe box
-  { x: 0.36, y: 0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
+  { x: 0.3, y: -0.1, scale: 0.6, rotY: Math.PI - 0.85, rotX: 0.12 }, // heel + Wings
 ];
 
 const PHONE: Pose[] = [
   { x: 0, y: 0.36, scale: 0.84, rotY: BASE_ANGLE, rotX: 0.12 }, // above the copy
-  // the story: the shoe in the top part of the screen, each card arrives below it
-  { x: 0, y: 0.52, scale: 0.72, rotY: 0.02, rotX: 0.06 },
-  { x: 0, y: 0.52, scale: 0.74, rotY: -1.05, rotX: 0.42 },
-  { x: 0, y: 0.52, scale: 0.7, rotY: Math.PI - 0.85, rotX: 0.12 },
+  { x: 0, y: -0.04, scale: 0.74, rotY: Math.PI - 0.85, rotX: 0.12 }, // above the Wings card
 ];
 
 export const STORY_STOPS = DESKTOP.length - 1;
@@ -59,19 +54,21 @@ const STEP_SCREENS = 0.6;
 
 /**
  * Story progress (0 = hero pose, 1..STORY_STOPS = each step). The hero hands over to the
- * first pose until the first step reaches 40% down the screen (whatever sits in between,
- * like the service strip), then each step is STEP_SCREENS of a screen.
+ * first pose by the time the first step's card enters the bottom of the screen (whatever
+ * sits in between, like the service strip), so the pose holds while the card scrolls up.
  */
 function storyProgress(story: HTMLElement, vh: number) {
   const scrolled = -story.getBoundingClientRect().top;
   const steps = story.querySelector<HTMLElement>('.story-steps');
-  const first = Math.max(1, (steps ? steps.offsetTop : vh) - vh * 0.4);
+  const first = Math.max(1, (steps ? steps.offsetTop : vh) - vh * 0.85);
   const s = scrolled < first ? scrolled / first : 1 + (scrolled - first) / (vh * STEP_SCREENS);
   return THREE.MathUtils.clamp(s, 0, STORY_STOPS);
 }
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
-const wrapAngle = (a: number) => Math.atan2(Math.sin(a), Math.cos(a)); // to (-π, π]
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+/** An angle as a forward turn in [0, 2π). */
+const forward = (a: number) => ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
 
 /**
  * The hero + scroll-story 3D stage (lazy chunk). The canvas is sticky behind the hero and
@@ -172,15 +169,18 @@ function Rig({
     const aspect = size.width / Math.max(1, size.height);
     const poses = aspect < 0.9 ? PHONE : DESKTOP;
     const i = Math.min(Math.floor(s), STORY_STOPS - 1);
-    const t = smooth(s - i);
+    const t = easeInOut(s - i);
     const a = poses[i];
     const b = poses[i + 1];
 
-    // Idle spin (+ drag) only matters in the hero; it hands over to the story poses
+    // Idle spin (+ drag) only matters in the hero; it hands over to the story pose. The
+    // scroll then keeps turning the shoe the same way it was spinning (a turntable), never
+    // back the short way round.
     const heroWeight = 1 - smooth(clamp(s, 0, 1));
     const idle = stepSpin(delta, reduced ? 0 : 0.28 * heroWeight);
     let rotYa = a.rotY;
-    if (i === 0) rotYa = b.rotY + wrapAngle(a.rotY + idle - b.rotY);
+    if (i === 0) rotYa = b.rotY - forward(b.rotY - (a.rotY + idle));
+    const arc = Math.sin(Math.PI * t); // 0 → 1 → 0 across the move
 
     // Intro: rise from below with one and a half turns (skipped with reduced motion)
     if (intro.current === null && revealedAt.current && shownAt.current !== null) {
@@ -195,15 +195,17 @@ function Rig({
 
     const target: Pose = {
       x: lerp(a.x, b.x, t),
-      y: lerp(a.y, b.y, t) - (1 - e) * 0.9,
-      scale: lerp(a.scale, b.scale, t) * (0.72 + 0.28 * e),
+      // a gentle lift and push-in on the way, so the move reads as one designed arc
+      y: lerp(a.y, b.y, t) + arc * 0.05 - (1 - e) * 0.9,
+      scale: lerp(a.scale, b.scale, t) * (1 + arc * 0.03) * (0.72 + 0.28 * e),
       rotY: lerp(rotYa, b.rotY, t) + (1 - e) * Math.PI * 1.5,
       rotX: lerp(a.rotX, b.rotX, t),
     };
 
-    // Ease towards the target: a smooth "scrub"
+    // Ease towards the target: a soft scrub (about GSAP's `scrub: 1`), so the shoe glides
+    // after the scroll instead of snapping to it
     const c = (current.current ??= { ...target });
-    const k = 6;
+    const k = 3.2;
     if (Math.abs(target.rotY - c.rotY) > Math.PI)
       c.rotY += Math.sign(target.rotY - c.rotY) * Math.PI * 2;
     c.x = damp(c.x, target.x, k, delta);
