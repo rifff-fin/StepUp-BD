@@ -13,9 +13,10 @@ accent, sale prices and badges; buttons and selections are ink. Logo: `LogoMark`
 steps) + wordmark in `components/layout/Logo.tsx`; the favicon matches. Avoid template/AI
 tells: glows, gradient text, eyebrow-plus-giant-headline sections, cursor effects, loader
 screens. A "Built by Fin Projukti" badge (`FinCredit`) sits bottom-left. The hero + story
-are a dark mocha stage (owner's palette: `--ink #1C1C1C`, `--mocha-1 #723C26`,
-`--mocha-2 #86573E`, `--mocha-3 #936B5A`; `.theme-dark` on `.story`) with SVG/CSS graphics
-(orbit rings, turntable, spec label); the navbar turns dark glass over `[data-nav-dark]`. Prices are in BDT (৳3,000–৳5,500).
+sit on the owner's set photo (`public/hero/stage-*.webp`: a lit black pedestal with a halo,
+rocks and smoke; `.theme-dark` on `.story`, navbar turns dark glass over `[data-nav-dark]`).
+The real 3D shoe floats over the photo's pedestal inside a 3D ring of light (`HeroSet`).
+Mocha accents: `--mocha-1 #723C26`, `--mocha-2 #86573E`, `--mocha-3 #936B5A`. Prices are in BDT (৳3,000–৳5,500).
 It is a **demo store**: payments are simulated and orders are never fulfilled.
 
 ## Stack and layout
@@ -63,18 +64,19 @@ It is a **demo store**: payments are simulated and orders are never fulfilled.
    materials are made once and colours are eased, never re-created.
 7. **Motion.** `html[data-reduced]` (set before first paint) drives CSS and JS; the
    footer Motion switch overrides the OS setting. The dev PC reports reduced motion.
-8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky 3D stage under: the hero
-   panel and ONE story
-   step (the service strip `WhyUs` now sits outside it, right above Trending), "Wings on the collar" + "Find your pair" (the owner removed the others; keep the
-   whole thing under ~1.8 screens). `storyProgress` in `three/HeroScene.tsx` maps scroll to
-   one continuous move (hero pose to the Wings pose): ease-in-out, a slight arc, the shoe
-   turning forward like a turntable, a soft scrub (`damp` k = 3.2, about GSAP `scrub: 1`).
-   The move finishes as the card enters, then holds while it scrolls up. Phones: the card
-   at the bottom of its step, the shoe in the space above. Keep it
-   short: the owner wants shoppers in the shop quickly. The hero opens on White / Red
-   (`DEFAULT_HERO_COLORWAY`); copy stays colour-neutral. The stage shows nothing until the
-   shoe is visible in its colourway (`onShown` then `onReady`): never flash a stand-in or
-   the file's own colours on reload.
+8. **Hero scroll story.** `sections/HeroStory.tsx` holds a sticky stage (set photo + 3D
+   canvas) under the hero panel and ONE story step, "Wings on the collar" + "Find your
+   pair" (80svh = `STEP_SCREENS`; keep the whole thing under ~1.8 screens: the owner wants
+   shoppers in the shop quickly). The photo's pedestal is anchored by
+   `background-position` in `hero.css` (62.3% across, top rim 72.2% down; phones: centred,
+   43% down) and the `DESKTOP` / `PHONE` poses and `PEDESTAL` in `three/HeroScene.tsx` are
+   calibrated to it: change the photo, the CSS anchor and the poses together. Hero pose: a
+   side profile (toe right, swoosh to camera, toe tipped down) with a slow sway; a drag
+   spins it and it settles back to that side. Scrolling turns it forward (ease-in-out,
+   soft scrub `damp` k = 3.2) and sets it down on the pedestal showing the Wings logo. The
+   hero opens on White / Red (`DEFAULT_HERO_COLORWAY`); copy stays colour-neutral. The
+   canvas stays hidden until the shoe is visible in its colourway (`onShown` then
+   `onReady`): never flash a stand-in or the file's own colours on reload.
 9. `.in` (scroll reveal) is added to the DOM directly: put `data-reveal` only on elements
    whose `className` React never changes.
 10. **Photos.** `images[]` holds local paths under `public/products/` (each `<x>.webp` has

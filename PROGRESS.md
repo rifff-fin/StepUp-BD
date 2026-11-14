@@ -272,3 +272,21 @@ delivery timeline. **404** page shows trending picks.
 - 2 Nov 2026: The service strip (Checked by hand, Pay on delivery, 7-day exchange, Dhaka
   in 24–48 hours) moved out of the dark hero to sit right above Trending, as white cards
   with mocha icons. The hero section is now 1.6 screens.
+- 15 Nov 2026: Phase 8. Owner supplied a reference picture for the hero and a set photo.
+  - Hero rebuilt to the reference: the owner's set photo (lit pedestal, halo, rocks, smoke)
+    as the stage background (WebP, 46 kB desktop / 26 kB phone, preloaded), with the real
+    3D shoe floating over the photo's pedestal in a side profile, inside a 3D ring of
+    light with running streaks, plus drifting bronze dust. Lighting warmed and exposure
+    lowered so the shoe sits in the photo; a soft shadow lands on the pedestal.
+  - Layout per the reference: offer pill ("STEPUP10 | 10% off your first order", copies
+    the code), two-tone headline with a drawn bronze stroke, primary + outline buttons,
+    icon trust row (Cash on Delivery, 7-day return, Authentic, Fast delivery), colours card
+    with shoe swatches and "Drag to spin", "Scroll to explore" cue, vertical "01 / 04"
+    section counter (Home, Details, Trending, Shop). Brand chips left the hero (the
+    "Shop by brand" tiles do that job).
+  - Scroll: the shoe turns and sets down on the pedestal for "Wings on the collar".
+  - Per the owner's note, the generated shoe in the reference is NOT used: the 3D model is.
+  - QA: desktop + phone, 0 console errors; shop flow to a Rocket order passes.
+  - Open: coupon STEPUP10 is switched OFF in the database (since 2 Nov), while the hero
+    still advertises it. Owner to switch it back on in /admin, or say to change the pill.
+
