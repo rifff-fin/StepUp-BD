@@ -49,12 +49,20 @@ export function useDragSpin() {
     };
   }, [gl]);
 
-  /** Advance inertia and auto-rotation; returns the current angle. */
-  const step = (delta: number, autoSpeed: number) => {
+  /**
+   * Advance inertia and auto-rotation; returns the current angle. With `settle`, once a
+   * drag has run out of momentum the shoe eases back to its home side (the nearest full
+   * turn), so the hero always comes back to the same view.
+   */
+  const step = (delta: number, autoSpeed: number, settle = false) => {
     const s = spin.current;
     if (!s.dragging) {
       s.velocity *= Math.exp(-delta * 3.5);
       s.angle += s.velocity * delta + autoSpeed * delta;
+      if (settle && Math.abs(s.velocity) < 0.6) {
+        const home = Math.round(s.angle / (Math.PI * 2)) * Math.PI * 2;
+        s.angle += (home - s.angle) * (1 - Math.exp(-delta * 2.2));
+      }
     }
     return s.angle;
   };
