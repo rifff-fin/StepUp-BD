@@ -1,6 +1,6 @@
 /* =========================================================
-   Hero + short scroll story: one sticky 3D stage (a light studio) behind the hero panel and
-   three story steps
+   Hero + short scroll story: one sticky stage (the product-shoot photo with the 3D shoe
+   floating over its pedestal) behind the hero panel and the story step
    ========================================================= */
 .story {
   position: relative;
@@ -14,110 +14,48 @@
   overflow: hidden;
   z-index: 0;
 }
+/*
+ * The set photo. Its pedestal is centred 62.3% across with its top rim 72.2% down, and
+ * `background-position` anchors exactly that point, so the pedestal lands in the same place
+ * at any size (HeroScene's DESKTOP poses float the shoe above it).
+ */
 .stage-bg {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  /* ink with warm mocha light behind the shoe and a low glow from the corner */
+  background-color: #0b0a09;
+  background-image: url('/hero/stage-1774.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 62.3% 72.2%;
+}
+/* a soft shade on the left keeps the copy readable over the photo */
+.stage-vignette {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(34% 40% at 62% 44%, rgb(134 87 62 / 0.55), transparent 70%),
-    radial-gradient(22% 26% at 62% 46%, rgb(147 107 90 / 0.35), transparent 70%),
-    radial-gradient(50% 45% at 6% 104%, rgb(114 60 38 / 0.5), transparent 70%),
-    radial-gradient(40% 35% at 100% 0%, rgb(134 87 62 / 0.18), transparent 70%),
-    linear-gradient(180deg, #231d1a 0%, #1c1c1c 55%, #151312 100%);
+    linear-gradient(90deg, rgb(8 7 6 / 0.72) 0%, rgb(8 7 6 / 0.35) 34%, transparent 52%),
+    linear-gradient(180deg, rgb(8 7 6 / 0.45) 0%, transparent 18%);
 }
-/* orbit rings behind the shoe, turning very slowly */
-.stage-rings {
-  position: absolute;
-  left: 62%;
-  top: 44%;
-  width: min(84vh, 780px);
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  animation: ringTurn 120s linear infinite;
-}
-.ring {
-  stroke: rgb(147 107 90 / 0.3);
-  stroke-width: 1;
-}
-.ring-2 {
-  stroke: rgb(147 107 90 / 0.55);
-  stroke-dasharray: 2 9;
-}
-.ring-3 {
-  stroke: rgb(203 186 176 / 0.12);
-}
-.ring-dot {
-  fill: var(--mocha-3);
-}
-@keyframes ringTurn {
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
+/*
+ * Phones (the same aspect test as HeroScene's PHONE poses): the photo at 230% width, its
+ * pedestal centred with the top rim 43% down, then faded into the ink below for the copy.
+ */
+@media (max-aspect-ratio: 9/10) {
+  .stage-bg {
+    background-image: url('/hero/stage-1200.webp');
+    background-size: 230% auto;
+    background-position: 71.8% calc(43vh - 83vw);
+    background-position: 71.8% calc(43svh - 83vw);
   }
-}
-/* a turntable under the shoe */
-.stage-floor {
-  position: absolute;
-  left: 62%;
-  top: 66%;
-  width: min(58vw, 820px);
-  aspect-ratio: 4 / 1;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 1px solid rgb(147 107 90 / 0.28);
-  background: radial-gradient(
-    closest-side,
-    rgb(134 87 62 / 0.3),
-    rgb(114 60 38 / 0.1) 65%,
-    transparent
-  );
-}
-.stage-floor::after {
-  content: '';
-  position: absolute;
-  inset: 18%;
-  border-radius: 50%;
-  border: 1px dashed rgb(147 107 90 / 0.3);
-}
-/* a small spec label up the right edge */
-.stage-spec {
-  position: absolute;
-  right: 22px;
-  top: 50%;
-  display: none;
-  gap: 18px;
-  writing-mode: vertical-rl;
-  transform: translateY(-50%) rotate(180deg);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgb(203 186 176 / 0.45);
-}
-.stage-spec span + span::before {
-  content: '';
-  display: inline-block;
-  width: 1px;
-  height: 28px;
-  margin-bottom: 18px;
-  background: rgb(147 107 90 / 0.6);
-  vertical-align: middle;
-}
-@media (min-width: 900px) {
-  .stage-spec {
-    display: flex;
-  }
-}
-@media (max-width: 899px) {
-  .stage-rings {
-    left: 50%;
-    top: 30%;
-    width: 128vw;
-  }
-  .stage-floor {
-    left: 50%;
-    top: 42%;
-    width: 110vw;
+  .stage-vignette {
+    background: linear-gradient(
+      180deg,
+      rgb(8 7 6 / 0.4) 0%,
+      transparent 16%,
+      transparent calc(43svh + 14vw),
+      #0b0a09 calc(43svh + 30vw)
+    );
   }
 }
 .stage-3d {
@@ -138,23 +76,6 @@
 .stage-3d.is-3d .hero-canvas {
   opacity: 1;
 }
-/* while the 3D shoe loads: a soft pulse where it will stand (never a stand-in shoe) */
-.stage-loading {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  width: min(46vw, 520px);
-  aspect-ratio: 3 / 1;
-  transform: translate(-30%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(147 107 90 / 0.25), transparent);
-  animation: stagePulse 1.4s ease-in-out infinite;
-}
-@keyframes stagePulse {
-  50% {
-    opacity: 0.4;
-  }
-}
 .hero-fallback {
   position: absolute;
   inset: 0;
@@ -162,8 +83,9 @@
   place-items: center;
 }
 .hero-fallback svg {
-  width: min(70%, 600px);
-  filter: drop-shadow(0 30px 30px rgb(0 0 0 / 0.18));
+  width: min(56%, 520px);
+  transform: translate(22%, -12%);
+  filter: drop-shadow(0 30px 30px rgb(0 0 0 / 0.4));
 }
 .fallback-note {
   position: absolute;
@@ -195,107 +117,167 @@
   gap: 18px;
 }
 .hero-copy > *,
-.hero-swatches {
+.hero-swatches,
+.scroll-cue {
   pointer-events: auto;
 }
+
+/* offer: "• STEPUP10 | 10% off your first order ->" (copies the code) */
 .offer-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px 7px 10px;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 4px 12px 4px 4px;
   border-radius: 999px;
+  border: 1px solid rgb(255 236 224 / 0.14);
+  background: rgb(20 17 15 / 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   font-size: 13px;
   color: var(--text);
-  margin-bottom: 16px;
-  transition: transform 0.2s var(--ease-out);
+  transition:
+    border-color 0.2s,
+    transform 0.2s var(--ease-out);
 }
 .offer-pill:hover {
+  border-color: rgb(255 236 224 / 0.32);
   transform: translateY(-1px);
 }
-.offer-pill b {
-  padding: 2px 8px;
+.offer-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
   border-radius: 999px;
-  background: var(--mocha-1);
-  color: #fff;
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  border: 1px solid rgb(255 236 224 / 0.12);
+  background: rgb(255 255 255 / 0.05);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.offer-code i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.offer-text {
+  padding-left: 10px;
+  border-left: 1px solid rgb(255 236 224 / 0.22);
 }
 .offer-pill svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   color: var(--muted);
 }
+
+/* headline: two tones, with a hand-drawn bronze stroke under "Affordable." */
 .hero-title {
-  font-size: clamp(42px, 6vw, 88px);
-  line-height: 0.95;
-  max-width: 8.5em;
+  font-size: clamp(42px, 5.4vw, 84px);
+  line-height: 0.98;
+  max-width: 9em;
+}
+.hero-title .title-1 {
+  color: #d9d2cb;
+}
+.hero-title .title-2 {
+  position: relative;
+  display: inline-block;
+  color: #f7f2ee;
+}
+.brush {
+  position: absolute;
+  left: -0.02em;
+  bottom: -0.2em;
+  width: 104%;
+  height: 0.32em;
+  overflow: visible;
+}
+.brush path {
+  fill: none;
+  stroke: rgb(232 205 182 / 0.6);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.brush .brush-2 {
+  stroke-width: 1.6;
+  stroke: rgb(232 205 182 / 0.3);
+}
+html.revealed .brush path {
+  animation: brushDraw 1.1s var(--ease-out) 0.55s both;
+}
+html.revealed .brush .brush-2 {
+  animation-delay: 0.75s;
+}
+@keyframes brushDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
 }
 .hero-copy > p {
-  color: var(--muted);
-  font-size: 16px;
-  max-width: 440px;
-  margin-top: 14px;
+  color: #cdbfb4;
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 470px;
+  margin-top: 26px;
 }
 .hero-ctas {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 22px;
+  margin-top: 28px;
 }
-.quick-brands {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 16px;
+.hero-ctas .btn {
+  --bh: 52px;
+  padding: 0 28px;
 }
-.quick-brands button {
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  transition:
-    background 0.2s,
-    transform 0.2s var(--ease-out);
+.hero-ctas .btn-outline svg {
+  width: 13px;
+  height: 13px;
 }
-.quick-brands button:hover {
-  background: var(--mocha-1);
-  transform: translateY(-1px);
-}
+
+/* the icon row: Cash on Delivery | 7-day return | Authentic | Fast delivery */
 .hero-trust {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 16px;
-  margin-top: 16px;
+  gap: 8px 0;
+  margin-top: 30px;
   font-size: 13px;
-  color: var(--muted);
+  color: #cdbfb4;
 }
 .hero-trust li {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 0 16px;
+  border-left: 1px solid rgb(255 236 224 / 0.16);
+}
+.hero-trust li:first-child {
+  padding-left: 0;
+  border-left: 0;
 }
 .hero-trust svg {
-  width: 14px;
-  height: 14px;
-  color: var(--mocha-3);
+  width: 17px;
+  height: 17px;
+  color: #dcb894;
 }
 
-/* colourway panel */
+/* colours card: model, "Colours: White / Red", three shoe swatches, "Drag to spin" */
 .hero-swatches {
   justify-self: start;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-radius: 20px;
 }
 .swatch-model {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
+  font-size: 14px;
+  color: #d9d2cb;
 }
 .swatch-label {
   font-size: 14px;
   color: var(--muted);
-  margin: 2px 0 10px;
+  margin: 2px 0 12px;
 }
 .swatch-label b {
   color: var(--text);
@@ -303,14 +285,14 @@
 }
 .swatches {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 .swatch {
-  width: 40px;
-  height: 40px;
-  padding: 3px;
+  width: 46px;
+  height: 46px;
+  padding: 2px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: 1.5px solid rgb(255 236 224 / 0.18);
   transition:
     border-color 0.2s,
     transform 0.2s var(--ease-out);
@@ -319,22 +301,32 @@
   transform: scale(1.06);
 }
 .swatch[aria-pressed='true'] {
-  border-color: var(--text);
+  border-color: #f7f2ee;
 }
-.swatch-dot {
-  display: block;
+.swatch-shoe {
+  display: grid;
+  place-items: center;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border-radius: 50%;
-  border: 1px solid rgb(255 255 255 / 0.18);
-  background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%);
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, var(--b) 45%, #2b2522),
+    #120f0d 75%
+  );
+}
+.swatch-shoe svg {
+  width: 132%;
+  max-width: none;
+  transform: translate(4%, 6%) rotate(-12deg);
 }
 .drag-hint {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 .drag-hint svg {
@@ -365,16 +357,21 @@
   text-underline-offset: 3px;
 }
 
-/* ---- story steps: each 60% of a screen (STEP_SCREENS in HeroScene.tsx) ---- */
+/* "Scroll to explore" (desktop) */
+.scroll-cue {
+  display: none;
+}
+
+/* ---- the story step: 80% of a screen (STEP_SCREENS in HeroScene.tsx) ---- */
 .story-steps {
   position: relative;
   z-index: 2;
 }
 .story-step {
-  min-height: 60vh;
-  min-height: 60svh;
+  min-height: 80vh;
+  min-height: 80svh;
   display: flex;
-  align-items: flex-end; /* phones: the card at the bottom, the shoe in the space above */
+  align-items: flex-end; /* phones: the copy at the bottom, the shoe on the pedestal above */
   padding-bottom: 76px; /* clear of the WhatsApp button */
   pointer-events: none;
 }
@@ -385,7 +382,7 @@
   pointer-events: auto;
   max-width: 460px;
 }
-/* a short mocha rule above the title instead of a box */
+/* a short bronze rule above the title instead of a box */
 .story-copy::before {
   content: '';
   display: block;
@@ -433,7 +430,7 @@ html.revealed .intro-up {
 }
 
 @media (max-width: 899px) {
-  /* phones: shoe on top, colourways in one row, then the copy */
+  /* phones: shoe on the pedestal up top, colours in one row, then the copy */
   .hero-swatches {
     order: -1;
     justify-self: stretch;
@@ -451,35 +448,43 @@ html.revealed .intro-up {
   .swatch-label {
     margin: 0;
   }
+  .swatch {
+    width: 40px;
+    height: 40px;
+  }
   .hero-ctas .btn {
     flex: 1 1 0;
     padding: 0 14px;
   }
   .hero-trust {
-    display: none;
+    margin-top: 20px;
+    font-size: 12px;
+  }
+  .hero-trust li {
+    padding: 0 10px;
   }
 }
 @media (max-width: 599px) {
   .hero-copy > p {
-    display: none; /* the shoe needs the room; the announcement bar and chips carry it */
+    display: none; /* the shoe needs the room; the announcement bar carries it */
   }
   .offer-pill {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    font-size: 12px;
   }
   .hero-ctas {
-    margin-top: 16px;
+    margin-top: 18px;
   }
-  .hero-ctas .btn-glass {
-    display: none; /* Trending is the very next section */
+  .hero-ctas .btn-outline {
+    display: none; /* Trending is right below */
   }
-  .quick-brands {
+  .hero-trust {
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
-    margin: 14px calc(var(--gutter) * -1) 0;
-    padding: 0 var(--gutter) 2px;
+    margin-right: calc(var(--gutter) * -1);
   }
-  .quick-brands li {
+  .hero-trust li {
     flex: none;
   }
   .hero-panel {
@@ -487,19 +492,66 @@ html.revealed .intro-up {
   }
 }
 @media (min-width: 900px) {
-  .hero-bottom {
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 40px;
-  }
   .hero-panel {
-    padding-bottom: 72px; /* clear of the Fin Projukti pill */
+    justify-content: center;
+    padding-bottom: 110px;
   }
+  .hero-copy {
+    max-width: 620px;
+  }
+  /* the colours card sits bottom-right, clear of the WhatsApp button */
   .hero-swatches {
-    margin-right: 64px; /* clear of the WhatsApp button */
+    position: absolute;
+    right: max(88px, calc((100vw - 1440px) / 2 + 88px));
+    bottom: 40px;
+  }
+  .scroll-cue {
+    position: absolute;
+    left: max(var(--gutter), calc((100vw - 1440px) / 2 + var(--gutter)));
+    bottom: 72px; /* above the Fin Projukti badge */
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .scroll-cue:hover {
+    color: var(--text);
+  }
+  .mouse {
+    position: relative;
+    width: 18px;
+    height: 28px;
+    border-radius: 10px;
+    border: 1.5px solid rgb(255 236 224 / 0.45);
+  }
+  .mouse i {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    width: 3px;
+    height: 6px;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    background: #f7f2ee;
+    animation: wheel 1.8s var(--ease-out) infinite;
   }
   .story-step {
     align-items: flex-start;
     padding: 12vh 0 0;
+  }
+}
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(9px);
   }
 }

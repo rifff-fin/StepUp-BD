@@ -47,15 +47,28 @@ export const nav = {
 export const hero = {
   offer: { code: 'STEPUP10', text: '10% off your first order' },
   title: 'Premium, but Affordable.',
+  titleLines: ['Premium, but', 'Affordable.'],
   lede: 'Air Jordan, Dunk, Air Force 1, Samba and New Balance from ৳3,500. Cash on Delivery anywhere in Bangladesh.',
   cta: 'Shop the collection',
   ctaSecondary: 'Trending now',
-  // quick brand chips under the buttons: each filters the shop
-  quickBrands: ['Jordan', 'Nike', 'Air Force', 'Adidas', 'New Balance'],
-  trust: ['Cash on Delivery', '7-day exchange', 'All 64 districts'],
+  // the icon row under the buttons
+  trust: [
+    { icon: 'cod', label: 'Cash on Delivery' },
+    { icon: 'return', label: '7-day return' },
+    { icon: 'authentic', label: 'Authentic' },
+    { icon: 'fast', label: 'Fast delivery' },
+  ],
   model: 'Air Jordan 1 High OG',
-  colorLabel: 'Colourway',
-  dragHint: 'Drag to turn',
+  colorLabel: 'Colours',
+  dragHint: 'Drag to spin',
+  scrollHint: 'Scroll to explore',
+  // the vertical section counter on the right (home page)
+  sections: [
+    { id: 'top', label: 'Home' },
+    { id: 'details', label: 'Details' },
+    { id: 'trending', label: 'Trending' },
+    { id: 'shop', label: 'Shop' },
+  ],
   fallbackNote: '3D preview unavailable on this device',
 };
 

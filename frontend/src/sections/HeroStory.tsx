@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 'react';
-import { FiArrowRight, FiCheck, FiCopy, FiMove, FiPlay, FiTag } from 'react-icons/fi';
+import { FiArrowRight, FiArrowRightCircle, FiCheck, FiMove, FiPlay } from 'react-icons/fi';
+import { LuGem, LuShieldCheck, LuTruck, LuZap } from 'react-icons/lu';
 import { hero, story } from '../content/copy';
 import { ShoeArt } from '../components/product/ShoeArt';
 import { ErrorBoundary } from '../components/layout/ErrorBoundary';
@@ -11,6 +12,8 @@ import { scrollToId } from '../lib/lenis';
 import { getMotionPref, setMotionPref } from '../lib/motion';
 import { onRevealed } from '../lib/reveal';
 import { useUi } from '../store/uiStore';
+
+const TRUST_ICONS = { cod: LuTruck, return: LuShieldCheck, authentic: LuGem, fast: LuZap } as const;
 
 // three + R3F + drei load in their own chunk, after the page is interactive
 const HeroScene = lazy(() => import('../three/HeroScene'));
@@ -57,10 +60,6 @@ export function HeroStory() {
     event.preventDefault();
     scrollToId(id);
   };
-  const shopBrand = (brand: string) => {
-    useUi.getState().requestBrand(brand);
-    scrollToId('shop');
-  };
   const copyCode = () => {
     void navigator.clipboard?.writeText(hero.offer.code).catch(() => {});
     setCopied(true);
@@ -81,7 +80,6 @@ export function HeroStory() {
               <p className="fallback-note">{hero.fallbackNote}</p>
             </div>
           )}
-          {show3d && !ready && <div className="stage-loading" aria-hidden="true" />}
           {show3d && load3d && (
             <div className="hero-canvas">
               <ErrorBoundary fallback={null} onError={() => setFailed(true)}>
@@ -107,20 +105,35 @@ export function HeroStory() {
           <div className="hero-copy">
             <button
               type="button"
-              className="offer-pill glass intro-up"
+              className="offer-pill intro-up"
               onClick={copyCode}
               aria-label={`Copy code ${hero.offer.code}: ${hero.offer.text}`}
             >
-              <FiTag aria-hidden="true" />
-              <b>{hero.offer.code}</b> {hero.offer.text}
-              {copied ? <FiCheck aria-hidden="true" /> : <FiCopy aria-hidden="true" />}
+              <span className="offer-code">
+                <i aria-hidden="true" />
+                {hero.offer.code}
+              </span>
+              <span className="offer-text">{hero.offer.text}</span>
+              {copied ? <FiCheck aria-hidden="true" /> : <FiArrowRightCircle aria-hidden="true" />}
             </button>
             <h1
               id="hero-title"
               className="hero-title display intro-up"
               style={{ '--i': 1 } as CSSProperties}
             >
-              {hero.title}
+              <span className="title-1">{hero.titleLines[0]}</span>{' '}
+              <span className="title-2">
+                {hero.titleLines[1]}
+                <svg
+                  className="brush"
+                  viewBox="0 0 420 26"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path d="M6 17 C 110 7, 250 5, 414 13" pathLength={1} />
+                  <path d="M40 22 C 150 15, 280 14, 380 18" className="brush-2" pathLength={1} />
+                </svg>
+              </span>
             </h1>
             <p className="intro-up" style={{ '--i': 2 } as CSSProperties}>
               {hero.lede}
@@ -129,29 +142,19 @@ export function HeroStory() {
               <a href="#shop" className="btn btn-primary" onClick={go('shop')}>
                 {hero.cta} <FiArrowRight aria-hidden="true" />
               </a>
-              <a href="#trending" className="btn btn-glass" onClick={go('trending')}>
-                {hero.ctaSecondary}
+              <a href="#trending" className="btn btn-outline" onClick={go('trending')}>
+                {hero.ctaSecondary} <FiPlay aria-hidden="true" />
               </a>
             </div>
-            <ul
-              className="quick-brands intro-up"
-              style={{ '--i': 4 } as CSSProperties}
-              aria-label="Shop by brand"
-            >
-              {hero.quickBrands.map((brand) => (
-                <li key={brand}>
-                  <button type="button" className="glass" onClick={() => shopBrand(brand)}>
-                    {brand}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <ul className="hero-trust intro-up" style={{ '--i': 5 } as CSSProperties}>
-              {hero.trust.map((item) => (
-                <li key={item}>
-                  <FiCheck aria-hidden="true" /> {item}
-                </li>
-              ))}
+            <ul className="hero-trust intro-up" style={{ '--i': 4 } as CSSProperties}>
+              {hero.trust.map((item) => {
+                const Icon = TRUST_ICONS[item.icon as keyof typeof TRUST_ICONS];
+                return (
+                  <li key={item.label}>
+                    <Icon aria-hidden="true" /> {item.label}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -172,10 +175,12 @@ export function HeroStory() {
                   onClick={() => setColorway(c)}
                 >
                   <span
-                    className="swatch-dot"
+                    className="swatch-shoe"
                     aria-hidden="true"
                     style={{ '--a': c.swatch[0], '--b': c.swatch[1] } as CSSProperties}
-                  />
+                  >
+                    <ShoeArt palette={c.palette} silhouette="high" />
+                  </span>
                 </button>
               ))}
             </div>
@@ -189,12 +194,23 @@ export function HeroStory() {
             )}
           </div>
         </div>
+        <a href="#details" className="scroll-cue intro-up" onClick={go('details')}>
+          <span className="mouse" aria-hidden="true">
+            <i />
+          </span>
+          {hero.scrollHint}
+        </a>
       </section>
 
       {/* 2 · a short story: the shoe turns to each detail */}
       <div className="story-steps">
         {story.steps.map((step, i) => (
-          <section className="story-step" key={step.title} aria-label={step.title}>
+          <section
+            className="story-step"
+            key={step.title}
+            id={i === 0 ? 'details' : undefined}
+            aria-label={step.title}
+          >
             <div className="container">
               <div className="story-copy" data-reveal>
                 <h2 className="display">{step.title}</h2>
@@ -213,26 +229,7 @@ export function HeroStory() {
   );
 }
 
-/**
- * The stage's graphics on the dark mocha backdrop: orbit rings behind the shoe, a fading
- * floor grid, and a small spec label. Pure SVG/CSS, no images to download.
- */
+/** A soft shade over the set photo where the copy sits (the photo is the set itself). */
 function StageGraphics() {
-  return (
-    <>
-      <svg className="stage-rings" viewBox="0 0 800 800" fill="none">
-        <circle cx="400" cy="400" r="390" className="ring ring-1" />
-        <circle cx="400" cy="400" r="300" className="ring ring-2" />
-        <circle cx="400" cy="400" r="210" className="ring ring-3" />
-        <circle cx="400" cy="10" r="4" className="ring-dot" />
-        <circle cx="700" cy="400" r="3" className="ring-dot" />
-        <circle cx="190" cy="400" r="3" className="ring-dot" />
-      </svg>
-      <div className="stage-floor" />
-      <p className="stage-spec">
-        <span>{hero.model}</span>
-        <span>1985 · Leather · Air</span>
-      </p>
-    </>
-  );
+  return <div className="stage-vignette" />;
 }

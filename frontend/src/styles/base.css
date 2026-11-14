@@ -247,6 +247,15 @@ s {
 .btn-ghost:hover {
   border-color: var(--text);
 }
+.btn-outline {
+  color: var(--text);
+  border: 1px solid rgb(var(--fg-rgb) / 0.35);
+  background: rgb(var(--fg-rgb) / 0.02);
+}
+.btn-outline:hover {
+  border-color: var(--text);
+  background: rgb(var(--fg-rgb) / 0.08);
+}
 .btn-glass {
   color: var(--text);
   background: var(--glass-strong);
