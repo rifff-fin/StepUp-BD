@@ -644,3 +644,72 @@
 .model-credit a:hover {
   color: var(--text);
 }
+
+/* =========================================================
+   Vertical section counter (home page, desktop)
+   ========================================================= */
+.section-counter {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .section-counter {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transform: translateY(-50%);
+    color: #ffffff;
+    mix-blend-mode: difference; /* white on the dark hero, dark on the light shop */
+  }
+  .section-counter p {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    opacity: 0.75;
+  }
+  .section-track {
+    width: 1px;
+    height: 64px;
+    background: currentColor;
+    opacity: 0.35;
+  }
+  .section-counter ol {
+    display: grid;
+    gap: 4px;
+  }
+  .section-counter button {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+  .section-counter button::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.45;
+    transition:
+      transform 0.25s var(--ease-out),
+      opacity 0.25s;
+  }
+  .section-counter button:hover::before {
+    opacity: 0.9;
+  }
+  .section-counter button[aria-current='true']::before {
+    opacity: 1;
+    transform: scale(2);
+    box-shadow: 0 0 0 2px currentColor;
+    background: transparent;
+  }
+}

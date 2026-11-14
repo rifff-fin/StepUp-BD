@@ -8,6 +8,7 @@ import { Shop } from '../sections/Shop';
 import { Reviews } from '../sections/Reviews';
 import { Faq } from '../sections/Faq';
 import { Newsletter } from '../sections/Newsletter';
+import { SectionCounter } from '../components/layout/SectionCounter';
 import { scrollToId } from '../lib/lenis';
 
 export function HomePage() {
@@ -23,6 +24,7 @@ export function HomePage() {
   return (
     <>
       <HeroStory />
+      <SectionCounter />
       <WhyUs />
       <Trending />
       <Brands />
